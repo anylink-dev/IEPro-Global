@@ -1,0 +1,38 @@
+# Build artifacts (demo/ C examples)
+demo/**/*.o
+demo/iepro_demo
+demo/build/iepro_demo
+*.elf
+*.bin.tmp
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Toolchain (developers download separately — don't commit binaries)
+/opt/
+toolchain/*
+!toolchain/README.md
+!toolchain/README.zh-CN.md
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Local upload staging (certificates are published under docs/certificates/)
+tmp/
