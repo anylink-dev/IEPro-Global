@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — 4G 联网示例
+# IE Pro 400 Global Standard — 4G 联网示例
 
 [English](../en/03-4g-connectivity.md) | 中文
 
@@ -16,7 +16,7 @@
 
 ## 2. APN 设置与拨号
 
-IE Pro 400 GlobalStandard 采用 SIMCOM SIM7600 系列模组，通过 **NDIS 拨号**（`AT$QCRMCALL`）建立数据连接。
+IE Pro 400 Global Standard 采用 SIMCOM **SIM7600G-H-PCIE** 模组，通过 **NDIS 拨号**（`AT$QCRMCALL`）建立数据连接。
 
 ### 2.1 常用运营商 APN 示例
 
@@ -124,4 +124,4 @@ ping -c 4 8.8.8.8
 
 ---
 
-**模组信息**：SIM7600 系列，支持 GSM/WCDMA/TD-SCDMA/LTE-FDD/LTE-TDD，频段详见[规格书](01-datasheet.md) §3.5。
+**模组信息**：SIM7600G-H-PCIE；支持 GSM/GPRS/EDGE、WCDMA/UMTS/HSPA+、LTE-FDD、LTE-TDD。频段详见[规格书](01-datasheet.md) §3.5。

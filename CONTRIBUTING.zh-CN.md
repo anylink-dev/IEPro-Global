@@ -2,7 +2,7 @@
 
 [English](CONTRIBUTING.md) | [中文](CONTRIBUTING.zh-CN.md)
 
-本仓库在 [Apache License 2.0](LICENSE) 下**公开**，发布 IE Pro 400 GlobalStandard **开发者文档**与**参考 Demo 源码**——不包含设备固件或 AnyLink 平台软件。
+本仓库在 [Apache License 2.0](LICENSE) 下**公开**，发布 IE Pro 400 Global Standard **开发者文档**与**参考 Demo 源码**——不包含设备固件或 AnyLink 平台软件。
 
 ## 适用对象
 
@@ -20,7 +20,7 @@
 - Demo 修正与小改进（`demo/`）
 - 图片资源（`docs/assets/`）
 
-**请勿未经沟通直接提 PR**——请先开 [GitHub Issue](https://github.com/anylink-dev/IEPro/issues) 或邮件联系 [developer@anylink.io](mailto:developer@anylink.io)：
+**请勿未经沟通直接提 PR**——请先开 [GitHub Issue](https://github.com/anylink-dev/IEPro-Global/issues) 或邮件联系 [developer@anylink.io](mailto:developer@anylink.io)：
 
 - 硬件规格、认证信息或固件行为变更
 - 大规模文档重构或新增编号文档（未经事先约定）

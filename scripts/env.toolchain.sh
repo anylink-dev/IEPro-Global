@@ -37,7 +37,7 @@ _resolve_repo_root() {
     fi
 
     echo "Could not locate the repository root." >&2
-    echo "cd to the IEPro repo, then run: . scripts/env.toolchain.sh" >&2
+    echo "cd to the IEPro-Global repo, then run: . scripts/env.toolchain.sh" >&2
     return 1
 }
 

@@ -1,16 +1,18 @@
-# Product Certificates — IE Pro 400 GlobalStandard
+# Product Certificates — IE Pro 400 Global Standard
 
 English maintainer index for certification PDFs under `docs/certificates/`.
 See also [Datasheet §5](../zh-CN/01-datasheet.md) (ZH) / [§5](../en/01-datasheet.md) (EN).
+
+> **Applicability**: The certificates below apply to mass-production shipments of **IE Pro 400 Global Standard** (verified against the final product).
 
 ## Published in this repository (minimum set)
 
 | Type | Certificate No. | File | Applicable model |
 |---|---|---|---|
-| CE | KSEM2510003048 | [CE-KSEM2510003048-certificate.pdf](eu/ce/CE-KSEM2510003048-certificate.pdf) | IE Pro 400 GlobalStandard |
-| EMC | LCS200114008AE | [EMC-LCS200114008AE-certificate.pdf](eu/emc/EMC-LCS200114008AE-certificate.pdf) | IE Pro 400 GlobalStandard |
-| RoHS | SHA19-251135-01 | [RoHS-SHA19-251135-01.pdf](eu/rohs/RoHS-SHA19-251135-01.pdf) | IE Pro 400 GlobalStandard |
-| Radio (RED) | SUES2510002159 | [RED-SUES2510002159-certificate.pdf](eu/radio-safety/RED-SUES2510002159-certificate.pdf) | IE Pro 400 GlobalStandard |
+| CE | KSEM2510003048 | [CE-KSEM2510003048-certificate.pdf](eu/ce/CE-KSEM2510003048-certificate.pdf) | IE Pro 400 Global Standard |
+| EMC | LCS200114008AE | [EMC-LCS200114008AE-certificate.pdf](eu/emc/EMC-LCS200114008AE-certificate.pdf) | IE Pro 400 Global Standard |
+| RoHS | SHA19-251135-01 | [RoHS-SHA19-251135-01.pdf](eu/rohs/RoHS-SHA19-251135-01.pdf) | IE Pro 400 Global Standard |
+| Radio (RED) | SUES2510002159 | [RED-SUES2510002159-certificate.pdf](eu/radio-safety/RED-SUES2510002159-certificate.pdf) | IE Pro 400 Global Standard |
 
 ## Full test reports
 
@@ -33,14 +35,16 @@ Add region-specific folders (e.g. `us/fcc/`) when certificates become available.
 
 ## 产品认证证书（中文摘要）
 
-本目录存放 **IE Pro 400 GlobalStandard** 对外公开的合格证 PDF（最小集）。
+本目录存放 **IE Pro 400 Global Standard** 对外公开的合格证 PDF（最小集）。
+
+> **适用说明**：以下证书适用于 **IE Pro 400 Global Standard** 最终量产发货产品（已与最终产品核对一致）。
 
 | 类型 | 证书编号 | 文件 | 适用型号 |
 |---|---|---|---|
-| CE | KSEM2510003048 | [eu/ce/CE-KSEM2510003048-certificate.pdf](eu/ce/CE-KSEM2510003048-certificate.pdf) | IE Pro 400 GlobalStandard |
-| EMC | LCS200114008AE | [eu/emc/EMC-LCS200114008AE-certificate.pdf](eu/emc/EMC-LCS200114008AE-certificate.pdf) | IE Pro 400 GlobalStandard |
-| RoHS | SHA19-251135-01 | [eu/rohs/RoHS-SHA19-251135-01.pdf](eu/rohs/RoHS-SHA19-251135-01.pdf) | IE Pro 400 GlobalStandard |
-| 无线电（RED） | SUES2510002159 | [eu/radio-safety/RED-SUES2510002159-certificate.pdf](eu/radio-safety/RED-SUES2510002159-certificate.pdf) | IE Pro 400 GlobalStandard |
+| CE | KSEM2510003048 | [eu/ce/CE-KSEM2510003048-certificate.pdf](eu/ce/CE-KSEM2510003048-certificate.pdf) | IE Pro 400 Global Standard |
+| EMC | LCS200114008AE | [eu/emc/EMC-LCS200114008AE-certificate.pdf](eu/emc/EMC-LCS200114008AE-certificate.pdf) | IE Pro 400 Global Standard |
+| RoHS | SHA19-251135-01 | [eu/rohs/RoHS-SHA19-251135-01.pdf](eu/rohs/RoHS-SHA19-251135-01.pdf) | IE Pro 400 Global Standard |
+| 无线电（RED） | SUES2510002159 | [eu/radio-safety/RED-SUES2510002159-certificate.pdf](eu/radio-safety/RED-SUES2510002159-certificate.pdf) | IE Pro 400 Global Standard |
 
 ## 目录结构
 

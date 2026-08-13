@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — FAQ
+# IE Pro 400 Global Standard — FAQ
 
 English | [中文](../zh-CN/07-faq.md)
 
@@ -71,7 +71,7 @@ Troubleshooting:
 |---|---|---|
 | RS232/RS485 | Baud/parity/stop-bit mismatch | Match parameters on both ends; confirm device nodes (`ttymxc1`/`ttymxc2`/`ttymxc5`) |
 | RS485 | Reversed A/B polarity | Check wiring; add termination resistors on long buses |
-| CAN | Module not installed, missing termination | Confirm CAN module is soldered on the board; 120 Ω at each bus end |
+| CAN | Missing termination, baud rate mismatch, interface down | Bring up `can0`; match bus bitrate (commonly 250000 bps); 120 Ω at each bus end |
 | DI (X1) | Wrong wiring | Passive input (dry contact) — short to GND to trigger (GPIO 117) |
 | DO (Y1) | Load exceeds rating | Passive output (dry contact) — check datasheet §3.4; add a relay if needed |
 
@@ -92,10 +92,9 @@ Troubleshooting:
 
 Troubleshooting:
 
-1. Confirm the CAN module is installed on the hardware board (may not be installed by default).
-2. Confirm the interface is up: `ip link show can0` should show `UP`.
-3. Confirm baud rate matches other nodes on the bus (commonly 250000 or 500000).
-4. Run a loopback test: `ip link set can0 type can loopback on` (see [Demo Development Guide](05-demo-guide.md) §3).
+1. Confirm the interface is up: `ip link show can0` should show `UP` (CAN module is factory-installed).
+2. Confirm baud rate matches other nodes on the bus (commonly 250000 or 500000).
+3. Run a loopback test: `ip link set can0 type can loopback on` (see [Demo Development Guide](05-demo-guide.md) §3).
 
 ## 8. Cross-Compilation Toolchain Download Fails
 

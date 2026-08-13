@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — Demo Console
+# IE Pro 400 Global Standard — Demo Console
 
 All demos are **C-only** and build into a **single executable** `build/iepro_demo`.
 Run it on the device and pick a module from the interactive console menu.
@@ -86,7 +86,7 @@ Most operations require **root** (GPIO, CAN, serial ports, cellular dial-up).
  2) CAN     (SocketCAN)
  3) GPIO    (DI / DO / DIP / LED / Reset button)
  4) MQTT    (northbound publish)
- 5) Cellular (SIM7600 4G)
+ 5) Cellular (SIM7600G-H-PCIE 4G)
  0) Exit
 ```
 
@@ -137,7 +137,7 @@ Payload includes DI/DIP readings and sample metrics JSON.
 
 ### Cellular (`5`)
 
-SIM7600 over AT port `/dev/ttyUSB2`; NDIS dial-up on `wwan0` via `AT$QCRMCALL`.
+SIM7600G-H-PCIE over AT port `/dev/ttyUSB2`; NDIS dial-up on `wwan0` via `AT$QCRMCALL`.
 See [`docs/zh-CN/03-4g-connectivity.md`](../docs/zh-CN/03-4g-connectivity.md).
 
 ```

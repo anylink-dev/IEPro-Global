@@ -9,14 +9,14 @@
 static void show_main_menu(void)
 {
     printf("\n========================================\n");
-    printf("  IE Pro 400 GlobalStandard — Demo\n");
+    printf("  IE Pro 400 Global Standard — Demo\n");
     printf("  Version %s\n", DEMO_VERSION);
     printf("========================================\n");
     printf(" 1) Serial  (RS232 / RS485)\n");
     printf(" 2) CAN     (SocketCAN)\n");
     printf(" 3) GPIO    (DI / DO / DIP / LED / Reset button)\n");
     printf(" 4) MQTT    (northbound publish)\n");
-    printf(" 5) Cellular (SIM7600 4G)\n");
+    printf(" 5) Cellular (SIM7600G-H-PCIE 4G)\n");
     printf(" 0) Exit\n");
 }
 

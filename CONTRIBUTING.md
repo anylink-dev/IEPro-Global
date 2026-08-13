@@ -2,7 +2,7 @@
 
 [English](CONTRIBUTING.md) | [中文](CONTRIBUTING.zh-CN.md)
 
-This repository is **public** under [Apache License 2.0](LICENSE). It publishes IE Pro 400 GlobalStandard **developer documentation** and **reference Demo source** — not device firmware or AnyLink platform software.
+This repository is **public** under [Apache License 2.0](LICENSE). It publishes IE Pro 400 Global Standard **developer documentation** and **reference Demo source** — not device firmware or AnyLink platform software.
 
 ## Who this guide is for
 
@@ -20,7 +20,7 @@ This repository is **public** under [Apache License 2.0](LICENSE). It publishes 
 - Demo corrections and small enhancements (`demo/`)
 - Image assets (`docs/assets/`)
 
-**Not via unsolicited PR** — open a [GitHub Issue](https://github.com/anylink-dev/IEPro/issues) or email [developer@anylink.io](mailto:developer@anylink.io) first:
+**Not via unsolicited PR** — open a [GitHub Issue](https://github.com/anylink-dev/IEPro-Global/issues) or email [developer@anylink.io](mailto:developer@anylink.io) first:
 
 - Hardware specs, certifications, or firmware behavior changes
 - Large structural doc rewrites or new numbered documents without prior agreement

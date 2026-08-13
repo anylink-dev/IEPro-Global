@@ -1,24 +1,26 @@
-# IE Pro 400 GlobalStandard 快速上手指南
+# IE Pro 400 Global Standard 快速上手指南
 
 [English](../en/02-quickstart.md) | 中文
 
-**适用型号**：IE Pro 400 GlobalStandard　**文档版本**：V1.0　**日期**：2026-07-22
+**适用型号**：IE Pro 400 Global Standard　**文档版本**：V1.0　**日期**：2026-07-22
 
 ## 前言
 
 本指南帮助开发者在 15 分钟内完成设备开箱、上电、SSH 登录并验证联网能力，为后续的 4G/有线联网示例、Demo 开发做好准备。
 
-> **说明**：IE Pro 400 GlobalStandard 不预装厂商 Web 管理界面，设备配置与调试通过 SSH 命令行完成。
+> **说明**：IE Pro 400 Global Standard 不预装厂商 Web 管理界面，设备配置与调试通过 SSH 命令行完成。
 
 ## 1. 开箱清单
 
 | 物品 | 数量 | 备注 |
 |---|---|---|
-| IE Pro 400 GlobalStandard 主机 | 1 | |
+| IE Pro 400 Global Standard 主机 | 1 | |
 | 电源接线端子 | 1 套 | 配合 9～36 V DC 电源使用 |
 | 4G 天线 | 1 根 | 接入设备 4G 天线接口 |
 | DIN 导轨卡扣 | 1 套 | 用于导轨安装 |
 | 快速上手卡片 | 1 | |
+
+> **量产确认**：以上随箱清单已与 IE Pro 400 Global Standard 最终量产发货产品核对一致。
 
 若清单不符，请联系紫清科技技术支持（[anylink.io](https://anylink.io)）。
 
@@ -47,7 +49,8 @@
 | 有线以太网 | 2 | WAN + LAN，10/100 M 自适应 |
 | RS485 | 2 | `/dev/ttymxc1`、`/dev/ttymxc2` |
 | RS232 | 1 | `/dev/ttymxc5` |
-| CAN 2.0 | 1 | `can0`（需硬件安装 CAN 模块） |
+| CAN 2.0 | 1 | `can0`（出厂已安装 CAN 模块） |
+| USB 2.0 | 2 | USB 2.0 主机接口 |
 | DI / DO | 各 1 | X1（GPIO 117）/ Y1（GPIO 118） |
 | 拨码开关 | 2 | GPIO 121、GPIO 124 |
 | Reset 按键 | 1 | GPIO 119 |
@@ -67,7 +70,8 @@
 | 电源 | 9～36 V DC，注意正负极；参见规格书 §2.3 |
 | 以太网 WAN/LAN | 使用标准网线连接至路由器/交换机或 PC |
 | RS232/RS485 | 核对 A/B 线极性；RS485 长距离总线需接终端电阻 |
-| CAN | 确认硬件已安装 CAN 模块；总线两端建议各接 120 Ω 终端电阻 |
+| CAN | 总线两端建议各接 120 Ω 终端电阻；默认波特率 250000 bps |
+| USB 2.0 | 标准 USB 2.0 主机接口，可连接外设及存储设备 |
 | DI/DO | X1 无源输入（干接点，与 GND 短接触发）；Y1 无源输出（干接点） |
 | SIM 卡 | 参见[《4G 联网示例》](03-4g-connectivity.md)第 1 节 |
 
@@ -152,7 +156,7 @@
 
 ```bash
 sudo apt install -y build-essential git make wget
-cd IEPro
+cd IEPro-Global
 sh scripts/setup_toolchain.sh
 . scripts/env.toolchain.sh
 make -C demo

@@ -1,6 +1,6 @@
 #!/bin/sh
 # can_setup.sh — bring up the CAN interface and smoke-test it with can-utils.
-# IE Pro 400 GlobalStandard: interface can0, default bitrate 250000.
+# IE Pro 400 Global Standard: interface can0, default bitrate 250000.
 
 set -e
 

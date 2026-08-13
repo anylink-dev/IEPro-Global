@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — Cross-Compilation Toolchain Guide
+# IE Pro 400 Global Standard — Cross-Compilation Toolchain Guide
 
 English | [中文](../zh-CN/06-cross-compile-toolchain.md)
 
@@ -14,7 +14,7 @@ sudo apt update
 sudo apt install -y build-essential git make wget
 
 # 2. Go to the repository root
-cd IEPro
+cd IEPro-Global
 
 # 3. Download and extract the toolchain into toolchain/ (~88 MB, mirrors tried automatically)
 sh scripts/setup_toolchain.sh

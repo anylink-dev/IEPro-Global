@@ -2,7 +2,7 @@
 
 [English](README.md) | 中文
 
-IE Pro 400 GlobalStandard 的**主机端**交叉编译器不纳入 Git 版本管理。
+IE Pro 400 Global Standard 的**主机端**交叉编译器不纳入 Git 版本管理。
 请下载并解压到本目录；仓库中仅保留本说明文件。
 
 链接阶段使用的**目标端**第三方库（mosquitto、modbus、curl、openssl）请放在

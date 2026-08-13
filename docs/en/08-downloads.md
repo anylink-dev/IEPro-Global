@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — Downloads
+# IE Pro 400 Global Standard — Downloads
 
 English | [中文](../zh-CN/08-downloads.md)
 
@@ -12,13 +12,13 @@ All developer resources are hosted in this Git repository. Entry point: [README.
 
 | Item | Details |
 |---|---|
-| GitHub URL | https://github.com/anylink-dev/IEPro.git |
+| GitHub URL | https://github.com/anylink-dev/IEPro-Global.git |
 | Contents | Bilingual developer documentation + Demo source code |
 | Access | Public repository — `git clone` directly (see §6) |
 | Versions & tags | See §5 Branch and tag conventions |
 
 ```bash
-git clone https://github.com/anylink-dev/IEPro.git
+git clone https://github.com/anylink-dev/IEPro-Global.git
 ```
 
 ### Repository Layout
@@ -92,8 +92,8 @@ This repository follows common **GitHub Flow + Semantic Versioning (SemVer 2.0)*
 Check out a specific release:
 
 ```bash
-git clone https://github.com/anylink-dev/IEPro.git
-cd IEPro
+git clone https://github.com/anylink-dev/IEPro-Global.git
+cd IEPro-Global
 git checkout v1.0.0
 ```
 
@@ -117,8 +117,8 @@ Recommended channels for documentation, Demo, and firmware-related updates:
 
 | Channel | How | Best for |
 |---|---|---|
-| **GitHub Watch → Releases** | Open the [repository](https://github.com/anylink-dev/IEPro) → Watch → Custom → enable **Releases** | Official release notifications (**recommended**) |
-| **GitHub Releases RSS** | Subscribe to `https://github.com/anylink-dev/IEPro/releases.atom` | RSS readers or internal monitoring |
+| **GitHub Watch → Releases** | Open the [repository](https://github.com/anylink-dev/IEPro-Global) → Watch → Custom → enable **Releases** | Official release notifications (**recommended**) |
+| **GitHub Releases RSS** | Subscribe to `https://github.com/anylink-dev/IEPro-Global/releases.atom` | RSS readers or internal monitoring |
 | **Release notes doc** | Read [09-release-notes.md](09-release-notes.md) | Full changelog and compatibility |
 | **Email opt-in (optional)** | Email [developer@anylink.io](mailto:developer@anylink.io) with subject “Subscribe to IEPro release updates” | Major-release email alerts when no mailing list is available |
 

@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard 规格书
+# IE Pro 400 Global Standard 规格书
 
 [English](../en/01-datasheet.md) | 中文
 
@@ -8,16 +8,16 @@
 
 ## 1. 产品概述
 
-IE Pro 400 GlobalStandard 是紫清科技 IE Pro 系列面向海外及广域物联网场景的通用工业网关，采用工业级硬件设计，预装标准 Linux 操作系统。设备出厂**不预装 AnyLink 应用及云平台**，以「硬件平台 + 标准系统接口」方式交付，支持客户基于设备自行开发、部署采集、控制及北向通信应用。
+IE Pro 400 Global Standard 是紫清科技 IE Pro 系列面向海外及广域物联网场景的通用工业网关，采用工业级硬件设计，预装标准 Linux 操作系统。设备出厂**不预装 AnyLink 应用及云平台**，以「硬件平台 + 标准系统接口」方式交付，支持客户基于设备自行开发、部署采集、控制及北向通信应用。
 
 - **目标用户**：设备集成商、行业解决方案开发者
 - **典型场景**：远程设备接入、工业现场数据采集（Modbus 等）、车载/移动场景、边缘数据处理、南向 DI/DO 联动控制
 - **与国内版 IEPro 的差异**：
   - 不预装 AnyLink 应用及云平台，客户自行集成软件栈
-  - 4G 模组支持全球主要频段（SIM7600 系列）
-  - 面向全球市场，产品型号为 GlobalStandard（全球通）
+  - 4G 模组：SIM7600G-H-PCIE（全球频段，见 §3.5）
+  - 面向全球市场，产品型号为 Global Standard
 
-![IE Pro 400 GlobalStandard](../assets/shared/01-product-overview.png)
+![IE Pro 400 Global Standard](../assets/shared/01-product-overview.png)
 
 ## 2. 硬件规格
 
@@ -68,7 +68,7 @@ IE Pro 400 GlobalStandard 是紫清科技 IE Pro 系列面向海外及广域物�
 | 接口 | 数量 | 说明 |
 |---|---|---|
 | 以太网（WAN/LAN） | 2 路 | 10/100 M 自适应，RJ45；出厂默认 WAN `192.168.100.126`、LAN `192.168.101.204` |
-| 4G/蜂窝网络 | 1 路 | SIM7600 系列模组，支持全球主要频段（见 §3.5） |
+| 4G/蜂窝网络 | 1 路 | SIM7600G-H-PCIE 模组（频段见 §3.5） |
 | Wi-Fi | 不支持 | — |
 
 ### 3.2 串口
@@ -85,7 +85,7 @@ IE Pro 400 GlobalStandard 是紫清科技 IE Pro 系列面向海外及广域物�
 | 数量 | 1 路 |
 | 协议标准 | CAN 2.0 |
 | 波特率范围 | 5 Kbps ～ 1 Mbps |
-| 系统接口名 | `can0`（需硬件安装 CAN 模块） |
+| 系统接口名 | `can0`（出厂已安装 CAN 模块） |
 | 端接电阻 | 视现场总线拓扑配置（长距离/多节点总线建议在总线两端各接 120 Ω 终端电阻） |
 
 ### 3.4 数字量 I/O
@@ -102,9 +102,12 @@ IE Pro 400 GlobalStandard 是紫清科技 IE Pro 系列面向海外及广域物�
 
 | 项目 | 参数 |
 |---|---|
-| 模组型号 | SIM7600 系列（SIMCOM） |
-| 制式 | GSM / WCDMA / TD-SCDMA / LTE-FDD / LTE-TDD |
-| 支持频段（全球版） | GSM：EGSM900、DCS1800；WCDMA：Band 1/8；TD-SCDMA：1.9G/2G；LTE-FDD：B1/B3/B8；LTE-TDD：B38/B39/B40/B41 |
+| 模组型号 | SIM7600G-H-PCIE（SIMCOM） |
+| 制式 | GSM/GPRS/EDGE、WCDMA/UMTS/HSPA+、LTE-FDD、LTE-TDD |
+| LTE-FDD 频段 | B1/B2/B3/B4/B5/B7/B8/B12/B13/B18/B19/B20/B25/B26/B28/B66 |
+| LTE-TDD 频段 | B34/B38/B39/B40/B41 |
+| WCDMA/UMTS/HSPA+ 频段 | B1/B2/B4/B5/B6/B8/B19 |
+| GSM/GPRS/EDGE | 850/900/1800/1900 MHz |
 | SIM 卡槽 | 1 路（标准 SIM 卡槽） |
 | 天线接口 | 外置 4G 天线（发货含天线） |
 | 拨号方式 | NDIS 拨号（`AT$QCRMCALL`） |
@@ -113,7 +116,7 @@ IE Pro 400 GlobalStandard 是紫清科技 IE Pro 系列面向海外及广域物�
 
 | 接口 | 说明 |
 |---|---|
-| USB | 不支持（以实际硬件为准） |
+| USB 2.0 | 2 路 | USB 2.0 主机接口 |
 | SD/TF 卡槽 | 支持 TF 卡存储扩展 |
 | 调试口（Console） | 串口调试（参数见[《快速上手指南》](02-quickstart.md)） |
 | 指示灯 | POWER（电源，上电即亮）；NET（GPIO 122，网络状态）、RUN（GPIO 71，运行状态）、WARN（GPIO 123，警告状态）；GPIO 指示灯：点亮=1，熄灭=0 |
@@ -133,13 +136,13 @@ IE Pro 400 GlobalStandard 是紫清科技 IE Pro 系列面向海外及广域物�
 
 | 项目 | 说明 |
 |---|---|
-| 适用型号 | IE Pro 400 GlobalStandard |
+| 适用型号 | IE Pro 400 Global Standard |
 | CE | 证书编号 KSEM2510003048 — [下载 PDF](../certificates/eu/ce/CE-KSEM2510003048-certificate.pdf) |
 | EMC | 证书编号 LCS200114008AE — [下载 PDF](../certificates/eu/emc/EMC-LCS200114008AE-certificate.pdf) |
 | RoHS | 证书编号 SHA19-251135-01 — [下载 PDF](../certificates/eu/rohs/RoHS-SHA19-251135-01.pdf) |
 | 无线电（RED） | 证书编号 SUES2510002159 — [下载 PDF](../certificates/eu/radio-safety/RED-SUES2510002159-certificate.pdf) |
 | 完整检测报告 | 未收录于本仓库；请邮件联系 [developer@anylink.io](mailto:developer@anylink.io?subject=IEPro%E8%AE%A4%E8%AF%81%E8%AF%81%E4%B9%A6%E7%94%B3%E8%AF%B7) |
-| 其他区域认证 | FCC 等按目标销售区域另行确认；4G 模组为 SIM7600 系列 |
+| 其他区域认证 | FCC 等按目标销售区域另行确认；4G 模组为 SIM7600G-H-PCIE |
 | 出口合规 | 客户自行确认目标市场的进口与无线电合规要求 |
 
 证书索引见 [`docs/certificates/README.md`](../certificates/README.md)。
@@ -148,8 +151,10 @@ IE Pro 400 GlobalStandard 是紫清科技 IE Pro 系列面向海外及广域物�
 
 | 型号 | 描述 | 备注 |
 |---|---|---|
-| IE Pro 400 GlobalStandard | 标准配置：主机 + 4G 天线 + 导轨卡扣 + 接线端子 | 不预装厂商业务平台 |
+| IE Pro 400 Global Standard | 标准配置：主机 + 4G 天线 + 导轨卡扣 + 接线端子 | 不预装厂商业务平台 |
 
 ---
 
 **发货配件**：4G 天线、DIN 导轨卡扣、接线端子。
+
+> **量产确认**：标准配置及发货配件与 IE Pro 400 Global Standard 最终量产发货产品一致。

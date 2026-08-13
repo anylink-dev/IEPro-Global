@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — 交叉编译工具说明
+# IE Pro 400 Global Standard — 交叉编译工具说明
 
 [English](../en/06-cross-compile-toolchain.md) | 中文
 
@@ -14,7 +14,7 @@ sudo apt update
 sudo apt install -y build-essential git make wget
 
 # 2. 进入仓库根目录
-cd IEPro
+cd IEPro-Global
 
 # 3. 下载并解压工具链到 toolchain/（约 88 MB，脚本自动尝试镜像）
 sh scripts/setup_toolchain.sh

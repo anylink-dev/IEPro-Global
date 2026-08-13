@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — 资料下载入口
+# IE Pro 400 Global Standard — 资料下载入口
 
 [English](../en/08-downloads.md) | 中文
 
@@ -12,13 +12,13 @@
 
 | 项目 | 说明 |
 |---|---|
-| GitHub 地址 | https://github.com/anylink-dev/IEPro.git |
+| GitHub 地址 | https://github.com/anylink-dev/IEPro-Global.git |
 | 仓库内容 | 中英文开发者文档 + Demo 源码 |
 | 访问方式 | 公开仓库，可直接 `git clone`（详见 §6） |
 | 版本与 Tag | 见 §5 分支与 Tag 命名规范 |
 
 ```bash
-git clone https://github.com/anylink-dev/IEPro.git
+git clone https://github.com/anylink-dev/IEPro-Global.git
 ```
 
 ### 仓库目录结构
@@ -92,8 +92,8 @@ repo-root/
 检出指定正式版本：
 
 ```bash
-git clone https://github.com/anylink-dev/IEPro.git
-cd IEPro
+git clone https://github.com/anylink-dev/IEPro-Global.git
+cd IEPro-Global
 git checkout v1.0.0
 ```
 
@@ -117,8 +117,8 @@ git checkout v1.0.0
 
 | 渠道 | 操作 | 适用场景 |
 |---|---|---|
-| **GitHub Watch → Releases** | 打开 [仓库](https://github.com/anylink-dev/IEPro) → Watch → Custom → 勾选 **Releases** | 正式版本发布通知（**推荐**） |
-| **GitHub Releases RSS** | 订阅 `https://github.com/anylink-dev/IEPro/releases.atom` | 集成到 RSS 阅读器或内部监控系统 |
+| **GitHub Watch → Releases** | 打开 [仓库](https://github.com/anylink-dev/IEPro-Global) → Watch → Custom → 勾选 **Releases** | 正式版本发布通知（**推荐**） |
+| **GitHub Releases RSS** | 订阅 `https://github.com/anylink-dev/IEPro-Global/releases.atom` | 集成到 RSS 阅读器或内部监控系统 |
 | **版本说明文档** | 查阅 [09-release-notes.md](09-release-notes.md) | 查看完整变更历史与兼容性说明 |
 | **邮件订阅（可选）** | 发信至 [developer@anylink.io](mailto:developer@anylink.io)，主题注明「订阅 IEPro 版本更新」 | 重大版本发布邮件提醒（无独立邮件列表时由技术支持人工通知） |
 

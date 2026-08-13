@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — 版本说明
+# IE Pro 400 Global Standard — 版本说明
 
 [English](../en/09-release-notes.md) | 中文
 
@@ -8,19 +8,19 @@
 
 | 型号 | 备注 |
 |---|---|
-| IE Pro 400 GlobalStandard | 全球通版，不预装 AnyLink 应用及云平台 |
+| IE Pro 400 Global Standard | 不预装 AnyLink 应用及云平台 |
 
 ## 2. 固件版本历史
 
 | 版本号 | 发布日期 | 适用型号 | 主要变更 | 备注 |
 |---|---|---|---|---|
-| V1.0.0 | 2026-07-22 | IE Pro 400 GlobalStandard | 首个开发者版本发布 | 预装标准 Linux，开放串口/CAN/GPIO 接口 |
+| V1.0.0 | 2026-07-22 | IE Pro 400 Global Standard | 首个开发者版本发布 | 预装标准 Linux，开放串口/CAN/GPIO 接口 |
 
 ## 3. Demo 示例代码版本历史
 
 | 版本号 | 发布日期 | 对应固件版本 | 对应文档版本 | 变更内容 |
 |---|---|---|---|---|
-| V1.0 | 2026-07-22 | V1.0.0 | V1.0 | 初始发布：统一控制台 `iepro_demo`（`demo/src/`）；子模块 Serial、CAN、GPIO、Cellular（SIM7600 / `AT$QCRMCALL`）、MQTT（可选 `WITH_MQTT=1`）；设备节点与 GPIO 编号已对齐实测硬件 |
+| V1.0 | 2026-07-22 | V1.0.0 | V1.0 | 初始发布：统一控制台 `iepro_demo`（`demo/src/`）；子模块 Serial、CAN、GPIO、Cellular（SIM7600G-H-PCIE / `AT$QCRMCALL`）、MQTT（可选 `WITH_MQTT=1`）；设备节点与 GPIO 编号已对齐实测硬件 |
 
 源码内版本号见 `demo/src/main.c` 中的 `DEMO_VERSION`（与上表 V1.0 对应，当前为 `1.0.0`）。
 
@@ -46,4 +46,14 @@
 
 | 版本 | 问题描述 | 影响范围 | 计划修复版本 |
 |---|---|---|---|
-| V1.0.0 | CAN 模块需硬件焊接，出厂默认可能未安装 | 使用 CAN 接口的客户 | 已在文档中说明 |
+| — | V1.0.0 暂无已知问题 | — | — |
+
+## 8. 量产发货一致性确认
+
+以下信息与 **IE Pro 400 Global Standard** 最终量产发货产品一致：
+
+| 项目 | 确认内容 |
+|---|---|
+| 随箱清单 | 见[《快速上手指南》](02-quickstart.md) §1 |
+| 出厂固件 | **V1.0.0**（2026-07-22） |
+| 公开证书 | CE / EMC / RoHS / RED，适用型号 IE Pro 400 Global Standard；见 [`docs/certificates/`](../certificates/README.md) |

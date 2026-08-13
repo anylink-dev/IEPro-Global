@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — 有线联网示例
+# IE Pro 400 Global Standard — 有线联网示例
 
 [English](../en/04-wired-connectivity.md) | 中文
 

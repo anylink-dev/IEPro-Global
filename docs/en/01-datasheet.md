@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard Datasheet
+# IE Pro 400 Global Standard Datasheet
 
 English | [中文](../zh-CN/01-datasheet.md)
 
@@ -8,16 +8,16 @@ English | [中文](../zh-CN/01-datasheet.md)
 
 ## 1. Product Overview
 
-IE Pro 400 GlobalStandard is a general-purpose industrial gateway from the IE Pro series, designed for overseas and wide-area IoT deployments. It features industrial-grade hardware and ships with a standard Linux OS. **No AnyLink application or cloud platform is pre-installed** — the device is delivered as a "hardware platform + standard system interfaces" kit, enabling customers to develop and deploy their own acquisition, control, and northbound communication applications.
+IE Pro 400 Global Standard is a general-purpose industrial gateway from the IE Pro series, designed for overseas and wide-area IoT deployments. It features industrial-grade hardware and ships with a standard Linux OS. **No AnyLink application or cloud platform is pre-installed** — the device is delivered as a "hardware platform + standard system interfaces" kit, enabling customers to develop and deploy their own acquisition, control, and northbound communication applications.
 
 - **Target users**: system integrators, industry solution developers
 - **Typical use cases**: remote device connectivity, industrial field data acquisition (Modbus, etc.), vehicle/mobile deployments, edge data processing, DI/DO control and linkage
 - **Differences from the domestic IEPro**:
   - No AnyLink application or cloud platform pre-installed; customers integrate their own software stack
-  - 4G module supports major global bands (SIM7600 series)
-  - GlobalStandard branding for the worldwide market edition
+  - 4G module: SIM7600G-H-PCIE (global bands; see §3.5)
+  - Global Standard branding for the worldwide market edition
 
-![IE Pro 400 GlobalStandard](../assets/shared/01-product-overview.png)
+![IE Pro 400 Global Standard](../assets/shared/01-product-overview.png)
 
 ## 2. Hardware Specifications
 
@@ -68,7 +68,7 @@ IE Pro 400 GlobalStandard is a general-purpose industrial gateway from the IE Pr
 | Interface | Qty | Notes |
 |---|---|---|
 | Ethernet (WAN/LAN) | 2 | 10/100 M auto-negotiation, RJ45; factory defaults: WAN `192.168.100.126`, LAN `192.168.101.204` |
-| 4G/Cellular | 1 | SIM7600 series module; major global bands (see §3.5) |
+| 4G/Cellular | 1 | SIM7600G-H-PCIE module (bands in §3.5) |
 | Wi-Fi | Not supported | — |
 
 ### 3.2 Serial Ports
@@ -85,7 +85,7 @@ IE Pro 400 GlobalStandard is a general-purpose industrial gateway from the IE Pr
 | Qty | 1 |
 | Protocol | CAN 2.0 |
 | Baud rate range | 5 Kbps–1 Mbps |
-| System interface name | `can0` (requires CAN module on hardware) |
+| System interface name | `can0` (CAN module installed at factory) |
 | Termination resistor | Configure per bus topology (120 Ω at each end recommended for long/multi-node buses) |
 
 ### 3.4 Digital I/O
@@ -102,9 +102,12 @@ IE Pro 400 GlobalStandard is a general-purpose industrial gateway from the IE Pr
 
 | Item | Spec |
 |---|---|
-| Module model | SIM7600 series (SIMCOM) |
-| Standard | GSM / WCDMA / TD-SCDMA / LTE-FDD / LTE-TDD |
-| Supported bands (Global) | GSM: EGSM900, DCS1800; WCDMA: Band 1/8; TD-SCDMA: 1.9G/2G; LTE-FDD: B1/B3/B8; LTE-TDD: B38/B39/B40/B41 |
+| Module model | SIM7600G-H-PCIE (SIMCOM) |
+| Standard | GSM/GPRS/EDGE, WCDMA/UMTS/HSPA+, LTE-FDD, LTE-TDD |
+| LTE-FDD bands | B1/B2/B3/B4/B5/B7/B8/B12/B13/B18/B19/B20/B25/B26/B28/B66 |
+| LTE-TDD bands | B34/B38/B39/B40/B41 |
+| WCDMA/UMTS/HSPA+ bands | B1/B2/B4/B5/B6/B8/B19 |
+| GSM/GPRS/EDGE | 850/900/1800/1900 MHz |
 | SIM slot | 1 (standard SIM slot) |
 | Antenna connector | External 4G antenna (included in shipment) |
 | Dial-up method | NDIS dial-up (`AT$QCRMCALL`) |
@@ -113,7 +116,7 @@ IE Pro 400 GlobalStandard is a general-purpose industrial gateway from the IE Pr
 
 | Interface | Notes |
 |---|---|
-| USB | Not supported (subject to actual hardware) |
+| USB 2.0 | 2 | USB 2.0 host ports |
 | SD/TF card slot | TF card storage expansion supported |
 | Debug console | Serial console (parameters in [Quickstart Guide](02-quickstart.md)) |
 | Indicator LEDs | POWER (power supply, on when powered); NET (GPIO 122, network), RUN (GPIO 71, system), WARN (GPIO 123, warning); GPIO LEDs: on=1, off=0 |
@@ -133,13 +136,13 @@ IE Pro 400 GlobalStandard is a general-purpose industrial gateway from the IE Pr
 
 | Item | Notes |
 |---|---|
-| Applicable model | IE Pro 400 GlobalStandard |
+| Applicable model | IE Pro 400 Global Standard |
 | CE | Certificate KSEM2510003048 — [Download PDF](../certificates/eu/ce/CE-KSEM2510003048-certificate.pdf) |
 | EMC | Certificate LCS200114008AE — [Download PDF](../certificates/eu/emc/EMC-LCS200114008AE-certificate.pdf) |
 | RoHS | Certificate SHA19-251135-01 — [Download PDF](../certificates/eu/rohs/RoHS-SHA19-251135-01.pdf) |
 | Radio (RED) | Certificate SUES2510002159 — [Download PDF](../certificates/eu/radio-safety/RED-SUES2510002159-certificate.pdf) |
 | Full test reports | Not stored in this repo; email [developer@anylink.io](mailto:developer@anylink.io?subject=IEPro%20certificate%20request) |
-| Other regions | FCC etc. per target market; cellular module: SIM7600 series |
+| Other regions | FCC etc. per target market; cellular module: SIM7600G-H-PCIE |
 | Export compliance | Customers must confirm import and radio compliance for their target markets |
 
 Index: [`docs/certificates/README.md`](../certificates/README.md).
@@ -148,8 +151,10 @@ Index: [`docs/certificates/README.md`](../certificates/README.md).
 
 | Model | Description | Notes |
 |---|---|---|
-| IE Pro 400 GlobalStandard | Standard kit: host + 4G antenna + DIN-rail clip + terminal blocks | No vendor business platform pre-installed |
+| IE Pro 400 Global Standard | Standard kit: host + 4G antenna + DIN-rail clip + terminal blocks | No vendor business platform pre-installed |
 
 ---
 
 **Included accessories**: 4G antenna, DIN-rail clip, terminal blocks.
+
+> **Mass-production verified**: Standard kit and included accessories match final shipments of IE Pro 400 Global Standard.

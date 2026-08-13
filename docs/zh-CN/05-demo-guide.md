@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — Demo 开发示例
+# IE Pro 400 Global Standard — Demo 开发示例
 
 [English](../en/05-demo-guide.md) | 中文
 
@@ -23,8 +23,8 @@
 | RS485-1 | `/dev/ttymxc1` | 波特率 600～256000；RS485 硬件自动方向控制 |
 | RS485-2 | `/dev/ttymxc2` | 波特率 600～256000；RS485 硬件自动方向控制 |
 | RS232-1 | `/dev/ttymxc5` | 波特率 600～256000 |
-| CAN | `can0` | 默认 250000 bps；需硬件安装 CAN 模块 |
-| 蜂窝 AT | `/dev/ttyUSB2` | SIM7600 AT 调试口 |
+| CAN | `can0` | 默认 250000 bps；出厂已安装 CAN 模块 |
+| 蜂窝 AT | `/dev/ttyUSB2` | SIM7600G-H-PCIE AT 调试口 |
 | 蜂窝数据 | `wwan0` | NDIS 拨号数据接口 |
 | DI（X1） | GPIO 117 | 无源输入（干接点），与 GND 短接=1 |
 | DO（Y1） | GPIO 118 | 无源输出（干接点） |
@@ -69,7 +69,7 @@ make -C demo WITH_MQTT=1
  2) CAN     (SocketCAN)
  3) GPIO    (DI / DO / DIP / LED / Reset button)
  4) MQTT    (northbound publish)
- 5) Cellular (SIM7600 4G)
+ 5) Cellular (SIM7600G-H-PCIE 4G)
  0) Exit
 ```
 
@@ -98,7 +98,7 @@ demo/
 | [`demo/src/modules/serial_mod.c`](../../demo/src/modules/serial_mod.c) | 串口 |
 | [`demo/src/modules/can_mod.c`](../../demo/src/modules/can_mod.c) | CAN |
 | [`demo/src/modules/gpio_mod.c`](../../demo/src/modules/gpio_mod.c) | GPIO |
-| [`demo/src/modules/cellular_mod.c`](../../demo/src/modules/cellular_mod.c) | 蜂窝（SIM7600） |
+| [`demo/src/modules/cellular_mod.c`](../../demo/src/modules/cellular_mod.c) | 蜂窝（SIM7600G-H-PCIE） |
 | [`demo/src/modules/mqtt_mod.c`](../../demo/src/modules/mqtt_mod.c) | MQTT 北向 |
 | [`demo/src/common/gpio_util.c`](../../demo/src/common/gpio_util.c) | GPIO 共享封装 |
 | [`demo/src/common/metrics.c`](../../demo/src/common/metrics.c) | 示例指标 JSON（MQTT 使用） |
@@ -130,7 +130,7 @@ microcom -s 9600 /dev/ttymxc1
 | 停止位 | 1 |
 | 流控 | 无 |
 
-## 3. CAN 子模块（SocketCAN）
+> **说明**：256000 bps 通过 Linux `termios2` 自定义波特率（`BOTHER`）设置；其余为标准波特率常量。
 
 主菜单选 `2` 进入。
 
@@ -149,7 +149,7 @@ candump can0
 cansend can0 123#1122334455667788
 ```
 
-> **注意**：使用 CAN 接口需在硬件底板上安装 CAN 模块。
+> **注意**：CAN 模块出厂已安装。请按现场总线配置终端电阻与波特率。
 
 ## 4. GPIO 子模块（DI/DO）
 
@@ -206,7 +206,7 @@ mosquitto_sub -h <broker_ip> -p 1883 -t "iepro/<device_id>/cmd"
 
 ## 6. 蜂窝子模块（Cellular）
 
-主菜单选 `5` 进入。通过 AT 口 `/dev/ttyUSB2` 与 SIM7600 通信，NDIS 拨号建立 `wwan0` 数据连接。详见[《4G 联网示例》](03-4g-connectivity.md)。
+主菜单选 `5` 进入。通过 AT 口 `/dev/ttyUSB2` 与 SIM7600G-H-PCIE 通信，NDIS 拨号建立 `wwan0` 数据连接。详见[《4G 联网示例》](03-4g-connectivity.md)。
 
 ```
  1) Module version (ATI)

@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — Release Notes
+# IE Pro 400 Global Standard — Release Notes
 
 English | [中文](../zh-CN/09-release-notes.md)
 
@@ -8,19 +8,19 @@ English | [中文](../zh-CN/09-release-notes.md)
 
 | Model | Notes |
 |---|---|
-| IE Pro 400 GlobalStandard | Global edition; no AnyLink application or cloud platform pre-installed |
+| IE Pro 400 Global Standard | Global edition; no AnyLink application or cloud platform pre-installed |
 
 ## 2. Firmware Version History
 
 | Version | Release date | Model | Key changes | Notes |
 |---|---|---|---|---|
-| V1.0.0 | 2026-07-22 | IE Pro 400 GlobalStandard | First developer release | Standard Linux pre-installed; serial/CAN/GPIO interfaces exposed |
+| V1.0.0 | 2026-07-22 | IE Pro 400 Global Standard | First developer release | Standard Linux pre-installed; serial/CAN/GPIO interfaces exposed |
 
 ## 3. Demo Source Code Version History
 
 | Version | Release date | Firmware version | Doc version | Changes |
 |---|---|---|---|---|
-| V1.0 | 2026-07-22 | V1.0.0 | V1.0 | Initial release: unified `iepro_demo` console (`demo/src/`); Serial, CAN, GPIO, Cellular (SIM7600 / `AT$QCRMCALL`), and optional MQTT (`WITH_MQTT=1`) submodules; device nodes and GPIO numbers aligned with verified hardware |
+| V1.0 | 2026-07-22 | V1.0.0 | V1.0 | Initial release: unified `iepro_demo` console (`demo/src/`); Serial, CAN, GPIO, Cellular (SIM7600G-H-PCIE / `AT$QCRMCALL`), and optional MQTT (`WITH_MQTT=1`) submodules; device nodes and GPIO numbers aligned with verified hardware |
 
 The in-source version is `DEMO_VERSION` in `demo/src/main.c` (maps to V1.0 above; currently `1.0.0`).
 
@@ -46,4 +46,14 @@ The in-source version is `DEMO_VERSION` in `demo/src/main.c` (maps to V1.0 above
 
 | Version | Issue | Impact | Planned fix |
 |---|---|---|---|
-| V1.0.0 | CAN module requires hardware soldering; may not be installed by default | Customers using CAN interface | Documented in user guide |
+| — | None reported for V1.0.0 | — | — |
+
+## 8. Mass-Production Alignment
+
+The following matches final mass-production shipments of **IE Pro 400 Global Standard**:
+
+| Item | Verified content |
+|---|---|
+| Package contents | [Quickstart Guide](02-quickstart.md) §1 |
+| Factory firmware | **V1.0.0** (2026-07-22) |
+| Published certificates | CE / EMC / RoHS / RED for IE Pro 400 Global Standard; see [`docs/certificates/`](../certificates/README.md) |

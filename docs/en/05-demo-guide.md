@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — Demo Development Guide
+# IE Pro 400 Global Standard — Demo Development Guide
 
 English | [中文](../zh-CN/05-demo-guide.md)
 
@@ -23,8 +23,8 @@ Runnable source code lives in [`/demo`](../../demo) (English-only). See [`/demo/
 | RS485-1 | `/dev/ttymxc1` | Baud rate 600–256000; hardware automatic direction control |
 | RS485-2 | `/dev/ttymxc2` | Baud rate 600–256000; hardware automatic direction control |
 | RS232-1 | `/dev/ttymxc5` | Baud rate 600–256000 |
-| CAN | `can0` | Default 250000 bps; requires CAN module on hardware |
-| Cellular AT | `/dev/ttyUSB2` | SIM7600 AT port |
+| CAN | `can0` | Default 250000 bps; factory-installed CAN module |
+| Cellular AT | `/dev/ttyUSB2` | SIM7600G-H-PCIE AT port |
 | Cellular data | `wwan0` | NDIS dial-up data interface |
 | DI (X1) | GPIO 117 | Passive input (dry contact); short to GND = 1 |
 | DO (Y1) | GPIO 118 | Passive output (dry contact) |
@@ -69,7 +69,7 @@ Main menu after startup:
  2) CAN     (SocketCAN)
  3) GPIO    (DI / DO / DIP / LED / Reset button)
  4) MQTT    (northbound publish)
- 5) Cellular (SIM7600 4G)
+ 5) Cellular (SIM7600G-H-PCIE 4G)
  0) Exit
 ```
 
@@ -98,7 +98,7 @@ demo/
 | [`demo/src/modules/serial_mod.c`](../../demo/src/modules/serial_mod.c) | Serial |
 | [`demo/src/modules/can_mod.c`](../../demo/src/modules/can_mod.c) | CAN |
 | [`demo/src/modules/gpio_mod.c`](../../demo/src/modules/gpio_mod.c) | GPIO |
-| [`demo/src/modules/cellular_mod.c`](../../demo/src/modules/cellular_mod.c) | Cellular (SIM7600) |
+| [`demo/src/modules/cellular_mod.c`](../../demo/src/modules/cellular_mod.c) | Cellular (SIM7600G-H-PCIE) |
 | [`demo/src/modules/mqtt_mod.c`](../../demo/src/modules/mqtt_mod.c) | MQTT northbound |
 | [`demo/src/common/gpio_util.c`](../../demo/src/common/gpio_util.c) | Shared GPIO helpers |
 | [`demo/src/common/metrics.c`](../../demo/src/common/metrics.c) | Sample metrics JSON (used by MQTT) |
@@ -130,7 +130,7 @@ microcom -s 9600 /dev/ttymxc1
 | Stop bits | 1 |
 | Flow control | None |
 
-## 3. CAN Submodule (SocketCAN)
+> **Note**: 256000 bps uses Linux `termios2` with custom baud (`BOTHER`); standard rates use predefined flags.
 
 Select `2` from the main menu.
 
@@ -149,7 +149,7 @@ candump can0
 cansend can0 123#1122334455667788
 ```
 
-> **Note**: A CAN module must be installed on the hardware board.
+> **Note**: The CAN module is factory-installed. Configure termination and bitrate to match your bus.
 
 ## 4. GPIO Submodule (DI/DO)
 
@@ -206,7 +206,7 @@ mosquitto_sub -h <broker_ip> -p 1883 -t "iepro/<device_id>/cmd"
 
 ## 6. Cellular Submodule
 
-Select `5` from the main menu. Communicates with SIM7600 on AT port `/dev/ttyUSB2`; NDIS dial-up on `wwan0` via `AT$QCRMCALL`. See [4G Connectivity Example](03-4g-connectivity.md).
+Select `5` from the main menu. Communicates with SIM7600G-H-PCIE on AT port `/dev/ttyUSB2`; NDIS dial-up on `wwan0` via `AT$QCRMCALL`. See [4G Connectivity Example](03-4g-connectivity.md).
 
 ```
  1) Module version (ATI)

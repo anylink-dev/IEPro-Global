@@ -185,7 +185,7 @@ static void cellular_print_help(void)
     size_t i;
     size_t count = sizeof(g_at_help) / sizeof(g_at_help[0]);
 
-    printf("\n--- SIM7600 AT command reference ---\n");
+    printf("\n--- SIM7600G-H-PCIE AT command reference ---\n");
     printf("AT port : %s\n", IEPRO_MODEM_AT_DEV);
     printf("Data IF : %s\n", IEPRO_CELL_IFACE);
     printf("Dial-up : NDIS via AT$QCRMCALL (see docs/zh-CN/03-4g-connectivity.md)\n\n");
@@ -673,7 +673,7 @@ static void cellular_ping_test(void)
 
 static void cellular_show_menu(void)
 {
-    printf("\n--- Cellular module (SIM7600) ---\n");
+    printf("\n--- Cellular module (SIM7600G-H-PCIE) ---\n");
     printf(" 1) Module version (ATI)\n");
     printf(" 2) Firmware version (AT+CGMR)\n");
     printf(" 3) IMEI (AT+CGSN)\n");

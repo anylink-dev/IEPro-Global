@@ -1,10 +1,10 @@
-# IE Pro 400 GlobalStandard — 开发者资料
+# IE Pro 400 Global Standard — 开发者资料
 
 [English](README.md) | [中文](README.zh-CN.md)
 
 > **状态**：V1.0 已基于产品内部资料正式发布。如有更新请参见[《版本说明》](docs/zh-CN/09-release-notes.md)。
 
-面向 IE Pro 400 GlobalStandard 工业网关的开发者文档与参考代码。这是面向全球市场的通用版网关：设备出厂不预装任何厂商应用或平台，由客户自行在设备上开发部署应用程序。
+面向 IE Pro 400 Global Standard 工业网关的开发者文档与参考代码。这是面向全球市场的通用版网关：设备出厂不预装任何厂商应用或平台，由客户自行在设备上开发部署应用程序。
 
 ## 文档列表
 

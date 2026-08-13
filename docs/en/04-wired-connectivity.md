@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — Wired Connectivity Example
+# IE Pro 400 Global Standard — Wired Connectivity Example
 
 English | [中文](../zh-CN/04-wired-connectivity.md)
 

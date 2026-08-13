@@ -2,62 +2,111 @@
 #include "iepro_hw.h"
 #include "menu_util.h"
 
+#include <asm/termios.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
-#include <termios.h>
+#include <sys/ioctl.h>
 #include <unistd.h>
 
-static speed_t baud_to_flag(int baud)
+#ifndef BOTHER
+#define BOTHER 0010000
+#endif
+
+static void serial_apply_common_flags(struct termios2 *tio)
 {
-    switch (baud) {
-    case 600: return B600;
-    case 9600: return B9600;
-    case 19200: return B19200;
-    case 38400: return B38400;
-    case 57600: return B57600;
-    case 115200: return B115200;
-    case 256000: return B230400;
-    default: return B9600;
+    tio->c_cflag = (tio->c_cflag & ~CSIZE) | CS8;
+    tio->c_iflag &= ~IGNBRK;
+    tio->c_lflag = 0;
+    tio->c_oflag = 0;
+    tio->c_cc[VMIN] = 0;
+    tio->c_cc[VTIME] = 50;
+    tio->c_iflag &= ~(IXON | IXOFF | IXANY);
+    tio->c_cflag |= (CLOCAL | CREAD);
+    tio->c_cflag &= ~(PARENB | PARODD);
+    tio->c_cflag &= ~CSTOPB;
+    tio->c_cflag &= ~CRTSCTS;
+}
+
+static int serial_baud_needs_custom(int baud)
+{
+    return baud == 256000;
+}
+
+static int serial_set_baud(struct termios2 *tio, int baud)
+{
+    if (serial_baud_needs_custom(baud)) {
+        tio->c_cflag &= ~CBAUD;
+        tio->c_cflag |= BOTHER;
+        tio->c_ispeed = (speed_t)baud;
+        tio->c_ospeed = (speed_t)baud;
+        return 0;
     }
+
+    switch (baud) {
+    case 600:
+        tio->c_cflag &= ~CBAUD;
+        tio->c_cflag |= B600;
+        break;
+    case 9600:
+        tio->c_cflag &= ~CBAUD;
+        tio->c_cflag |= B9600;
+        break;
+    case 19200:
+        tio->c_cflag &= ~CBAUD;
+        tio->c_cflag |= B19200;
+        break;
+    case 38400:
+        tio->c_cflag &= ~CBAUD;
+        tio->c_cflag |= B38400;
+        break;
+    case 57600:
+        tio->c_cflag &= ~CBAUD;
+        tio->c_cflag |= B57600;
+        break;
+    case 115200:
+        tio->c_cflag &= ~CBAUD;
+        tio->c_cflag |= B115200;
+        break;
+    default:
+        fprintf(stderr, "Unsupported baud %d, using 9600.\n", baud);
+        tio->c_cflag &= ~CBAUD;
+        tio->c_cflag |= B9600;
+        break;
+    }
+
+    tio->c_ispeed = 0;
+    tio->c_ospeed = 0;
+    return 0;
 }
 
 static int open_serial(const char *dev, int baud)
 {
-    int fd = open(dev, O_RDWR | O_NOCTTY | O_SYNC);
-    struct termios tty;
+    struct termios2 tio;
+    int fd;
 
+    fd = open(dev, O_RDWR | O_NOCTTY | O_SYNC);
     if (fd < 0) {
         perror("open serial");
         return -1;
     }
 
-    memset(&tty, 0, sizeof(tty));
-    if (tcgetattr(fd, &tty) != 0) {
-        perror("tcgetattr");
+    memset(&tio, 0, sizeof(tio));
+    if (ioctl(fd, TCGETS2, &tio) != 0) {
+        perror("TCGETS2");
         close(fd);
         return -1;
     }
 
-    cfsetospeed(&tty, baud_to_flag(baud));
-    cfsetispeed(&tty, baud_to_flag(baud));
-    tty.c_cflag = (tty.c_cflag & ~CSIZE) | CS8;
-    tty.c_iflag &= ~IGNBRK;
-    tty.c_lflag = 0;
-    tty.c_oflag = 0;
-    tty.c_cc[VMIN] = 0;
-    tty.c_cc[VTIME] = 50;
-    tty.c_iflag &= ~(IXON | IXOFF | IXANY);
-    tty.c_cflag |= (CLOCAL | CREAD);
-    tty.c_cflag &= ~(PARENB | PARODD);
-    tty.c_cflag &= ~CSTOPB;
-    tty.c_cflag &= ~CRTSCTS;
+    serial_set_baud(&tio, baud);
+    serial_apply_common_flags(&tio);
 
-    if (tcsetattr(fd, TCSANOW, &tty) != 0) {
-        perror("tcsetattr");
+    if (ioctl(fd, TCSETS2, &tio) != 0) {
+        perror("TCSETS2");
         close(fd);
         return -1;
     }
+
     return fd;
 }
 

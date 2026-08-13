@@ -2,7 +2,7 @@
 
 English | [中文](README.zh-CN.md)
 
-The **host-side** cross compiler for IE Pro 400 GlobalStandard is not stored in Git.Download and extract it here; only this README is tracked.
+The **host-side** cross compiler for IE Pro 400 Global Standard is not stored in Git.Download and extract it here; only this README is tracked.
 
 Target libraries used at link time (mosquitto, modbus, curl, openssl) belong under
 [`demo/deps/`](../demo/deps/README.md), not in this directory.

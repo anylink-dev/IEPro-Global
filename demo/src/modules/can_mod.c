@@ -55,7 +55,7 @@ static int can_bring_up(int bitrate)
              IEPRO_CAN_IFACE, IEPRO_CAN_IFACE, bitrate, IEPRO_CAN_IFACE);
     printf("Running: %s\n", cmd);
     if (system(cmd) != 0) {
-        printf("Failed to bring up %s (is CAN module installed?).\n",
+        printf("Failed to bring up %s (check wiring and bitrate).\n",
                IEPRO_CAN_IFACE);
         return -1;
     }

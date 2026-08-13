@@ -1,11 +1,11 @@
-# IE Pro 400 GlobalStandard — Developer Resources
+# IE Pro 400 Global Standard — Developer Resources
 
 [English](README.md) | [中文](README.zh-CN.md)
 
 > **Status**: V1.0 released, populated from internal product documentation. See [Release Notes](docs/en/09-release-notes.md) for updates.
 
-Developer documentation and reference code for the IE Pro 400
-GlobalStandard industrial gateway. This is the general-purpose global
+Developer documentation and reference code for the IE Pro 400 Global Standard
+industrial gateway. This is the general-purpose global
 edition: the device ships without any vendor application or platform —
 customers build and deploy their own software on top of it.
 

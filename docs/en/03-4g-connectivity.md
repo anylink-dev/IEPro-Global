@@ -1,4 +1,4 @@
-# IE Pro 400 GlobalStandard — 4G Connectivity Example
+# IE Pro 400 Global Standard — 4G Connectivity Example
 
 English | [中文](../zh-CN/03-4g-connectivity.md)
 
@@ -16,7 +16,7 @@ English | [中文](../zh-CN/03-4g-connectivity.md)
 
 ## 2. APN Configuration & Dial-Up
 
-IE Pro 400 GlobalStandard uses a SIMCOM SIM7600 series module with **NDIS dial-up** via `AT$QCRMCALL`.
+IE Pro 400 Global Standard uses a SIMCOM **SIM7600G-H-PCIE** module with **NDIS dial-up** via `AT$QCRMCALL`.
 
 ### 2.1 Common Carrier APN Examples
 
@@ -124,4 +124,4 @@ If packets are lost or DNS fails, see the connectivity section in the [FAQ](07-f
 
 ---
 
-**Module info**: SIM7600 series; supports GSM/WCDMA/TD-SCDMA/LTE-FDD/LTE-TDD. Band details in [Datasheet](01-datasheet.md) §3.5.
+**Module info**: SIM7600G-H-PCIE; supports GSM/GPRS/EDGE, WCDMA/UMTS/HSPA+, LTE-FDD, LTE-TDD. Band details in [Datasheet](01-datasheet.md) §3.5.

@@ -1,24 +1,26 @@
-# IE Pro 400 GlobalStandard Quickstart Guide
+# IE Pro 400 Global Standard Quickstart Guide
 
 English | [中文](../zh-CN/02-quickstart.md)
 
-**Applicable model**: IE Pro 400 GlobalStandard　**Doc version**: V1.0　**Date**: 2026-07-22
+**Applicable model**: IE Pro 400 Global Standard　**Doc version**: V1.0　**Date**: 2026-07-22
 
 ## Introduction
 
 This guide helps developers unbox, power on, log in via SSH, and verify connectivity within about 15 minutes — preparing you for the 4G/wired connectivity examples and Demo development that follow.
 
-> **Note**: IE Pro 400 GlobalStandard does not ship with a vendor web management UI. Configuration and debugging are done via SSH on the command line.
+> **Note**: IE Pro 400 Global Standard does not ship with a vendor web management UI. Configuration and debugging are done via SSH on the command line.
 
 ## 1. Package Contents
 
 | Item | Qty | Notes |
 |---|---|---|
-| IE Pro 400 GlobalStandard host | 1 | |
+| IE Pro 400 Global Standard host | 1 | |
 | Power terminal blocks | 1 set | For 9–36 V DC supply |
 | 4G antenna | 1 | Connect to the device's 4G antenna port |
 | DIN-rail clip | 1 set | For DIN-rail mounting |
 | Quick-start card | 1 | |
+
+> **Mass-production verified**: The package contents above match final shipments of IE Pro 400 Global Standard.
 
 If anything is missing, contact AnyLink technical support at [anylink.io](https://anylink.io).
 
@@ -47,7 +49,8 @@ If anything is missing, contact AnyLink technical support at [anylink.io](https:
 | Ethernet | 2 | WAN + LAN, 10/100 M auto-negotiation |
 | RS485 | 2 | `/dev/ttymxc1`, `/dev/ttymxc2` |
 | RS232 | 1 | `/dev/ttymxc5` |
-| CAN 2.0 | 1 | `can0` (requires CAN module on hardware) |
+| CAN 2.0 | 1 | `can0` (factory-installed CAN module) |
+| USB 2.0 | 2 | USB 2.0 host ports |
 | DI / DO | 1 each | X1 (GPIO 117) / Y1 (GPIO 118) |
 | DIP switches | 2 | GPIO 121, GPIO 124 |
 | Reset button | 1 | GPIO 119 |
@@ -67,7 +70,8 @@ If anything is missing, contact AnyLink technical support at [anylink.io](https:
 | Power | 9–36 V DC; observe polarity; see datasheet §2.3 |
 | Ethernet WAN/LAN | Standard Ethernet cable to router/switch or PC |
 | RS232/RS485 | Check A/B polarity; add termination resistors on long RS485 buses |
-| CAN | Confirm CAN module is installed; 120 Ω termination at each bus end recommended |
+| CAN | 120 Ω termination at each bus end recommended; default bitrate 250000 bps |
+| USB 2.0 | Standard USB 2.0 host ports for peripherals and storage devices |
 | DI/DO | X1 passive input (dry contact, short to GND to trigger); Y1 passive output (dry contact) |
 | SIM card | See [4G Connectivity Example](03-4g-connectivity.md) §1 |
 
@@ -152,7 +156,7 @@ To build the demo or your own programs on a PC, on **Ubuntu x86_64** run:
 
 ```bash
 sudo apt install -y build-essential git make wget
-cd IEPro
+cd IEPro-Global
 sh scripts/setup_toolchain.sh
 . scripts/env.toolchain.sh
 make -C demo
