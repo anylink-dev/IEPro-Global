@@ -7,6 +7,10 @@
 # Optional overrides:
 #   IEPRO_TOOLCHAIN_ROOT  path to extracted gcc-linaro directory
 #   IEPRO_CROSS_COMPILE   compiler prefix (default: arm-linux-gnueabihf-)
+#
+# Also exports:
+#   IEPRO_DEPS_ROOT       demo/deps directory
+#   IEPRO_DEPS_PREFIX     demo/deps/<triplet> install prefix (default arm-linux-gnueabihf)
 
 iepro_script_path() {
     if [ -n "${BASH_VERSION:-}" ] && [ -n "${BASH_SOURCE:-}" ]; then
@@ -82,4 +86,10 @@ if [ -d "$SYSROOT_CANDIDATE" ]; then
     export SYSROOT="$SYSROOT_CANDIDATE"
 fi
 
+IEPRO_CROSS_HOST=${IEPRO_CROSS_COMPILE%-}
+IEPRO_DEPS_ROOT="${REPO_ROOT}/demo/deps"
+export IEPRO_DEPS_ROOT
+export IEPRO_DEPS_PREFIX="${IEPRO_DEPS_ROOT}/${IEPRO_CROSS_HOST}"
+
 echo "IE Pro toolchain ready: $($GCC --version | head -n 1)"
+echo "DEPS prefix: $IEPRO_DEPS_PREFIX"

@@ -20,6 +20,17 @@ toolchain/*
 *.tar.bz2
 *.tar.xz
 
+# demo/deps — local build trees and downloaded sources (see demo/deps/README.md)
+demo/deps/build/
+demo/deps/arm-linux-gnueabihf/
+demo/deps/packages/*.tar.gz
+demo/deps/packages/*/
+
+# prebuilt sysroot tarball is tracked in Git
+!demo/deps/prebuilt/
+!demo/deps/prebuilt/*.tar.gz
+!demo/deps/prebuilt/*.sha256
+
 # Editor / IDE
 .vscode/
 .idea/

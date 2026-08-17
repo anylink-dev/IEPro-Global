@@ -1,23 +1,29 @@
 # Makefile — build unified IE Pro demo console (build/iepro_demo).
 #
 # Layout:
-#   src/          application source
-#   deps/         third-party headers and prebuilt libs (mosquitto, modbus, curl, openssl)
-#   build/        output directory
+#   src/                    application source
+#   deps/arm-linux-gnueabihf/   DEPS_PREFIX (headers + static/shared libs)
+#   build/                  output directory
+#
+# Prerequisites:
+#   cd demo/deps && ./buildDepends.sh --extract-prebuilt
+#   (or build from source — see deps/README.md)
 #
 # Usage:
 #   make CROSS_COMPILE=arm-linux-gnueabihf-
-#   make WITH_MQTT=1 CROSS_COMPILE=arm-linux-gnueabihf-
-#   make WITH_MQTT=1 WITH_MODBUS=1 WITH_CURL=1 WITH_SSL=1 CROSS_COMPILE=...
 
 CROSS_COMPILE ?=
-CC      = $(CROSS_COMPILE)gcc
+CROSS_HOST    ?= arm-linux-gnueabihf
+CC            = $(CROSS_COMPILE)gcc
 
 SRC_DIR    = src
 COMMON_DIR = $(SRC_DIR)/common
 MOD_DIR    = $(SRC_DIR)/modules
 BUILD_DIR  = build
 DEPS_DIR   = deps
+DEPS_PREFIX ?= $(DEPS_DIR)/$(CROSS_HOST)
+DEPS_LIBDIR = $(DEPS_PREFIX)/lib
+DEPS_INCDIR = $(DEPS_PREFIX)/include
 
 CFLAGS  = -Wall -Wextra -O2 -I$(SRC_DIR) -I$(COMMON_DIR) -I$(MOD_DIR)
 LDFLAGS =
@@ -28,25 +34,13 @@ SRCS = $(SRC_DIR)/main.c \
 
 TARGET = $(BUILD_DIR)/iepro_demo
 
-ifdef WITH_MQTT
-CFLAGS  += -DWITH_MQTT -I$(DEPS_DIR)/mosquitto/include
-LDFLAGS += -L$(DEPS_DIR)/mosquitto/lib -lmosquitto
-endif
+# Third-party libraries (static link from DEPS_PREFIX; all enabled by default)
+CFLAGS += -DWITH_MQTT -DWITH_MODBUS -DWITH_CURL -DWITH_SSL
+DEPS_LIBS = -lmosquitto -lmodbus -lcurl -lssl -lcrypto
+SYS_LIBS  = -lpthread -ldl
 
-ifdef WITH_MODBUS
-CFLAGS  += -DWITH_MODBUS -I$(DEPS_DIR)/modbus/include
-LDFLAGS += -L$(DEPS_DIR)/modbus/lib -lmodbus
-endif
-
-ifdef WITH_CURL
-CFLAGS  += -DWITH_CURL -I$(DEPS_DIR)/curl/include
-LDFLAGS += -L$(DEPS_DIR)/curl/lib -lcurl
-endif
-
-ifdef WITH_SSL
-CFLAGS  += -DWITH_SSL -I$(DEPS_DIR)/openssl/include
-LDFLAGS += -L$(DEPS_DIR)/openssl/lib -lssl -lcrypto
-endif
+CFLAGS  += -I$(DEPS_INCDIR)
+LDFLAGS += -L$(DEPS_LIBDIR) -Wl,-Bstatic $(DEPS_LIBS) -Wl,-Bdynamic $(SYS_LIBS)
 
 all: $(TARGET)
 

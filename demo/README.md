@@ -31,38 +31,38 @@ demo/
 │       ├── gpio_mod.c
 │       ├── cellular_mod.c
 │       └── mqtt_mod.c
-└── deps/                 # third-party prebuilt SDKs (see deps/README.md)
-    ├── mosquitto/
-    ├── modbus/
-    ├── curl/
-    └── openssl/
+└── deps/                 # third-party libs (see deps/README.md)
+    ├── buildDepends.sh
+    ├── packages/source.txt
+    ├── arm-linux-gnueabihf/    # DEPS_PREFIX after extract (gitignored)
+    └── prebuilt/
+        └── arm-linux-gnueabihf.tar.gz
 ```
 
 ## Build
 
-From the repository root, activate the cross toolchain (optional but recommended):
+From the repository root, activate the cross toolchain and extract prebuilt dependencies:
 
 ```bash
 . scripts/env.toolchain.sh
-cd demo
+cd demo/deps
+./buildDepends.sh --extract-prebuilt
+cd ../demo
 make
 ```
 
-Or pass the prefix explicitly:
+Or pass the cross prefix explicitly:
 
 ```bash
 cd demo
 make CROSS_COMPILE=arm-linux-gnueabihf-
-
-# optional features — place matching headers/libs under deps/ first
-make WITH_MQTT=1 CROSS_COMPILE=arm-linux-gnueabihf-
-make WITH_MQTT=1 WITH_MODBUS=1 WITH_CURL=1 WITH_SSL=1 CROSS_COMPILE=arm-linux-gnueabihf-
 ```
 
 Output: `build/iepro_demo`
 
-If you link against libraries under `deps/*/lib`, set `LD_LIBRARY_PATH` on the device
-or copy the `.so` files next to the binary.
+Third-party libraries (MQTT, Modbus, curl, OpenSSL) are **linked statically** from
+`deps/arm-linux-gnueabihf/`; no `LD_LIBRARY_PATH` is required on the device.
+To rebuild dependencies from source, see [`deps/README.md`](deps/README.md).
 
 ## Run
 
@@ -124,7 +124,7 @@ Pick port `1=RS232-1`, `2=RS485-1`, `3=RS485-2` and baud rate when prompted.
 
 ### MQTT (`4`)
 
-Requires `make WITH_MQTT=1` and broker settings in `src/modules/mqtt_mod.c`
+Requires broker settings in `src/modules/mqtt_mod.c`
 (`MQTT_BROKER`, `MQTT_DEVICE_ID`).
 
 ```

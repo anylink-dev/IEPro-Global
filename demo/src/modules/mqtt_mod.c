@@ -150,7 +150,7 @@ int mqtt_module_menu(void)
 int mqtt_module_menu(void)
 {
     printf("\nMQTT module was not built.\n");
-    printf("Rebuild with: make WITH_MQTT=1 CROSS_COMPILE=...\n");
+    printf("Rebuild after extracting prebuilt deps (see deps/README.md).\n");
     menu_pause();
     return 0;
 }

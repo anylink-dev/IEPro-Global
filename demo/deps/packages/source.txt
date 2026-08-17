@@ -1,0 +1,37 @@
+# packages/source.txt — upstream source download manifest (tracked in Git)
+#
+# Format (one section per library):
+#   [name]
+#   version=x.y.z
+#   url=https://.../name-x.y.z.tar.gz
+#   homepage=https://...   (optional upstream index page)
+#
+# buildDepends.sh behaviour:
+#   - If packages/<name>-<version>.tar.gz is missing → download from url
+#   - Extract to packages/<name>-<version>/ (temporary, gitignored)
+#   - packages/*.tar.gz and extract dirs are not committed
+
+[libiconv]
+version=1.17
+url=https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz
+homepage=https://ftp.gnu.org/pub/gnu/libiconv/
+
+[openssl]
+version=1.1.1k
+url=https://www.openssl.org/source/openssl-1.1.1k.tar.gz
+homepage=https://openssl-library.org/source/old/1.1.1/
+
+[mosquitto]
+version=2.0.18
+url=https://mosquitto.org/files/source/mosquitto-2.0.18.tar.gz
+homepage=https://mosquitto.org/files/source/
+
+[curl]
+version=7.54.0
+url=https://curl.se/download/curl-7.54.0.tar.gz
+homepage=https://curl.se/download/
+
+[libmodbus]
+version=3.1.10
+url=https://github.com/stephane/libmodbus/releases/download/v3.1.10/libmodbus-3.1.10.tar.gz
+homepage=https://github.com/stephane/libmodbus/releases/tag/v3.1.10
