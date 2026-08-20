@@ -57,11 +57,11 @@ If anything is missing, contact AnyLink technical support at [anylink.io](https:
 
 ![Front panel — photo](../assets/shared/02-front-panel-photo.png)
 
-![Front panel — interface diagram](../assets/shared/02-front-panel-diagram.png)
+![Front panel — interface diagram](../assets/shared/02-front-panel-diagram-en.png)
 
 ![Terminal block — photo](../assets/shared/02-terminal-block-photo.png)
 
-![Terminal block — pinout diagram](../assets/shared/02-terminal-block-diagram.png)
+![Terminal block — pinout diagram](../assets/shared/02-terminal-block-diagram-en.png)
 
 ### 3.2 Wiring Notes
 
