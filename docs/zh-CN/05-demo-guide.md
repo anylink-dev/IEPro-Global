@@ -2,10 +2,13 @@
 
 [English](../en/05-demo-guide.md) | 中文
 
-**文档版本**：V1.0　**日期**：2026-07-22
-**运行环境**：设备运行 Linux，预装 **Python 2.7.14**；本仓库 Demo 均为 **C 语言**，编译为单一可执行文件 `iepro_demo`（Demo 版本 V1.0），通过控制台菜单进入各子模块（见[《交叉编译工具说明》](06-cross-compile-toolchain.md)）。
+**文档版本**：V1.1　**日期**：2026-08-19  
+**运行环境**：设备运行 Linux，预装 **Python 2.7.14**；本仓库 Demo 均为 **C 语言**，编译为单一可执行文件 `iepro_demo`，支持交互式菜单及对应的 CLI 子命令（见[《交叉编译工具说明》](06-cross-compile-toolchain.md)）。
 
-可运行源码统一存放在 [`/demo`](../../demo) 目录（纯英文），详见 [`/demo/README.md`](../../demo/README.md)。
+可运行源码位于 [`demo/`](../../demo) 目录。  
+**菜单、CLI 语法、硬件对照表** 以 [`demo/README.zh-CN.md`](../../demo/README.zh-CN.md) 为准（[English](../../demo/README.md)）。
+
+---
 
 ## 0. 开发前准备
 
@@ -13,114 +16,76 @@
 |---|---|
 | 目标系统 | Linux，ARM Cortex-A7，`arm-linux-gnueabihf` |
 | 支持语言 | C/C++（交叉编译，Demo 使用）；Python 2.7.14（设备预装，可选用于客户自研脚本） |
-| 可执行文件 | `demo/build/iepro_demo`（统一入口，含交互式主菜单） |
-| 权限要求 | 访问 `/dev/tty*`、`can0`、GPIO、蜂窝拨号通常需 **root** 权限 |
+| 可执行文件 | `demo/build/iepro_demo`（统一入口：菜单或 CLI） |
+| 权限要求 | 访问 `/dev/tty*`、`can0`、GPIO、`/dev/watchdog`、蜂窝拨号通常需 **root** 权限 |
+| 设备节点与 GPIO | 见 [`demo/README.zh-CN.md` — 硬件对照表](../../demo/README.zh-CN.md#硬件对照表) |
 
-### 设备节点与 GPIO 对照表
+---
 
-| 逻辑名称 | 系统接口 | 说明 |
-|---|---|---|
-| RS485-1 | `/dev/ttymxc1` | 波特率 600～256000；RS485 硬件自动方向控制 |
-| RS485-2 | `/dev/ttymxc2` | 波特率 600～256000；RS485 硬件自动方向控制 |
-| RS232-1 | `/dev/ttymxc5` | 波特率 600～256000 |
-| CAN | `can0` | 默认 250000 bps；出厂已安装 CAN 模块 |
-| 蜂窝 AT | `/dev/ttyUSB2` | SIM7600G-H-PCIE AT 调试口 |
-| 蜂窝数据 | `wwan0` | NDIS 拨号数据接口 |
-| DI（X1） | GPIO 117 | 无源输入（干接点），与 GND 短接=1 |
-| DO（Y1） | GPIO 118 | 无源输出（干接点） |
-| 拨码开关 1 | GPIO 124 | ON=1，OFF=0 |
-| 拨码开关 2 | GPIO 121 | ON=1，OFF=0 |
-| Reset 按键 | GPIO 119 | 按压=1，松开=0 |
-| POWER LED | — | 电源指示灯，上电即亮（硬件控制，非 GPIO） |
-| NET LED | GPIO 122 | 点亮=1 |
-| RUN LED | GPIO 71 | 点亮=1 |
-| WARN LED | GPIO 123 | 点亮=1 |
-
-常量定义见 [`demo/src/common/iepro_hw.h`](../../demo/src/common/iepro_hw.h)。
-
-## 1. 编译与运行
+## 1. 快速开始
 
 ```bash
-# 激活交叉编译环境（推荐，在仓库根目录执行）
 . scripts/env.toolchain.sh
-
-# 交叉编译
 make -C demo
-
-# 含 MQTT 子模块（需 demo/deps/mosquitto/ 中的库）
-make -C demo WITH_MQTT=1
-
-# 部署到设备后运行
-./iepro_demo
+./demo/build/iepro_demo
 ```
 
-也可显式指定前缀：`make -C demo CROSS_COMPILE=arm-linux-gnueabihf-`
+首次构建会自动解压 prebuilt 依赖，详见 [`demo/deps/README.md`](../../demo/deps/README.md)。
 
-### 操作说明
+无参数运行进入交互菜单；CLI 用法：`./demo/build/iepro_demo --help` 或 `./demo/build/iepro_demo <模块名>`。
 
-- 在任意菜单按 **`0`** 返回上一级。
-- 在循环任务中按 **Ctrl+C** 停止循环并回到当前子菜单。
-- 在菜单输入提示处按 **Ctrl+C** 与按 `0` 等效。
+---
 
-启动后显示主菜单：
-
-```
- 1) Serial  (RS232 / RS485)
- 2) CAN     (SocketCAN)
- 3) GPIO    (DI / DO / DIP / LED / Reset button)
- 4) MQTT    (northbound publish)
- 5) Cellular (SIM7600G-H-PCIE 4G)
- 0) Exit
-```
-
-### 源码结构
+## 2. 源码结构
 
 ```
 demo/
 ├── Makefile
-├── build/iepro_demo          # 编译输出
-├── scripts/can_setup.sh      # CAN 辅助脚本
+├── build/iepro_demo
+├── scripts/can_setup.sh
 └── src/
-    ├── main.c                # 主菜单入口
+    ├── main.c                # 菜单路由 + CLI 分发
     ├── demo.h
-    ├── common/               # iepro_hw.h, menu_util, gpio_util, metrics
-    └── modules/              # 各子模块
+    ├── common/               # iepro_hw.h, menu_util, gpio_util, cli_util, serial_port, metrics
+    └── modules/
         ├── serial_mod.c
         ├── can_mod.c
         ├── gpio_mod.c
         ├── cellular_mod.c
-        └── mqtt_mod.c
+        ├── mqtt_mod.c
+        ├── http_mod.c
+        ├── modbus_mod.c
+        └── wdt_mod.c
 ```
 
 | 源文件 | 子模块 |
 |---|---|
-| [`demo/src/main.c`](../../demo/src/main.c) | 主菜单入口 |
+| [`demo/src/main.c`](../../demo/src/main.c) | 主菜单入口与 CLI 分发 |
+| [`demo/src/common/cli_util.c`](../../demo/src/common/cli_util.c) | CLI 解析与模块路由 |
 | [`demo/src/modules/serial_mod.c`](../../demo/src/modules/serial_mod.c) | 串口 |
 | [`demo/src/modules/can_mod.c`](../../demo/src/modules/can_mod.c) | CAN |
 | [`demo/src/modules/gpio_mod.c`](../../demo/src/modules/gpio_mod.c) | GPIO |
 | [`demo/src/modules/cellular_mod.c`](../../demo/src/modules/cellular_mod.c) | 蜂窝（SIM7600G-H-PCIE） |
 | [`demo/src/modules/mqtt_mod.c`](../../demo/src/modules/mqtt_mod.c) | MQTT 北向 |
+| [`demo/src/modules/http_mod.c`](../../demo/src/modules/http_mod.c) | HTTP GET/POST（libcurl） |
+| [`demo/src/modules/modbus_mod.c`](../../demo/src/modules/modbus_mod.c) | Modbus RTU/TCP |
+| [`demo/src/modules/wdt_mod.c`](../../demo/src/modules/wdt_mod.c) | 硬件看门狗（`/dev/watchdog`） |
 | [`demo/src/common/gpio_util.c`](../../demo/src/common/gpio_util.c) | GPIO 共享封装 |
-| [`demo/src/common/metrics.c`](../../demo/src/common/metrics.c) | 示例指标 JSON（MQTT 使用） |
+| [`demo/src/common/metrics.c`](../../demo/src/common/metrics.c) | 示例 metrics JSON（MQTT 发布默认正文） |
 
-## 2. 串口子模块（Serial）
+---
 
-主菜单选 `1` 进入。按提示选择端口 `1=RS232-1`、`2=RS485-1`、`3=RS485-2` 及波特率。
+## 3. 各模块开发说明
 
-```
- 1) Loop receive (Ctrl+C to stop)
- 2) Loop send (Ctrl+C to stop)
- 3) Loop echo (receive & reply, Ctrl+C to stop)
- 0) Back
-```
+操作菜单与 CLI 详见 [`demo/README.zh-CN.md`](../../demo/README.zh-CN.md)。以下为集成与联调补充说明。
 
-也可使用 `microcom` 快速测试 RS485-1：
+### 3.1 串口（Serial）
+
+使用 `microcom` 快速测试 RS485-1：
 
 ```bash
 microcom -s 9600 /dev/ttymxc1
 ```
-
-### 常用串口参数
 
 | 参数 | 取值 |
 |---|---|
@@ -132,16 +97,9 @@ microcom -s 9600 /dev/ttymxc1
 
 > **说明**：256000 bps 通过 Linux `termios2` 自定义波特率（`BOTHER`）设置；其余为标准波特率常量。
 
-主菜单选 `2` 进入。
+### 3.2 CAN
 
-```
- 1) Bring up can0 (default 250000 bps)
- 2) Listen for one frame (3s timeout)
- 3) Send test frame (ID 0x123)
- 0) Back
-```
-
-也可在子模块外使用辅助脚本或 can-utils：
+子模块外可使用辅助脚本或 can-utils：
 
 ```bash
 sh demo/scripts/can_setup.sh can0 250000
@@ -151,21 +109,9 @@ cansend can0 123#1122334455667788
 
 > **注意**：CAN 模块出厂已安装。请按现场总线配置终端电阻与波特率。
 
-## 4. GPIO 子模块（DI/DO）
+### 3.3 GPIO
 
-主菜单选 `3` 进入。
-
-```
- 1) Init all board GPIO (DI/DO/DIP/Reset)
- 2) Monitor DI, DIP & Reset button (Ctrl+C to stop)
- 3) Set DO high (Y1)
- 4) Set DO low  (Y1)
- 5) Run demo pulse on DO (Ctrl+C to stop)
- 6) LED test (steady ON / OFF / fast blink)
- 0) Back
-```
-
-手动测试 DI：
+通过 sysfs 手动测试 DI：
 
 ```bash
 echo 117 > /sys/class/gpio/export
@@ -173,28 +119,20 @@ echo in > /sys/class/gpio/gpio117/direction
 cat /sys/class/gpio/gpio117/value
 ```
 
-## 5. MQTT 北向子模块
+### 3.4 MQTT
 
-主菜单选 `4` 进入。使用 **libmosquitto**（编译时需 `WITH_MQTT=1`）。
+使用 **libmosquitto**（来自 `demo/deps/arm-linux-gnueabihf/`，默认已链接）。
 
-编译前编辑 [`demo/src/modules/mqtt_mod.c`](../../demo/src/modules/mqtt_mod.c) 中的 `MQTT_BROKER` 和 `MQTT_DEVICE_ID`（当前为示例占位值，部署前需改为实际 Broker 与设备 ID）。
+部署前可编辑 [`demo/src/modules/mqtt_mod.c`](../../demo/src/modules/mqtt_mod.c) 中的 `MQTT_DEFAULT_BROKER`、`MQTT_DEFAULT_CLIENT_ID` 及主题宏，通过菜单配置，或在 CLI 中通过 `--broker`、`--topic` 传入。发布时消息体留空（菜单直接回车或省略 `--message`）将发送 [`metrics.c`](../../demo/src/common/metrics.c) 生成的示例 JSON。
 
-```
- 1) Publish one sample message
- 2) Run publish loop (10s interval, Ctrl+C to stop)
- 0) Back
-```
-
-上报 payload 包含 DI/DIP 读数及 `metrics.c` 生成的示例 JSON。
-
-### 命令行测试（mosquitto_pub / mosquitto_sub）
+命令行 Broker 联调（设备或上位机）：
 
 ```bash
 mosquitto_pub -h <broker_ip> -p 1883 -t "iepro/<device_id>/data" -m '{"temp":25.3}'
 mosquitto_sub -h <broker_ip> -p 1883 -t "iepro/<device_id>/cmd"
 ```
 
-### 主题命名建议
+主题命名建议：
 
 | 用途 | 主题示例 |
 |---|---|
@@ -204,45 +142,56 @@ mosquitto_sub -h <broker_ip> -p 1883 -t "iepro/<device_id>/cmd"
 
 > 以上主题结构仅为建议，客户可根据自身云平台规范自定义。
 
-## 6. 蜂窝子模块（Cellular）
+### 3.5 蜂窝（Cellular）
 
-主菜单选 `5` 进入。通过 AT 口 `/dev/ttyUSB2` 与 SIM7600G-H-PCIE 通信，NDIS 拨号建立 `wwan0` 数据连接。详见[《4G 联网示例》](03-4g-connectivity.md)。
+AT 口 `/dev/ttyUSB2`，NDIS 拨号建立 `wwan0`。模组电源由 **GPIO 69**（OUT）控制，启动默认关闭，使用前须上电（Demo 自动处理）。拨号、APN、排障详见[《4G 联网示例》](03-4g-connectivity.md)。
 
-```
- 1) Module version (ATI)
- 2) Firmware version (AT+CGMR)
- 3) IMEI (AT+CGSN)
- 4) ICCID (AT+CCID)
- 5) IMSI (AT+CIMI)
- 6) SIM status (AT+CPIN?)
- 7) Signal CSQ (AT+CSQ)
- 8) Operator (AT+COPS?)
- 9) Network mode (AT+CNSMOD?)
-10) Registration status (AT+CEREG? / AT+CGREG?)
-11) Dial-up status (AT$QCRMCALL?)
-12) Cell info (AT+CPSI?)
-13) Connect (NDIS dial-up)
-14) Disconnect
-15) Renew DHCP on wwan0
-16) Ping test (8.8.8.8 via wwan0)
-17) AT command help
-18) Send custom AT command
- 0) Back
-```
+### 3.6 HTTP
 
-选项 **13 Connect** 的 APN 配置：
+使用 **libcurl**（静态链接）。支持 HTTPS；CLI `--ca` 或菜单中设置 CA 路径以校验证书，省略则跳过校验（仅建议实验环境）。
 
-```
- 1) Auto (3GPP, no APN)
- 2) Custom APN
- 0) Cancel
-```
+### 3.7 Modbus
 
-选项 **17** 列出常用 AT 指令说明；选项 **18** 可自由输入 AT 命令（`AT` 前缀可选）。
+使用 **libmodbus**。RTU 与串口子模块共用 `/dev/ttymxc1`–`mxc5`；TCP 使用标准套接字。主站支持周期轮询（`run`）及一次性 `read`/`write`；从站可通过菜单或 CLI 配置保持寄存器。
 
-## 7. 扩展开发建议
+RTU/TCP 命令行示例见 [`demo/README.zh-CN.md` — CLI 示例](../../demo/README.zh-CN.md#cli-示例)。
 
-- 在 `demo/src/modules/*_mod.c` 中添加业务逻辑，保持 `main.c` 仅负责菜单路由。
+### 3.8 硬件看门狗（Watchdog）
+
+设备提供 Linux 标准硬件看门狗 **`/dev/watchdog`**。启用后须由用户进程定期 ioctl 喂狗（`WDIOC_KEEPALIVE`），超时未喂狗则系统自动重启。
+
+Demo 模块 `wdt_mod.c`（由原 `hardwareWDT.py` 移植）提供：
+
+| 操作 | 菜单 / CLI | 说明 |
+|---|---|---|
+| 启动喂狗 | 菜单 1 / `watchdog start [--timeout N]` | 默认超时 60 s；喂狗间隔约为超时的 1/3 |
+| 停止 | 菜单 2 / `watchdog stop` | 向运行中的喂狗进程发 `SIGINT`，magic close `V` 后关闭设备 |
+| 触发重启 | 菜单 3 / `watchdog reboot` | 向喂狗进程发 `SIGUSR1`，超时设为 1 s 后停止喂狗 |
+
+运行中的喂狗进程 PID 写入 `/tmp/iepro_wdt.pid`，供 `stop`/`reboot` 跨终端控制。
+
+> **注意**：看门狗一旦启用且未优雅关闭，停止喂狗将导致系统复位。生产环境建议将 `iepro_demo watchdog start` 配置为 systemd/init 自启服务，并确保业务进程异常退出时仍能触发保护性重启。
+
+### 3.9 CLI
+
+`iepro_demo` 支持**菜单模式**（无参数）与 **CLI 模式**（`iepro_demo <模块> <动作> …`），子命令与菜单项一一对应。完整语法与示例见 [`demo/README.zh-CN.md` — CLI](../../demo/README.zh-CN.md#cli)。
+
+---
+
+## 4. 扩展开发建议
+
+- 在 `demo/src/modules/*_mod.c` 中添加业务逻辑，保持 `main.c` 仅负责菜单/CLI 路由。
 - 共享 GPIO 操作使用 [`gpio_util.c`](../../demo/src/common/gpio_util.c)。
 - 硬件常量统一维护在 [`iepro_hw.h`](../../demo/src/common/iepro_hw.h)。
-- 编译与部署详见[《交叉编译工具说明》](06-cross-compile-toolchain.md)。
+- 第三方库说明见 [`demo/deps/README.md`](../../demo/deps/README.md)。
+
+---
+
+## 5. 相关文档
+
+| 文档 | 内容 |
+|---|---|
+| [`demo/README.zh-CN.md`](../../demo/README.zh-CN.md) | 编译、菜单、CLI、硬件对照表 |
+| [交叉编译工具说明](06-cross-compile-toolchain.md) | 工具链安装与部署 |
+| [4G 联网示例](03-4g-connectivity.md) | 蜂窝拨号与 AT 指令 |
+| [`demo/deps/README.md`](../../demo/deps/README.md) | Prebuilt 依赖 |

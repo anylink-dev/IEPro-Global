@@ -14,6 +14,7 @@
 /* SIM7600G-H-PCIE cellular modem (NDIS dial-up via AT$QCRMCALL) */
 #define IEPRO_MODEM_AT_DEV  "/dev/ttyUSB2"
 #define IEPRO_CELL_IFACE    "wwan0"
+#define GPIO_CELL_PWR       69   /* OUT: 1=module power on, 0=off; default off at boot */
 
 #define GPIO_DI             117
 #define GPIO_DO             118
@@ -23,5 +24,9 @@
 #define GPIO_LED_NET        122
 #define GPIO_LED_RUN        71
 #define GPIO_LED_ALARM      123
+
+#define IEPRO_WDT_DEV               "/dev/watchdog"
+#define IEPRO_WDT_PID_FILE          "/tmp/iepro_wdt.pid"
+#define IEPRO_WDT_DEFAULT_TIMEOUT   60
 
 #endif

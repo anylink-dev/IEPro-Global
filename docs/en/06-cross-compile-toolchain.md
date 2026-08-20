@@ -38,7 +38,7 @@ make -C demo
 To protect core low-level implementations, this package **only provides**:
 
 - Cross-compilation toolchain (GCC / SDK)
-- Demo example source code (serial/CAN/GPIO/MQTT — see [Demo Development Guide](05-demo-guide.md))
+- Demo example source code (serial/CAN/GPIO/cellular/MQTT/HTTP/Modbus/watchdog + CLI — see [Demo Development Guide](05-demo-guide.md) and [`demo/README.md`](../../demo/README.md))
 - Required headers and user-space libraries (no kernel driver source)
 - Build/packaging/deployment scripts
 
@@ -126,15 +126,14 @@ arm-linux-gnueabihf-gcc --version
 Run `. scripts/env.toolchain.sh` first, then:
 
 ```bash
-make -C demo
-make -C demo WITH_MQTT=1    # optional — needs libs under demo/deps/mosquitto/
+make -C demo    # auto-extracts prebuilt deps on first build (see demo/deps/README.md)
 ```
 
 Outputs:
 
 | Binary | Description | Dependencies |
 |---|---|---|
-| `demo/build/iepro_demo` | Unified demo console (serial/CAN/GPIO/cellular/MQTT submodules) | None by default; MQTT needs `WITH_MQTT=1` + libmosquitto |
+| `demo/build/iepro_demo` | Unified demo console (serial/CAN/GPIO/cellular/MQTT/HTTP/Modbus/watchdog submodules) | Static libs from `demo/deps/arm-linux-gnueabihf/` (linked by default) |
 
 > **Note**: The device ships with Python 2.7.14, but all demos are C and build into a single `iepro_demo` binary.
 

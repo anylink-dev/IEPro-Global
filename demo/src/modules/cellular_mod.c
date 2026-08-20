@@ -1,8 +1,11 @@
 #include "demo.h"
 #include "iepro_hw.h"
+#include "gpio_util.h"
 #include "menu_util.h"
+#include "cli_util.h"
 
 #include <fcntl.h>
+#include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,8 +15,42 @@
 
 #define AT_RESP_SIZE 1024
 #define AT_TIMEOUT_MS 1500
+#define MODEM_DEV_WAIT_MS 10000
+#define MODEM_DEV_POLL_MS 100
 
 static int g_at_fd = -1;
+static int g_cell_power_on = 0;
+
+static int cellular_wait_modem_dev(void)
+{
+    int elapsed = 0;
+
+    while (elapsed < MODEM_DEV_WAIT_MS) {
+        if (access(IEPRO_MODEM_AT_DEV, F_OK) == 0)
+            return 0;
+        usleep((useconds_t)MODEM_DEV_POLL_MS * 1000);
+        elapsed += MODEM_DEV_POLL_MS;
+    }
+
+    fprintf(stderr, "Timeout (%d s) waiting for modem AT device %s\n",
+            MODEM_DEV_WAIT_MS / 1000, IEPRO_MODEM_AT_DEV);
+    return -1;
+}
+
+static int cellular_ensure_power(void)
+{
+    if (g_cell_power_on)
+        return 0;
+    if (gpio_cell_power_on() < 0) {
+        fprintf(stderr, "Failed to enable 4G module power (GPIO %d)\n",
+                GPIO_CELL_PWR);
+        return -1;
+    }
+    if (cellular_wait_modem_dev() < 0)
+        return -1;
+    g_cell_power_on = 1;
+    return 0;
+}
 
 static speed_t cellular_baud_flag(void)
 {
@@ -26,6 +63,9 @@ static int cellular_at_open(void)
 
     if (g_at_fd >= 0)
         return 0;
+
+    if (cellular_ensure_power() < 0)
+        return -1;
 
     g_at_fd = open(IEPRO_MODEM_AT_DEV, O_RDWR | O_NOCTTY | O_SYNC);
     if (g_at_fd < 0) {
@@ -777,4 +817,182 @@ int cellular_module_menu(void)
         }
         menu_pause();
     }
+}
+
+void cellular_module_cli_usage(const char *prog)
+{
+    fprintf(stderr,
+            "Usage: %s cellular <action> [options]\n"
+            "  version        Module version ATI (menu 1)\n"
+            "  firmware       Firmware AT+CGMR (menu 2)\n"
+            "  imei           IMEI (menu 3)\n"
+            "  iccid          ICCID (menu 4)\n"
+            "  imsi           IMSI (menu 5)\n"
+            "  sim            SIM status (menu 6)\n"
+            "  csq            Signal CSQ (menu 7)\n"
+            "  operator       Operator (menu 8)\n"
+            "  netmode        Network mode (menu 9)\n"
+            "  reg            Registration (menu 10)\n"
+            "  dial-status    Dial-up status (menu 11)\n"
+            "  cell           Cell info (menu 12)\n"
+            "  connect        NDIS dial-up (menu 13)\n"
+            "  disconnect     Stop data call (menu 14)\n"
+            "  dhcp           Renew DHCP (menu 15)\n"
+            "  ping           Ping 8.8.8.8 via %s (menu 16)\n"
+            "  help           AT command reference (menu 17)\n"
+            "  at             Send custom AT command (menu 18)\n"
+            "  --cmd STR      AT command for at action\n"
+            "  --apn APN      Custom APN for connect\n"
+            "  --user U       APN username (optional)\n"
+            "  --pass P       APN password (optional)\n"
+            "  --auto         Connect with auto APN (no --apn)\n"
+            "\n"
+            "Examples:\n"
+            "  Query module / SIM / signal:\n"
+            "    %s cellular version\n"
+            "    %s cellular imei\n"
+            "    %s cellular csq\n"
+            "    %s cellular sim\n"
+            "  Custom AT command:\n"
+            "    %s cellular at --cmd +CSQ\n"
+            "  Dial-up (requires SIM and antenna):\n"
+            "    %s cellular connect --auto\n"
+            "    %s cellular connect --apn cmnet --user user --pass pass\n"
+            "  After dial-up:\n"
+            "    %s cellular dhcp\n"
+            "    %s cellular ping\n"
+            "    %s cellular disconnect\n",
+            prog, IEPRO_CELL_IFACE,
+            prog, prog, prog, prog, prog, prog, prog, prog, prog, prog);
+}
+
+int cellular_module_cli(int argc, char **argv)
+{
+    const char *action = argv[1];
+    const char *at_cmd = NULL;
+    const char *apn = NULL;
+    const char *user = NULL;
+    const char *pass = NULL;
+    int auto_apn = 0;
+    int opt;
+    int rc = CLI_EXIT_OK;
+
+    static const struct option opts[] = {
+        { "cmd", required_argument, NULL, 'c' },
+        { "apn", required_argument, NULL, 'a' },
+        { "user", required_argument, NULL, 'u' },
+        { "pass", required_argument, NULL, 'p' },
+        { "auto", no_argument, NULL, 'A' },
+        { "help", no_argument, NULL, 'h' },
+        { NULL, 0, NULL, 0 }
+    };
+
+    if (!action || !strcmp(action, "-h") || !strcmp(action, "--help")) {
+        cellular_module_cli_usage(argv[0]);
+        return CLI_EXIT_USAGE;
+    }
+
+    optind = 2;
+    while ((opt = getopt_long(argc, argv, "c:a:u:p:Ah", opts, NULL)) != -1) {
+        switch (opt) {
+        case 'c':
+            at_cmd = optarg;
+            break;
+        case 'a':
+            apn = optarg;
+            break;
+        case 'u':
+            user = optarg;
+            break;
+        case 'p':
+            pass = optarg;
+            break;
+        case 'A':
+            auto_apn = 1;
+            break;
+        case 'h':
+            cellular_module_cli_usage(argv[0]);
+            return CLI_EXIT_OK;
+        default:
+            cellular_module_cli_usage(argv[0]);
+            return CLI_EXIT_USAGE;
+        }
+    }
+
+    if (!strcmp(action, "version"))
+        cellular_print_version();
+    else if (!strcmp(action, "firmware"))
+        cellular_print_firmware();
+    else if (!strcmp(action, "imei"))
+        cellular_print_imei();
+    else if (!strcmp(action, "iccid"))
+        cellular_print_iccid();
+    else if (!strcmp(action, "imsi"))
+        cellular_print_imsi();
+    else if (!strcmp(action, "sim"))
+        cellular_print_sim_status();
+    else if (!strcmp(action, "csq"))
+        cellular_print_csq();
+    else if (!strcmp(action, "operator"))
+        cellular_print_operator();
+    else if (!strcmp(action, "netmode"))
+        cellular_print_netmode();
+    else if (!strcmp(action, "reg"))
+        cellular_print_registration();
+    else if (!strcmp(action, "dial-status"))
+        cellular_print_dial_status();
+    else if (!strcmp(action, "cell"))
+        cellular_print_cell_info();
+    else if (!strcmp(action, "connect")) {
+        char apn_buf[64];
+        char user_buf[64];
+        char pass_buf[64];
+
+        apn_buf[0] = user_buf[0] = pass_buf[0] = '\0';
+        if (apn)
+            snprintf(apn_buf, sizeof(apn_buf), "%s", apn);
+        if (user)
+            snprintf(user_buf, sizeof(user_buf), "%s", user);
+        if (pass)
+            snprintf(pass_buf, sizeof(pass_buf), "%s", pass);
+
+        if (!auto_apn && !apn) {
+            fprintf(stderr, "connect requires --auto or --apn.\n");
+            return CLI_EXIT_USAGE;
+        }
+
+        if (cellular_connect_with_apn(apn_buf, user_buf, pass_buf) < 0)
+            rc = CLI_EXIT_FAIL;
+    } else if (!strcmp(action, "disconnect")) {
+        cellular_disconnect();
+    } else if (!strcmp(action, "dhcp")) {
+        cellular_if_dhcp();
+        cellular_show_iface_ip();
+    } else if (!strcmp(action, "ping")) {
+        cellular_ping_test();
+    } else if (!strcmp(action, "help")) {
+        cellular_print_help();
+    } else if (!strcmp(action, "at")) {
+        char cmd[280];
+
+        if (!at_cmd || at_cmd[0] == '\0') {
+            fprintf(stderr, "at requires --cmd.\n");
+            return CLI_EXIT_USAGE;
+        }
+
+        if ((at_cmd[0] == 'A' || at_cmd[0] == 'a') &&
+            (at_cmd[1] == 'T' || at_cmd[1] == 't'))
+            snprintf(cmd, sizeof(cmd), "%s", at_cmd);
+        else
+            snprintf(cmd, sizeof(cmd), "AT%s", at_cmd);
+
+        cellular_at_send_user(cmd);
+    } else {
+        fprintf(stderr, "Unknown cellular action: %s\n", action);
+        cellular_module_cli_usage(argv[0]);
+        return CLI_EXIT_USAGE;
+    }
+
+    cellular_at_close();
+    return rc;
 }

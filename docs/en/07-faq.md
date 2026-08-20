@@ -11,13 +11,14 @@ English | [中文](../zh-CN/07-faq.md)
 Troubleshooting:
 
 1. **Power off**, re-insert the SIM card in the correct orientation (contacts facing the inner spring contact).
-2. Verify the SIM works in another device (e.g. a phone) to rule out a damaged card.
-3. Run `AT+CPIN?` and check the response:
+2. Enable 4G module power per [4G Connectivity Example](03-4g-connectivity.md) §2 (set GPIO 69 to 1).
+3. Verify the SIM works in another device (e.g. a phone) to rule out a damaged card.
+4. Run `AT+CPIN?` and check the response:
    - `+CPIN: READY`: card recognized — check APN/network (see §2).
    - `+CPIN: SIM PIN`: card locked — enter PIN to unlock.
    - No response / ERROR: slot contact issue or module fault — contact support.
-4. Check the slot spring contact for deformation.
-5. Wait at least 60 seconds after power-on before checking — the module needs initialization time.
+5. Check the slot spring contact for deformation.
+6. Wait at least 60 seconds after power-on before checking — the module needs initialization time.
 
 ## 2. APN Error
 
@@ -25,11 +26,12 @@ Troubleshooting:
 
 Troubleshooting:
 
-1. Confirm APN, username, and password are correct (case-sensitive). See [4G Connectivity Example](03-4g-connectivity.md) §2.1 for common examples.
-2. IoT SIM cards often require a dedicated APN — confirm with your carrier.
-3. Run `AT+CEREG?` (LTE) or `AT+CGREG?` (non-LTE) to confirm registration (`0,1` or `0,5`).
-4. Confirm the SIM plan includes data service and is not suspended.
-5. Retry dial-up: `AT$QCRMCALL=0,1` then `AT$QCRMCALL=1,1`.
+1. Confirm 4G module power is enabled per [4G Connectivity Example](03-4g-connectivity.md) §2 (GPIO 69 = 1) and `/dev/ttyUSB2` is present.
+2. Confirm APN, username, and password are correct (case-sensitive). See [4G Connectivity Example](03-4g-connectivity.md) §3.1 for common examples.
+3. IoT SIM cards often require a dedicated APN — confirm with your carrier.
+4. Run `AT+CEREG?` (LTE) or `AT+CGREG?` (non-LTE) to confirm registration (`0,1` or `0,5`).
+5. Confirm the SIM plan includes data service and is not suspended.
+6. Retry dial-up: `AT$QCRMCALL=0,1` then `AT$QCRMCALL=1,1`.
 
 ## 3. Cannot Reach the Internet (4G / Wired)
 
@@ -39,7 +41,7 @@ Troubleshooting:
 
 1. Check local link first:
    - Wired: confirm link LED is on; run `ip addr show` to verify an IP was assigned.
-   - 4G: run `AT+CSQ` for signal strength, `AT+CEREG?` for registration status.
+   - 4G: confirm GPIO 69 is powered on and `/dev/ttyUSB2` exists (see [4G Connectivity Example](03-4g-connectivity.md) §2); run `AT+CSQ` for signal strength, `AT+CEREG?` for registration status.
 2. Layered diagnosis:
    ```
    ping <gateway-ip>     # local link
@@ -61,7 +63,7 @@ Troubleshooting:
 4. Confirm the correct password: SSH account is `root`; the initial password is unique per device — obtain it from the manufacturer using the product unique code (see §9).
 5. Check PC firewall/security software blocking SSH (port 22).
 6. Try serial Console login (115200 baud — see [Quickstart Guide](02-quickstart.md) §5.3).
-7. If you changed the password with `passwd` and forgot it, see §6 for factory reset, or contact the manufacturer with the unique code.
+7. If you changed the password with `passwd` and forgot it, contact the manufacturer with the product unique code (see §6, §9).
 
 ## 5. Interface Wiring Issues
 
@@ -75,16 +77,25 @@ Troubleshooting:
 | DI (X1) | Wrong wiring | Passive input (dry contact) — short to GND to trigger (GPIO 117) |
 | DO (Y1) | Load exceeds rating | Passive output (dry contact) — check datasheet §3.4; add a relay if needed |
 
-## 6. Factory Reset
+## 6. Reset Button & Factory Reset
+
+### Reset button (GPIO 119)
+
+The device provides a physical Reset button readable via sysfs GPIO: **pressed=1, released=0**. In the demo, use the GPIO menu item **Monitor DI, DIP & Reset button** for live state (see [`demo/README.md`](../../demo/README.md)).
+
+**Factory firmware does not** implement button actions such as long-press factory reset. Implement custom button logic in your application if needed.
+
+### Factory reset
 
 **When**: Forgotten password, unrecoverable misconfiguration.
 
-1. **Power off**, then **press and hold the Reset button** (GPIO 119) for about **10 seconds**, then release.
-2. The device reboots with factory defaults, including:
-   - WAN IP: `192.168.100.126`
-   - LAN IP: `192.168.101.204`
-   - SSH password: restored to the factory initial password (derived from the product unique code)
-3. **Warning**: factory reset clears all custom configuration — back up first.
+Factory firmware **does not** support factory reset via the Reset button. Contact the manufacturer or dealer with the device **product unique code**. After reset, typical defaults include:
+
+- WAN IP: `192.168.100.126`
+- LAN IP: `192.168.101.204`
+- SSH password: restored to the factory initial password (derived from the product unique code)
+
+**Warning**: factory reset clears all custom configuration — back up first.
 
 ## 7. CAN Interface Shows No Data
 
@@ -94,7 +105,7 @@ Troubleshooting:
 
 1. Confirm the interface is up: `ip link show can0` should show `UP` (CAN module is factory-installed).
 2. Confirm baud rate matches other nodes on the bus (commonly 250000 or 500000).
-3. Run a loopback test: `ip link set can0 type can loopback on` (see [Demo Development Guide](05-demo-guide.md) §3).
+3. Run a loopback test: `ip link set can0 type can loopback on` (see [Demo Development Guide](05-demo-guide.md) §3.2 or [`demo/README.md`](../../demo/README.md)).
 
 ## 8. Cross-Compilation Toolchain Download Fails
 
@@ -119,9 +130,21 @@ Each device ships with a **product unique code** (printed on the nameplate or sh
 3. Log in with `ssh root@192.168.101.204` (PC must be on the same subnet as the LAN port).
 4. After login, use `passwd` to change the password.
 
-> If you changed the password with `passwd` and forgot it, perform a factory reset (see §6) to restore the factory initial password, or contact the manufacturer for assistance.
+> If you changed the password with `passwd` and forgot it, contact the manufacturer with the product unique code for assistance (see §6, §9). The Reset button does not trigger factory reset.
 
-## 10. Contact Support
+## 10. Hardware Watchdog
+
+**Symptom**: Cannot open `/dev/watchdog`, or unexpected reboots after enabling the watchdog.
+
+Notes:
+
+1. **root** is required to access `/dev/watchdog`.
+2. Once enabled, a process must keep feeding the watchdog — use `iepro_demo watchdog start` (see [`demo/README.md`](../../demo/README.md) and [Demo Development Guide](05-demo-guide.md) §3.8).
+3. If feeding stops without a magic close `V`, the system reboots when the timer expires — expected protective behavior.
+4. Stop from another terminal: `iepro_demo watchdog stop` (sends `SIGINT` to the PID in `/tmp/iepro_wdt.pid`).
+5. Trigger reboot via watchdog: `iepro_demo watchdog reboot` (sends `SIGUSR1`).
+
+## 11. Contact Support
 
 If the above steps don't resolve the issue, provide: device model, firmware version ([Release Notes](09-release-notes.md)), symptom description, and relevant logs/screenshots.
 

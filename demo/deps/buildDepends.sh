@@ -260,16 +260,84 @@ maybe_strip_after_build() {
     strip_installed_artifacts
 }
 
+is_real_static_archive() {
+    local f=$1
+    [[ -f "$f" ]] || return 1
+    [[ "$(head -c 8 "$f" 2>/dev/null)" == '!<arch>'* ]]
+}
+
+is_libtool_linker_script() {
+    local f=$1
+    [[ -f "$f" ]] || return 1
+    is_real_static_archive "$f" && return 1
+    grep -qE 'INPUT[[:space:]]*\(|GROUP[[:space:]]*\(' "$f" 2>/dev/null
+}
+
+archive_has_members() {
+    local f=$1
+    is_libtool_linker_script "$f" && return 1
+    is_real_static_archive "$f" || return 1
+    "$AR" t "$f" 2>/dev/null | grep -q .
+}
+
+find_libtool_static_archive() {
+    local bdir=$1 libname=$2
+    local path
+
+    for path in \
+        "$bdir/lib/.libs/$libname" \
+        "$bdir/libs/.libs/$libname" \
+        "$bdir/.libs/$libname" \
+        "$bdir/src/.libs/$libname"; do
+        if archive_has_members "$path"; then
+            echo "$path"
+            return 0
+        fi
+    done
+
+    while IFS= read -r path; do
+        if archive_has_members "$path"; then
+            echo "$path"
+            return 0
+        fi
+    done < <(find "$bdir" -path "*/.libs/$libname" -type f 2>/dev/null)
+
+    return 1
+}
+
+# libtool may install lib*.a as linker scripts when shared+static; copy the real .a from .libs/.
+fix_libtool_installed_archive() {
+    local libname=$1 bdir=$2 dest src
+
+    dest="$DEPS_PREFIX/lib/$libname"
+    src=$(find_libtool_static_archive "$bdir" "$libname") \
+        || die "missing real $libname under $bdir (expected */.libs/$libname)"
+
+    if is_libtool_linker_script "$dest"; then
+        log "Replacing libtool linker script: $dest"
+    elif archive_has_members "$dest"; then
+        return 0
+    fi
+
+    install -D -m 644 "$src" "$dest"
+    archive_has_members "$dest" || die "invalid static archive after install: $dest"
+}
+
+finalize_after_build() {
+    [[ -d "$DEPS_PREFIX" ]] || return 0
+    maybe_strip_after_build
+}
+
 build_libiconv() {
     local name=$1 module_id=$2 src=$3
     local bdir=$BUILD_ROOT/$module_id
 
     is_built "$module_id" && { log "$module_id already built, skip"; return 0; }
 
-    export CC=${CROSS_HOST}-gcc
     mkdir -p "$bdir"
     log "Configuring $module_id"
     (
+        export CC=${CROSS_COMPILE}gcc
         cd "$bdir"
         "$src/configure" \
             --host="$CROSS_HOST" \
@@ -280,6 +348,7 @@ build_libiconv() {
         make -j"$(nproc 2>/dev/null || echo 2)"
         make_install_runtime
     )
+    fix_libtool_installed_archive libiconv.a "$bdir"
     mark_built "$module_id"
 }
 
@@ -289,12 +358,13 @@ build_openssl() {
 
     is_built "$module_id" && { log "$module_id already built, skip"; return 0; }
 
-    export CC=gcc
     mkdir -p "$bdir"
     log "Configuring $module_id"
     (
+        # OpenSSL: host gcc + cross-compile-prefix (do not export CC=gcc globally).
+        export CC=gcc
         cd "$bdir"
-        "$src/Configure" linux-armv4 shared no-async \
+        "$src/Configure" no-asm shared no-async linux-generic32 \
             --prefix="$DEPS_PREFIX" \
             --cross-compile-prefix="$CROSS_COMPILE"
         # OpenSSL 1.1.x: "shared" adds .so; static .a are built by default (no "no-static").
@@ -320,17 +390,15 @@ build_mosquitto() {
     mkdir -p "$work"
     cp -a "$src/." "$work/"
 
-    export CROSS_COMPILE=${CROSS_HOST}-
-    export CC=gcc
-    # Mosquitto reads config.mk defaults on each make invocation; install must
-    # repeat WITH_* flags or WITH_STATIC_LIBRARIES reverts to "no" and .a is skipped.
+    # Mosquitto: CROSS_COMPILE + host gcc for lib/ Makefile (do not export globally).
     local -a mq_flags=(
         WITH_TLS=yes
         WITH_SHARED_LIBRARIES=yes
         WITH_STATIC_LIBRARIES=yes
         WITH_DOCS=no
         prefix="$DEPS_PREFIX"
-        CC="$CC"
+        CROSS_COMPILE=${CROSS_HOST}-
+        CC=gcc
         CFLAGS="-I$DEPS_PREFIX/include"
         LDFLAGS="-L$DEPS_PREFIX/lib -Wl,-rpath-link,$DEPS_PREFIX/lib"
     )
@@ -350,27 +418,21 @@ build_curl() {
     mkdir -p "$bdir"
     log "Configuring $module_id"
     (
+        export CC=${CROSS_COMPILE}gcc
         cd "$bdir"
-        PKG_CONFIG_PATH="$DEPS_PREFIX/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
-        export PKG_CONFIG_PATH
         "$src/configure" \
-            --host="$CROSS_HOST" \
+            --prefix=${DEPS_PREFIX} \
+            --target=${CROSS_HOST} \
+            --host=${CROSS_HOST} \
             --build="$(gcc -dumpmachine 2>/dev/null || echo x86_64-linux-gnu)" \
-            --prefix="$DEPS_PREFIX" \
-            --with-ssl="$DEPS_PREFIX" \
             --without-zlib \
-            --disable-ipv6 \
-            --disable-ldap --disable-ldaps \
-            --without-libidn \
-            --disable-manual \
-            --with-pic \
-            --enable-shared \
-            --enable-static \
-            CC="$CC" \
-            LDFLAGS="-L$DEPS_PREFIX/lib -Wl,-rpath-link,$DEPS_PREFIX/lib -ldl"
+            --with-ssl=${DEPS_PREFIX} \
+            --disable-ipv6 --disable-manual \
+            --with-pic --enable-static --enable-shared --disable-ldap --disable-ldaps --without-libidn LDFLAGS=-ldl
         make -j"$(nproc 2>/dev/null || echo 2)"
         make_install_runtime
     )
+    fix_libtool_installed_archive libcurl.a "$bdir"
     mark_built "$module_id"
 }
 
@@ -424,17 +486,18 @@ build_libmodbus() {
     mkdir -p "$bdir"
     log "Configuring $module_id"
     (
+        export CC=${CROSS_COMPILE}gcc
         cd "$bdir"
         "$src/configure" \
             --host="$CROSS_HOST" \
             --prefix="$DEPS_PREFIX" \
             --disable-tests \
             --enable-shared \
-            --enable-static \
-            CC="$CC"
+            --enable-static
         make -j"$(nproc 2>/dev/null || echo 2)"
         make_install_runtime
     )
+    fix_libtool_installed_archive libmodbus.a "$bdir"
     mark_built "$module_id"
 }
 
@@ -493,7 +556,7 @@ build_only() {
     ensure_cross_compiler
     mkdir -p "$DEPS_PREFIX" "$BUILD_ROOT"
     build_one "$only"
-    maybe_strip_after_build
+    finalize_after_build
 }
 
 extract_prebuilt() {
@@ -515,9 +578,21 @@ pack_prebuilt() {
     mkdir -p "$PREBUILT_DIR"
     local archive_name=${CROSS_HOST}.tar.gz
     local archive=$PREBUILT_DIR/$archive_name
+    local staging
 
-    log "Packing $DEPS_PREFIX -> $archive"
-    tar -czf "$archive" -C "$DEPS_ROOT" "$CROSS_HOST"
+    staging=$(mktemp -d)
+    trap "rm -rf '${staging}'" RETURN
+
+    log "Staging copy $DEPS_PREFIX -> $staging/$CROSS_HOST"
+    cp -a "$DEPS_PREFIX" "$staging/$CROSS_HOST"
+
+    if [[ -d "$staging/$CROSS_HOST/bin" ]]; then
+        log "Removing bin/ from staging (not shipped in prebuilt)"
+        rm -rf "$staging/$CROSS_HOST/bin"
+    fi
+
+    log "Packing $staging/$CROSS_HOST -> $archive"
+    tar -czf "$archive" -C "$staging" "$CROSS_HOST"
 
     if command -v sha256sum >/dev/null 2>&1; then
         (cd "$PREBUILT_DIR" && sha256sum "$archive_name") > "$archive.sha256"

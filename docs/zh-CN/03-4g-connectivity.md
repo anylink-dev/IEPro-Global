@@ -10,15 +10,45 @@
 2. 打开 SIM 卡槽（位置见[规格书](01-datasheet.md) §3.5）。
 3. 按卡槽丝印方向插入标准 SIM 卡，金属触点朝向卡槽内侧弹片。
 4. 推入卡槽至卡扣锁定，重新上电。
-5. 等待约 60 秒，通过 AT 指令（见第 3 节）确认卡已识别。
+5. 等待约 60 秒，须先完成第 2 节模组电源上电，再通过 AT 指令确认卡已识别（见第 3、4 节）。
 
 > **注意**：不建议热插拔 SIM 卡，可能导致模组无法正确识别。
 
-## 2. APN 设置与拨号
+## 2. 开启 4G 模组电源
+
+IE Pro 400 Global Standard 通过 **GPIO 69**（输出）控制 4G 模组电源。**网关启动后默认为关闭**（模组无电）。进行 AT 指令、拨号或 Demo 蜂窝功能前，须先将 GPIO 69 置为 **1** 上电；置 **0** 可关闭电源。
+
+### 2.1 sysfs 操作示例
+
+```bash
+# 导出 GPIO（若尚未导出）
+echo 69 > /sys/class/gpio/export
+
+# 设为输出
+echo out > /sys/class/gpio/gpio69/direction
+
+# 上电（1=开，0=关）
+echo 1 > /sys/class/gpio/gpio69/value
+
+# 等待 AT 口出现（上电后 USB 枚举需要时间，最长约 10 秒）
+for i in $(seq 1 20); do
+  [ -e /dev/ttyUSB2 ] && break
+  sleep 0.5
+done
+ls -l /dev/ttyUSB2
+```
+
+关闭电源时将 `value` 写 `0` 即可。
+
+### 2.2 Demo 自动上电
+
+`iepro_demo` 蜂窝模块在首次打开 AT 口时会自动执行 GPIO 69 上电，并轮询等待 `/dev/ttyUSB2` 出现（超时 10 秒，见 `demo/src/modules/cellular_mod.c`）。
+
+## 3. APN 设置与拨号
 
 IE Pro 400 Global Standard 采用 SIMCOM **SIM7600G-H-PCIE** 模组，通过 **NDIS 拨号**（`AT$QCRMCALL`）建立数据连接。
 
-### 2.1 常用运营商 APN 示例
+### 3.1 常用运营商 APN 示例
 
 | 运营商 | APN | 拨号命令示例 |
 |---|---|---|
@@ -29,9 +59,9 @@ IE Pro 400 Global Standard 采用 SIMCOM **SIM7600G-H-PCIE** 模组，通过 **N
 
 > 物联网卡通常需要专用 APN，请向运营商确认。用户名/密码区分大小写。
 
-### 2.2 拨号前检查流程
+### 3.2 拨号前检查流程
 
-通过 AT 调试口连接模组后，按以下顺序检查：
+通过 AT 调试口连接模组后，按以下顺序检查（须先完成 §2 电源上电）：
 
 ```
 AT+CFUN=0          # 重启模组（可选）
@@ -44,7 +74,7 @@ AT+CEREG?          # LTE 模式下查询注册状态（返回 0,1 或 0,5 表示
 AT+CGREG?          # 非 LTE 模式下查询注册状态
 ```
 
-### 2.3 发起拨号
+### 3.3 发起拨号
 
 **公网 3GPP 模式（GSM/WCDMA/LTE）**：
 
@@ -76,9 +106,9 @@ AT$QCRMCALL=0,1
 AT$QCRMCALL?
 ```
 
-## 3. 联网状态查看
+## 4. 联网状态查看
 
-### 3.1 AT 指令自检
+### 4.1 AT 指令自检
 
 | 指令 | 关键返回值 | 含义 |
 |---|---|---|
@@ -92,7 +122,7 @@ AT$QCRMCALL?
 
 > **注意**：LTE 模式下请用 `AT+CEREG?` 判断数据业务是否可用；非 LTE 模式请用 `AT+CGREG?`。
 
-### 3.2 系统层面验证
+### 4.2 系统层面验证
 
 拨号成功后，在设备 SSH 会话中执行：
 
@@ -104,7 +134,7 @@ ip addr show
 ping -c 4 8.8.8.8
 ```
 
-## 4. Ping 测试
+## 5. Ping 测试
 
 ```bash
 ping -c 4 8.8.8.8
@@ -118,7 +148,7 @@ ping -c 4 8.8.8.8
 
 若出现丢包或无法解析域名，请参见[《常见问题 FAQ》](07-faq.md)中"无法联网"相关章节。
 
-## 5. 参考文档
+## 6. 参考文档
 
 - SIMCOM 官方文档：`SIM7500_SIM7600 Linux NDIS 拨号流程`（模组 AT 指令完整说明）
 

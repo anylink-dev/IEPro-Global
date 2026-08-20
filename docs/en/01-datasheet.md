@@ -110,6 +110,7 @@ IE Pro 400 Global Standard is a general-purpose industrial gateway from the IE P
 | GSM/GPRS/EDGE | 850/900/1800/1900 MHz |
 | SIM slot | 1 (standard SIM slot) |
 | Antenna connector | External 4G antenna (included in shipment) |
+| Module power control | GPIO 69 (OUT); **off by default at boot** (0=off, 1=on); enable before 4G use — see [4G Connectivity Example](03-4g-connectivity.md) §2 |
 | Dial-up method | NDIS dial-up (`AT$QCRMCALL`) |
 
 ### 3.6 Other Interfaces
@@ -120,14 +121,15 @@ IE Pro 400 Global Standard is a general-purpose industrial gateway from the IE P
 | SD/TF card slot | TF card storage expansion supported |
 | Debug console | Serial console (parameters in [Quickstart Guide](02-quickstart.md)) |
 | Indicator LEDs | POWER (power supply, on when powered); NET (GPIO 122, network), RUN (GPIO 71, system), WARN (GPIO 123, warning); GPIO LEDs: on=1, off=0 |
-| Buttons | Reset (GPIO 119): pressed=1, released=0; long-press restores factory defaults |
+| Buttons | Reset (GPIO 119): pressed=1, released=0; factory firmware exposes GPIO state only — no built-in actions (e.g. factory reset); application logic is customer-developed |
+| Hardware watchdog | `/dev/watchdog` (standard Linux watchdog character device; system resets if not fed before timeout) |
 
 ## 4. Software & Development Capabilities
 
 | Item | Notes |
 |---|---|
 | Firmware version (matching this datasheet) | V1.0.0 (see [Release Notes](09-release-notes.md)) |
-| Open interfaces | Serial (termios), CAN (SocketCAN), DI/DO (sysfs GPIO), MQTT northbound; see [Demo Development Guide](05-demo-guide.md) |
+| Open interfaces | Serial (termios), CAN (SocketCAN), DI/DO (sysfs GPIO), hardware watchdog (`/dev/watchdog`), MQTT northbound, HTTP, Modbus; menu + CLI in [`demo/README.md`](../../demo/README.md); see [Demo Development Guide](05-demo-guide.md) for integration notes |
 | Cross-compilation support | ARM `arm-linux-gnueabihf` toolchain; see [Cross-Compilation Toolchain Guide](06-cross-compile-toolchain.md) |
 | Pre-installed business platform | **None** — device ships without AnyLink application or cloud platform; customers develop and deploy their own |
 | Supported languages/SDKs | C/C++ (cross-compiled, recommended); device ships with **Python 2.7.14** (all demos in this repo are C and do not use Python) |

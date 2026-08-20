@@ -2,7 +2,7 @@
 
 English | [中文](../zh-CN/08-downloads.md)
 
-**Doc version**: V1.0　**Date**: 2026-07-22
+**Doc version**: V1.1　**Date**: 2026-08-19
 
 ## 1. Unified Resource Page
 
@@ -29,13 +29,17 @@ repo-root/
 ├── README.zh-CN.md        # Chinese entry
 ├── docs/
 │   ├── en/                 # English documentation
-│   └── zh-CN/              # Chinese documentation
+│   ├── zh-CN/              # Chinese documentation
+│   └── assets/
 └── demo/                   # Demo source (builds iepro_demo)
     ├── Makefile
+    ├── README.md           # operational guide (EN)
+    ├── README.zh-CN.md     # operational guide (ZH)
+    ├── deps/               # third-party libs (prebuilt + buildDepends.sh)
     ├── src/
     │   ├── main.c
-    │   ├── common/
-    │   └── modules/
+    │   ├── common/         # cli_util, gpio_util, metrics, ...
+    │   └── modules/        # serial, can, gpio, cellular, mqtt, http, modbus, watchdog
     └── scripts/
         └── can_setup.sh
 ```
@@ -48,11 +52,11 @@ repo-root/
 | 02 | [Quickstart Guide](02-quickstart.md) | Markdown | V1.0 released |
 | 03 | [4G Connectivity Example](03-4g-connectivity.md) | Markdown | V1.0 released |
 | 04 | [Wired Connectivity Example](04-wired-connectivity.md) | Markdown | V1.0 released |
-| 05 | [Demo Development Guide](05-demo-guide.md) | Markdown + source | V1.0 released |
+| 05 | [Demo Development Guide](05-demo-guide.md) | Markdown + source | V1.1 released |
 | 06 | [Cross-Compilation Toolchain Guide](06-cross-compile-toolchain.md) | Markdown | V1.0 released |
 | 07 | [FAQ](07-faq.md) | Markdown | V1.0 released |
 | 08 | Downloads (this file) | Markdown | — |
-| 09 | [Release Notes](09-release-notes.md) | Markdown | V1.0 released |
+| 09 | [Release Notes](09-release-notes.md) | Markdown | V1.1 released |
 | — | Cross-compilation toolchain | Linaro GCC 5.5.0 tar | [Mirror download](https://mirrors.dotsrc.org/armbian-dl/_toolchain/gcc-linaro-5.5.0-2017.10-x86_64_arm-linux-gnueabihf.tar.xz) |
 | — | Demo source code | Git (see `/demo`) | Included in this repo |
 | — | Product certificates (CE/EMC/RoHS/RED) | PDF | [Certificate index](../certificates/README.md) |
@@ -87,7 +91,7 @@ This repository follows common **GitHub Flow + Semantic Versioning (SemVer 2.0)*
 | Git tag | `v<major>.<minor>.<patch>` | `v1.0.0` | Use **annotated tags** for official releases; publish notes on GitHub **Releases** |
 | Firmware | `V<major>.<minor>.<patch>` | `V1.0.0` | Maps 1:1 to the Git tag (`V1.0.0` ↔ `v1.0.0`) |
 | Documentation | `V<major>.<minor>` | `V1.0` | Shipped with the matching firmware/tag release |
-| Demo | `DEMO_VERSION` in `demo/src/main.c` | `1.0.0` | Released with documentation V1.0 (`1.0.0` ↔ Demo V1.0) |
+| Demo | `DEMO_VERSION` in `demo/src/main.c` | `1.0.0` | Binary version string; repo feature track V1.1 (2026-08-19) adds HTTP/Modbus/CLI while `DEMO_VERSION` stays `1.0.0` until next firmware-aligned release |
 
 Check out a specific release:
 

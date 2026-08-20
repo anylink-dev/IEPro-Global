@@ -17,4 +17,7 @@ int gpio_read_dip1(void);
 int gpio_read_dip2(void);
 int gpio_read_reset_btn(void);
 
+int gpio_cell_set_power(int on);
+int gpio_cell_power_on(void);
+
 #endif

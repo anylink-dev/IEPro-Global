@@ -86,8 +86,7 @@ arm-linux-gnueabihf-gcc --version
 
 ```bash
 . scripts/env.toolchain.sh
-make -C demo
-make -C demo WITH_MQTT=1    # 需 demo/deps/mosquitto/ 中的库
+make -C demo    # 首次构建自动解压 prebuilt 依赖（见 demo/deps/README.md）
 ```
 
 输出：`demo/build/iepro_demo`

@@ -2,10 +2,13 @@
 
 English | [中文](../zh-CN/05-demo-guide.md)
 
-**Doc version**: V1.0　**Date**: 2026-07-22
-**Runtime**: Linux on device with **Python 2.7.14** pre-installed. All demos are **C** and build into a single executable `iepro_demo` (Demo V1.0) with an interactive console menu for each submodule (see [Cross-Compilation Toolchain Guide](06-cross-compile-toolchain.md)).
+**Doc version**: V1.1　**Date**: 2026-08-19  
+**Runtime**: Linux on device with **Python 2.7.14** pre-installed. All demos are **C** and build into a single executable `iepro_demo` with an interactive console menu and matching CLI (see [Cross-Compilation Toolchain Guide](06-cross-compile-toolchain.md)).
 
-Runnable source code lives in [`/demo`](../../demo) (English-only). See [`/demo/README.md`](../../demo/README.md).
+Runnable source lives in [`demo/`](../../demo).  
+**Menus, CLI syntax, and hardware map** — canonical reference: [`demo/README.md`](../../demo/README.md).
+
+---
 
 ## 0. Prerequisites
 
@@ -13,114 +16,76 @@ Runnable source code lives in [`/demo`](../../demo) (English-only). See [`/demo/
 |---|---|
 | Target system | Linux, ARM Cortex-A7, `arm-linux-gnueabihf` |
 | Languages | C/C++ (cross-compiled, used by demos); Python 2.7.14 (pre-installed, optional for customer scripts) |
-| Executable | `demo/build/iepro_demo` (unified entry with interactive main menu) |
-| Permissions | Access to `/dev/tty*`, `can0`, GPIO, and cellular dial-up typically requires **root** |
+| Executable | `demo/build/iepro_demo` (unified entry: menu or CLI) |
+| Permissions | Access to `/dev/tty*`, `can0`, GPIO, `/dev/watchdog`, and cellular dial-up typically requires **root** |
+| Device nodes & GPIO | See [Hardware map](../../demo/README.md#hardware-map) in `demo/README.md` |
 
-### Device Node & GPIO Map
+---
 
-| Logical name | System interface | Notes |
-|---|---|---|
-| RS485-1 | `/dev/ttymxc1` | Baud rate 600–256000; hardware automatic direction control |
-| RS485-2 | `/dev/ttymxc2` | Baud rate 600–256000; hardware automatic direction control |
-| RS232-1 | `/dev/ttymxc5` | Baud rate 600–256000 |
-| CAN | `can0` | Default 250000 bps; factory-installed CAN module |
-| Cellular AT | `/dev/ttyUSB2` | SIM7600G-H-PCIE AT port |
-| Cellular data | `wwan0` | NDIS dial-up data interface |
-| DI (X1) | GPIO 117 | Passive input (dry contact); short to GND = 1 |
-| DO (Y1) | GPIO 118 | Passive output (dry contact) |
-| DIP switch 1 | GPIO 124 | ON=1, OFF=0 |
-| DIP switch 2 | GPIO 121 | ON=1, OFF=0 |
-| Reset button | GPIO 119 | Pressed=1, released=0 |
-| POWER LED | — | Hardware power indicator; on when powered (not GPIO-controlled) |
-| NET LED | GPIO 122 | On=1 |
-| RUN LED | GPIO 71 | On=1 |
-| WARN LED | GPIO 123 | On=1 |
-
-Constants are defined in [`demo/src/common/iepro_hw.h`](../../demo/src/common/iepro_hw.h).
-
-## 1. Build and Run
+## 1. Quick Start
 
 ```bash
-# Activate cross toolchain (recommended, from repo root)
 . scripts/env.toolchain.sh
-
-# Cross-compile
 make -C demo
-
-# Include MQTT submodule (requires libs under demo/deps/mosquitto/)
-make -C demo WITH_MQTT=1
-
-# Run on device
-./iepro_demo
+./demo/build/iepro_demo
 ```
 
-Or pass the prefix explicitly: `make -C demo CROSS_COMPILE=arm-linux-gnueabihf-`
+Prebuilt dependencies auto-extract on first build — see [`demo/deps/README.md`](../../demo/deps/README.md).
 
-### Navigation
+Interactive menu: run with no arguments. CLI: `./demo/build/iepro_demo --help` or `./demo/build/iepro_demo <module>`.
 
-- Press **`0`** at any menu to go back one level.
-- Press **Ctrl+C** during a loop to stop and return to the current sub-menu.
-- Press **Ctrl+C** at a menu prompt (same as `0`).
+---
 
-Main menu after startup:
-
-```
- 1) Serial  (RS232 / RS485)
- 2) CAN     (SocketCAN)
- 3) GPIO    (DI / DO / DIP / LED / Reset button)
- 4) MQTT    (northbound publish)
- 5) Cellular (SIM7600G-H-PCIE 4G)
- 0) Exit
-```
-
-### Source Layout
+## 2. Source Layout
 
 ```
 demo/
 ├── Makefile
-├── build/iepro_demo          # build output
-├── scripts/can_setup.sh      # CAN helper script
+├── build/iepro_demo
+├── scripts/can_setup.sh
 └── src/
-    ├── main.c                # main menu entry
+    ├── main.c                # menu router + CLI dispatch
     ├── demo.h
-    ├── common/               # iepro_hw.h, menu_util, gpio_util, metrics
-    └── modules/              # feature modules
+    ├── common/               # iepro_hw.h, menu_util, gpio_util, cli_util, serial_port, metrics
+    └── modules/
         ├── serial_mod.c
         ├── can_mod.c
         ├── gpio_mod.c
         ├── cellular_mod.c
-        └── mqtt_mod.c
+        ├── mqtt_mod.c
+        ├── http_mod.c
+        ├── modbus_mod.c
+        └── wdt_mod.c
 ```
 
 | Source file | Submodule |
 |---|---|
-| [`demo/src/main.c`](../../demo/src/main.c) | Main menu entry |
+| [`demo/src/main.c`](../../demo/src/main.c) | Main menu entry and CLI dispatch |
+| [`demo/src/common/cli_util.c`](../../demo/src/common/cli_util.c) | Shared CLI parser and module routing |
 | [`demo/src/modules/serial_mod.c`](../../demo/src/modules/serial_mod.c) | Serial |
 | [`demo/src/modules/can_mod.c`](../../demo/src/modules/can_mod.c) | CAN |
 | [`demo/src/modules/gpio_mod.c`](../../demo/src/modules/gpio_mod.c) | GPIO |
 | [`demo/src/modules/cellular_mod.c`](../../demo/src/modules/cellular_mod.c) | Cellular (SIM7600G-H-PCIE) |
 | [`demo/src/modules/mqtt_mod.c`](../../demo/src/modules/mqtt_mod.c) | MQTT northbound |
+| [`demo/src/modules/http_mod.c`](../../demo/src/modules/http_mod.c) | HTTP GET/POST (libcurl) |
+| [`demo/src/modules/modbus_mod.c`](../../demo/src/modules/modbus_mod.c) | Modbus RTU/TCP |
+| [`demo/src/modules/wdt_mod.c`](../../demo/src/modules/wdt_mod.c) | Hardware watchdog (`/dev/watchdog`) |
 | [`demo/src/common/gpio_util.c`](../../demo/src/common/gpio_util.c) | Shared GPIO helpers |
-| [`demo/src/common/metrics.c`](../../demo/src/common/metrics.c) | Sample metrics JSON (used by MQTT) |
+| [`demo/src/common/metrics.c`](../../demo/src/common/metrics.c) | Sample metrics JSON (default MQTT publish body) |
 
-## 2. Serial Submodule
+---
 
-Select `1` from the main menu. Choose port `1=RS232-1`, `2=RS485-1`, `3=RS485-2` and baud rate when prompted.
+## 3. Module Development Notes
 
-```
- 1) Loop receive (Ctrl+C to stop)
- 2) Loop send (Ctrl+C to stop)
- 3) Loop echo (receive & reply, Ctrl+C to stop)
- 0) Back
-```
+Operational menus and CLI are documented in [`demo/README.md`](../../demo/README.md). Below are integration and testing notes for developers.
+
+### 3.1 Serial
 
 Quick RS485-1 test with `microcom`:
 
 ```bash
 microcom -s 9600 /dev/ttymxc1
 ```
-
-### Common Serial Parameters
 
 | Parameter | Values |
 |---|---|
@@ -132,16 +97,9 @@ microcom -s 9600 /dev/ttymxc1
 
 > **Note**: 256000 bps uses Linux `termios2` with custom baud (`BOTHER`); standard rates use predefined flags.
 
-Select `2` from the main menu.
+### 3.2 CAN
 
-```
- 1) Bring up can0 (default 250000 bps)
- 2) Listen for one frame (3s timeout)
- 3) Send test frame (ID 0x123)
- 0) Back
-```
-
-You can also use the helper script or can-utils outside the submodule:
+Outside the demo submodule, use the helper script or can-utils:
 
 ```bash
 sh demo/scripts/can_setup.sh can0 250000
@@ -151,21 +109,9 @@ cansend can0 123#1122334455667788
 
 > **Note**: The CAN module is factory-installed. Configure termination and bitrate to match your bus.
 
-## 4. GPIO Submodule (DI/DO)
+### 3.3 GPIO
 
-Select `3` from the main menu.
-
-```
- 1) Init all board GPIO (DI/DO/DIP/Reset)
- 2) Monitor DI, DIP & Reset button (Ctrl+C to stop)
- 3) Set DO high (Y1)
- 4) Set DO low  (Y1)
- 5) Run demo pulse on DO (Ctrl+C to stop)
- 6) LED test (steady ON / OFF / fast blink)
- 0) Back
-```
-
-Manual DI test:
+Manual DI test via sysfs:
 
 ```bash
 echo 117 > /sys/class/gpio/export
@@ -173,28 +119,20 @@ echo in > /sys/class/gpio/gpio117/direction
 cat /sys/class/gpio/gpio117/value
 ```
 
-## 5. MQTT Northbound Submodule
+### 3.4 MQTT
 
-Select `4` from the main menu. Uses **libmosquitto** (build with `WITH_MQTT=1`).
+Uses **libmosquitto** from `demo/deps/arm-linux-gnueabihf/` (linked by default).
 
-Edit `MQTT_BROKER` and `MQTT_DEVICE_ID` in [`demo/src/modules/mqtt_mod.c`](../../demo/src/modules/mqtt_mod.c) before deployment (currently placeholder values).
+Edit `MQTT_DEFAULT_BROKER`, `MQTT_DEFAULT_CLIENT_ID`, and topic macros in [`demo/src/modules/mqtt_mod.c`](../../demo/src/modules/mqtt_mod.c) before deployment, configure via the interactive menu, or pass `--broker` / `--topic` on the CLI. An empty publish body (menu Enter or omitted `--message`) sends sample metrics JSON from [`metrics.c`](../../demo/src/common/metrics.c).
 
-```
- 1) Publish one sample message
- 2) Run publish loop (10s interval, Ctrl+C to stop)
- 0) Back
-```
-
-The published payload includes DI/DIP readings and sample JSON from `metrics.c`.
-
-### Command-Line Test (mosquitto_pub / mosquitto_sub)
+Command-line broker test (device or host):
 
 ```bash
 mosquitto_pub -h <broker_ip> -p 1883 -t "iepro/<device_id>/data" -m '{"temp":25.3}'
 mosquitto_sub -h <broker_ip> -p 1883 -t "iepro/<device_id>/cmd"
 ```
 
-### Suggested Topic Naming
+Suggested topic naming:
 
 | Purpose | Topic example |
 |---|---|
@@ -204,45 +142,58 @@ mosquitto_sub -h <broker_ip> -p 1883 -t "iepro/<device_id>/cmd"
 
 > Topic structure is a suggestion only — customers may define their own conventions.
 
-## 6. Cellular Submodule
+### 3.5 Cellular
 
-Select `5` from the main menu. Communicates with SIM7600G-H-PCIE on AT port `/dev/ttyUSB2`; NDIS dial-up on `wwan0` via `AT$QCRMCALL`. See [4G Connectivity Example](03-4g-connectivity.md).
+SIM7600G-H-PCIE on AT port `/dev/ttyUSB2`; NDIS dial-up on `wwan0` via `AT$QCRMCALL`.
+Module power is controlled by **GPIO 69** (OUT); off by default at boot — enable before use (handled automatically by the demo).
+See [4G Connectivity Example](03-4g-connectivity.md) for dial-up, APN, and troubleshooting.
 
-```
- 1) Module version (ATI)
- 2) Firmware version (AT+CGMR)
- 3) IMEI (AT+CGSN)
- 4) ICCID (AT+CCID)
- 5) IMSI (AT+CIMI)
- 6) SIM status (AT+CPIN?)
- 7) Signal CSQ (AT+CSQ)
- 8) Operator (AT+COPS?)
- 9) Network mode (AT+CNSMOD?)
-10) Registration status (AT+CEREG? / AT+CGREG?)
-11) Dial-up status (AT$QCRMCALL?)
-12) Cell info (AT+CPSI?)
-13) Connect (NDIS dial-up)
-14) Disconnect
-15) Renew DHCP on wwan0
-16) Ping test (8.8.8.8 via wwan0)
-17) AT command help
-18) Send custom AT command
- 0) Back
-```
+### 3.6 HTTP
 
-**Connect (13)** APN profile:
+Uses **libcurl** (statically linked). Supports HTTPS; pass `--ca` on the CLI or set a CA path in the menu for TLS verification. Omit CA to skip verify (lab only).
 
-```
- 1) Auto (3GPP, no APN)
- 2) Custom APN
- 0) Cancel
-```
+### 3.7 Modbus
 
-Option **17** lists common AT commands; option **18** is a custom AT console (`AT` prefix optional).
+Uses **libmodbus**. RTU shares the same serial ports as the Serial submodule (`/dev/ttymxc1`–`mxc5`); TCP uses standard sockets. Master supports periodic poll (`run`) and one-shot `read`/`write`; slave exposes holding registers configurable via menu or CLI.
 
-## 7. Extension Tips
+See [`demo/README.md` — CLI examples](../../demo/README.md#cli-examples) for RTU/TCP command lines.
 
-- Add business logic in `demo/src/modules/*_mod.c`; keep `main.c` as menu router only.
+### 3.8 Hardware Watchdog
+
+The device exposes the standard Linux hardware watchdog at **`/dev/watchdog`**. Once enabled, a user process must periodically feed it (`WDIOC_KEEPALIVE`); the system reboots if the timer expires.
+
+Demo module `wdt_mod.c` (ported from `hardwareWDT.py`) provides:
+
+| Action | Menu / CLI | Notes |
+|---|---|---|
+| Start feeding | Menu 1 / `watchdog start [--timeout N]` | Default timeout 60 s; feed interval ≈ timeout / 3 |
+| Stop | Menu 2 / `watchdog stop` | Sends `SIGINT` to the feeder; magic close `V` before closing the device |
+| Trigger reboot | Menu 3 / `watchdog reboot` | Sends `SIGUSR1`; sets timeout to 1 s and stops feeding |
+
+The running feeder PID is stored in `/tmp/iepro_wdt.pid` for cross-terminal `stop`/`reboot`.
+
+> **Warning**: Once enabled without a graceful stop, stopping feeds will reset the system. For production, run `iepro_demo watchdog start` as a boot service.
+
+### 3.9 CLI
+
+`iepro_demo` runs in **menu mode** (no arguments) or **CLI mode** (`iepro_demo <module> <action> …`). Actions mirror the interactive menus. Full syntax and examples: [`demo/README.md` — CLI](../../demo/README.md#cli).
+
+---
+
+## 4. Extension Tips
+
+- Add business logic in `demo/src/modules/*_mod.c`; keep `main.c` as menu/CLI router only.
 - Reuse [`gpio_util.c`](../../demo/src/common/gpio_util.c) for shared GPIO operations.
 - Maintain hardware constants in [`iepro_hw.h`](../../demo/src/common/iepro_hw.h).
-- See the [Cross-Compilation Toolchain Guide](06-cross-compile-toolchain.md) for build and deployment.
+- Third-party libs: [`demo/deps/README.md`](../../demo/deps/README.md).
+
+---
+
+## 5. Related Documentation
+
+| Document | Content |
+|---|---|
+| [`demo/README.md`](../../demo/README.md) | Build, menus, CLI, hardware map ([中文](../../demo/README.zh-CN.md)) |
+| [Cross-Compilation Toolchain Guide](06-cross-compile-toolchain.md) | Toolchain setup and deployment |
+| [4G Connectivity Example](03-4g-connectivity.md) | Cellular dial-up and AT commands |
+| [`demo/deps/README.md`](../../demo/deps/README.md) | Prebuilt dependencies |

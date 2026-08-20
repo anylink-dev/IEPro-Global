@@ -2,7 +2,7 @@
 
 Cross-compiled libraries for the IE Pro 400 Global Standard Demo (`arm-linux-gnueabihf`).
 
-**Version**: 0.1 — see [Versioning](#versioning) below.
+**Version**: 0.2 — see [Versioning](#versioning) below.
 
 ---
 
@@ -48,10 +48,20 @@ Build order (see `source.txt`): `libiconv` → `openssl` → `mosquitto` → `cu
 
 ```bash
 . scripts/env.toolchain.sh
+make -C demo
+```
+
+On the first build, `demo/Makefile` runs `deps-prebuilt` and extracts
+`prebuilt/arm-linux-gnueabihf.tar.gz` when `deps/arm-linux-gnueabihf/` is missing.
+
+Optional manual extract (same result):
+
+```bash
+. scripts/env.toolchain.sh
 cd demo/deps
 ./buildDepends.sh --extract-prebuilt
-cd ../demo
-make CROSS_COMPILE=arm-linux-gnueabihf-
+cd ../..
+make -C demo
 ```
 
 `IEPRO_DEPS_PREFIX` → `demo/deps/arm-linux-gnueabihf`.  
@@ -78,7 +88,7 @@ cd demo/deps
 |---------|-------------|
 | `--fetch-sources` | Download missing tarballs from `source.txt` |
 | `--build-all` / `--only <name>` | Cross-compile and install |
-| `--extract-prebuilt` / `--pack-prebuilt` | Extract or pack `prebuilt/${CROSS_HOST}.tar.gz` |
+| `--extract-prebuilt` / `--pack-prebuilt` | Extract or pack `prebuilt/${CROSS_HOST}.tar.gz` (`pack-prebuilt` omits `bin/`) |
 | `--strip` | Strip ELFs under `DEPS_PREFIX` (skip `.a`) |
 | `--force-fetch` / `--force-extract` / `--force-build` | Force redo |
 | `--clean-build` / `--clean-prefix --force` | Remove `build/` or `DEPS_PREFIX` |
@@ -88,6 +98,9 @@ Incremental builds use `build/<module>/.build_completed` (skip unless `--force-b
 ---
 
 ## Makefile Integration
+
+`demo/Makefile` defines a `deps-prebuilt` target (auto-run before linking) that
+extracts `prebuilt/$(CROSS_HOST).tar.gz` when `$(DEPS_PREFIX)/lib` is missing.
 
 ```makefile
 DEPS_PREFIX ?= deps/$(CROSS_HOST)    # arm-linux-gnueabihf
@@ -108,7 +121,7 @@ Compile defines: `-DWITH_MQTT -DWITH_MODBUS -DWITH_CURL -DWITH_SSL`.
 
 ## Versioning
 
-**What `0.1` means** — version of the **demo/deps framework** (directory layout, `buildDepends.sh` behaviour, prebuilt packaging). It is **not** OpenSSL/curl/etc. versions; those live in [`packages/source.txt`](packages/source.txt) and [`MANIFEST.md`](MANIFEST.md).
+**What `0.2` means** — version of the **demo/deps framework** (directory layout, `buildDepends.sh` behaviour, prebuilt packaging). It is **not** OpenSSL/curl/etc. versions; those live in [`packages/source.txt`](packages/source.txt) and [`MANIFEST.md`](MANIFEST.md).
 
 **Where it is defined** — this line in `README.md` is the only canonical spec version. [`CHANGELOG.md`](CHANGELOG.md) records each release; [`MANIFEST.md`](MANIFEST.md) describes the current prebuilt tarball only.
 
@@ -131,5 +144,5 @@ After a prebuilt rebuild: `./buildDepends.sh --pack-prebuilt` → sync [`MANIFES
 | [`MANIFEST.md`](MANIFEST.md) | Current prebuilt versions, checksum, install artifacts |
 | [`CHANGELOG.md`](CHANGELOG.md) | Prebuilt release notes |
 | [`packages/source.txt`](packages/source.txt) | Upstream version pins and download URLs |
-| [`demo/README.md`](../README.md) | Demo build |
+| [`demo/README.md`](../README.md) | Demo build ([中文](README.zh-CN.md)) |
 | [`scripts/env.toolchain.sh`](../../scripts/env.toolchain.sh) | Toolchain and `IEPRO_DEPS_PREFIX` |

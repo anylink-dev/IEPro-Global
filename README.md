@@ -2,7 +2,7 @@
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-> **Status**: V1.0 released, populated from internal product documentation. See [Release Notes](docs/en/09-release-notes.md) for updates.
+> **Status**: V1.0 base release (2026-07-22). Repository update **V1.1** (2026-08-19): HTTP/Modbus/CLI, unified `demo/deps` prebuilt v0.2, bilingual demo operational guides. See [Release Notes](docs/en/09-release-notes.md).
 
 Developer documentation and reference code for the IE Pro 400 Global Standard
 industrial gateway. This is the general-purpose global
@@ -25,9 +25,10 @@ customers build and deploy their own software on top of it.
 
 ## Demo Source Code
 
-[`/demo`](demo) — **English-only** (comments, identifiers, and the
-folder's own README), regardless of which documentation language
-you're reading. See [`/demo/README.md`](demo/README.md).
+[`/demo`](demo) — **source code is English-only** (comments and identifiers).
+Operational guides: [`demo/README.md`](demo/README.md) (EN) |
+[`demo/README.zh-CN.md`](demo/README.zh-CN.md) (中文), regardless of which
+documentation language you're reading.
 
 ```
 repo-root/
@@ -47,6 +48,9 @@ repo-root/
 │   └── assets/              # shared/en/zh-CN screenshots & diagrams
 └── demo/                   # Demo source (C-only, builds iepro_demo)
     ├── Makefile
+    ├── README.md           # operational guide (EN)
+    ├── README.zh-CN.md     # operational guide (ZH)
+    ├── deps/               # third-party libs (prebuilt + buildDepends.sh)
     ├── src/
     │   ├── main.c
     │   ├── common/
@@ -60,7 +64,9 @@ repo-root/
 - **Documentation** (`docs/`): maintained in both English and
   Chinese, filenames identical across `en/` and `zh-CN/` so the two
   trees stay 1:1 mappable.
-- **Code** (`demo/`): **C-only** demos in this repo; the device ships with Python 2.7.14 for optional customer scripting.
+- **Code** (`demo/`): **C-only** demos; source comments and identifiers in English.
+  Operational READMEs (`demo/README.md`, `demo/README.zh-CN.md`) are bilingual.
+  The device ships with Python 2.7.14 for optional customer scripting.
 
 ## Contributing / Maintenance
 

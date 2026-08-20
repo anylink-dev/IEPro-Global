@@ -23,8 +23,8 @@
 - [x] 串口：RS232/RS485 数量、电气标准、波特率范围、是否支持自动方向控制 → RS485 硬件自动方向控制
 - [x] CAN 接口：数量、协议标准（CAN2.0A/B等）、波特率范围、端接电阻是否内置/可拨码 → 1 路 CAN 2.0，出厂已安装模块；端接电阻为现场外接方案，非内置/拨码
 - [x] 数字量 I/O：DI/DO 数量、电气类型（干接点/湿接点/继电器/晶体管）、电压与负载范围 → X1 无源输入、Y1 无源输出（干接点）
-- [x] 4G 规格：模组型号、制式（LTE FDD/TDD）、**支持频段需覆盖全部目标销售区域**、SIM 卡槽数量与类型、天线接口类型 → SIM7600G-H-PCIE；LTE-FDD/TDD、WCDMA、GSM 频段见规格书 §3.5
-- [x] 其他接口：USB、SD/TF 卡槽、Console 调试口、指示灯含义对照表、按键功能（含 Reset）→ USB 2.0 × 2 路
+- [x] 4G 规格：模组型号、制式（LTE FDD/TDD）、**支持频段需覆盖全部目标销售区域**、SIM 卡槽数量与类型、天线接口类型、模组电源 GPIO 69（OUT，启动默认关）→ SIM7600G-H-PCIE；LTE-FDD/TDD、WCDMA、GSM 频段见规格书 §3.5
+- [x] 其他接口：USB、SD/TF 卡槽、Console 调试口、指示灯含义对照表、按键功能（含 Reset）、硬件看门狗 `/dev/watchdog` → USB 2.0 × 2 路；看门狗见规格书 §3.6、05-demo-guide §3.8
 - [x] 软件能力：对应固件版本号、支持的开发语言/SDK
 - [x] 认证合规：安规认证（CE/FCC/RoHS等）、无线电认证（按销售目标国家/地区）、出口合规说明 → CE/EMC/RoHS/RED 合格证见 `docs/certificates/`；完整报告联系 developer@anylink.io
 - [x] 订购信息：标准配置说明
@@ -46,10 +46,11 @@
 ## 3. 4G 联网示例（`docs/*/03-4g-connectivity.md`）
 
 - [x] SIM 卡插入方向（与第2项保持一致）
+- [x] 4G 模组电源控制（GPIO 69 OUT；启动默认关；1=开 0=关）→ §2；规格书 §3.5
 - [x] APN 设置菜单路径 → 通过 AT 指令 / Demo Cellular 菜单 13（无 Web UI）
-- [x] 是否有内置常用运营商 APN 预设示例 → §2.1 运营商 APN 表
+- [x] 是否有内置常用运营商 APN 预设示例 → §3.1 运营商 APN 表
 - [x] 拨号配置文件实际路径（若不是标准 mmcli/ModemManager 方案）→ NDIS `AT$QCRMCALL`，AT 口 `/dev/ttyUSB2`
-- [x] 联网状态查看菜单路径 → §3 AT 自检 + `ip addr` / `ping`
+- [x] 联网状态查看菜单路径 → §4 AT 自检 + `ip addr` / `ping`
 - [x] 双 SIM 卡切换 / 有线-4G 双备份配置说明（如支持，需要单独文档或章节链接）→ 硬件仅单 SIM；有线+4G 备份见 `04-wired-connectivity.md` §4
 
 ## 4. 有线联网示例（`docs/*/04-wired-connectivity.md`）
@@ -66,8 +67,9 @@
   - [x] `demo/src/modules/serial_mod.c`（设备节点路径）
   - [x] `demo/src/modules/can_mod.c`、`demo/scripts/can_setup.sh`（接口名称）
   - [x] `demo/src/modules/gpio_mod.c`（GPIO 编号）
-  - [x] `demo/src/modules/cellular_mod.c`（AT 口 `/dev/ttyUSB2`、NDIS 拨号、`wwan0`）
-  - [ ] `demo/src/modules/mqtt_mod.c`（`MQTT_BROKER`、`MQTT_DEVICE_ID` 仍为示例占位，部署前需改为实际值）
+  - [x] `demo/src/modules/cellular_mod.c`（GPIO 69 模组电源、`/dev/ttyUSB2`、NDIS 拨号、`wwan0`）
+  - [x] `demo/src/modules/wdt_mod.c`（`/dev/watchdog` 喂狗 start/stop/reboot）
+  - [ ] `demo/src/modules/mqtt_mod.c`（`MQTT_DEFAULT_BROKER`、`MQTT_DEFAULT_CLIENT_ID` 等；可通过菜单/CLI 配置，部署前改为实际值）
 
 ## 6. 交叉编译工具说明（`docs/*/06-cross-compile-toolchain.md`）
 
@@ -85,7 +87,7 @@
 - [x] SIM 卡插入方向（与第2、3项保持一致）
 - [x] 技术支持联系方式 → anylink.io
 - [x] Web 管理界面端口号（http/https）→ 不适用，设备无 Web 管理界面
-- [x] 恢复出厂设置的具体操作方式（如长按 Reset 键几秒）→ 断电长按 Reset 约 10 秒
+- [x] Reset 按键说明（GPIO 119 状态读取；出厂固件不含长按恢复出厂）→ 见规格书 §3.6、FAQ §6
 - [x] 技术支持邮箱 → developer@anylink.io（无独立工单/论坛系统，官网 anylink.io）
 
 ## 8. 资料下载入口（`docs/*/08-downloads.md`）
@@ -101,7 +103,7 @@
 
 - [x] 是否存在子型号/区域版本差异 → IE Pro 400 Global Standard
 - [x] 首个固件版本号、发布日期、主要变更说明 → V1.0.0 / 2026-07-22
-- [x] Demo 源码版本历史 → V1.0（2026-07-22），对应固件 V1.0.0、文档 V1.0；`DEMO_VERSION` = `1.0.0`
+- [x] Demo 源码版本历史 → V1.0（2026-07-22）初始发布；V1.1（2026-08-19）HTTP/Modbus/CLI + deps v0.2；`DEMO_VERSION` 仍为 `1.0.0`
 - [x] 交叉编译工具链版本历史（含对应 GCC 版本）
 - [x] 版本兼容性说明（如 Demo vX.Y 与固件 vA.B 的对应关系）
 - [x] 已知问题列表 → V1.0.0 暂无已知问题

@@ -10,15 +10,45 @@ English | [中文](../zh-CN/03-4g-connectivity.md)
 2. Open the SIM card slot (location in [Datasheet](01-datasheet.md) §3.5).
 3. Insert a standard SIM card in the direction marked on the slot (contacts facing the inner spring contact).
 4. Push until the latch clicks, then power on.
-5. Wait ~60 seconds, then confirm card recognition via AT commands (see §3).
+5. Wait ~60 seconds, enable module power per §2, then confirm card recognition via AT commands (see §3, §4).
 
 > **Note**: Hot-swapping the SIM card is not recommended — it may prevent the module from recognizing the card.
 
-## 2. APN Configuration & Dial-Up
+## 2. Enable 4G Module Power
+
+IE Pro 400 Global Standard controls 4G module power via **GPIO 69** (output). **Power is off by default at boot** (module unpowered). Set GPIO 69 to **1** before AT commands, dial-up, or demo cellular features; write **0** to power off.
+
+### 2.1 sysfs example
+
+```bash
+# export GPIO (if not already exported)
+echo 69 > /sys/class/gpio/export
+
+# set as output
+echo out > /sys/class/gpio/gpio69/direction
+
+# power on (1=on, 0=off)
+echo 1 > /sys/class/gpio/gpio69/value
+
+# wait for AT port (USB enumeration may take up to ~10 s)
+for i in $(seq 1 20); do
+  [ -e /dev/ttyUSB2 ] && break
+  sleep 0.5
+done
+ls -l /dev/ttyUSB2
+```
+
+Write `0` to `value` to power off.
+
+### 2.2 Demo auto power-on
+
+The `iepro_demo` cellular module automatically enables GPIO 69 on first AT port open and polls for `/dev/ttyUSB2` (10 s timeout — see `demo/src/modules/cellular_mod.c`).
+
+## 3. APN Configuration & Dial-Up
 
 IE Pro 400 Global Standard uses a SIMCOM **SIM7600G-H-PCIE** module with **NDIS dial-up** via `AT$QCRMCALL`.
 
-### 2.1 Common Carrier APN Examples
+### 3.1 Common Carrier APN Examples
 
 | Carrier | APN | Dial command example |
 |---|---|---|
@@ -29,9 +59,9 @@ IE Pro 400 Global Standard uses a SIMCOM **SIM7600G-H-PCIE** module with **NDIS 
 
 > IoT SIM cards often require a dedicated APN — confirm with your carrier. Username/password are case-sensitive.
 
-### 2.2 Pre-Dial Check Sequence
+### 3.2 Pre-Dial Check Sequence
 
-Connect to the module's AT debug port and run:
+Connect to the module's AT debug port and run (enable power per §2 first):
 
 ```
 AT+CFUN=0          # restart module (optional)
@@ -44,7 +74,7 @@ AT+CEREG?          # LTE registration (0,1 or 0,5 = data available)
 AT+CGREG?          # non-LTE registration
 ```
 
-### 2.3 Start Dial-Up
+### 3.3 Start Dial-Up
 
 **Public 3GPP mode (GSM/WCDMA/LTE)**:
 
@@ -76,9 +106,9 @@ AT$QCRMCALL=0,1
 AT$QCRMCALL?
 ```
 
-## 3. Check Connectivity Status
+## 4. Check Connectivity Status
 
-### 3.1 AT Self-Test
+### 4.1 AT Self-Test
 
 | Command | Key response | Meaning |
 |---|---|---|
@@ -92,7 +122,7 @@ AT$QCRMCALL?
 
 > **Note**: In LTE mode, use `AT+CEREG?` to check data service availability; in non-LTE mode, use `AT+CGREG?`.
 
-### 3.2 System-Level Verification
+### 4.2 System-Level Verification
 
 After dial-up succeeds, in an SSH session on the device:
 
@@ -104,7 +134,7 @@ ip addr show
 ping -c 4 8.8.8.8
 ```
 
-## 4. Ping Test
+## 5. Ping Test
 
 ```bash
 ping -c 4 8.8.8.8
@@ -118,7 +148,7 @@ Expected result (no packet loss):
 
 If packets are lost or DNS fails, see the connectivity section in the [FAQ](07-faq.md).
 
-## 5. Reference Documents
+## 6. Reference Documents
 
 - SIMCOM official document: *SIM7500_SIM7600 Linux NDIS Dial-Up Flow* (full AT command reference)
 

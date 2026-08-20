@@ -58,9 +58,13 @@ The sections below apply to anyone opening a PR or maintaining the repo.
 
 ## Code (`/demo`)
 
-- All source under `/demo` is **English-only** — comments, variable
-  names, commit messages touching this directory, and `/demo/README.md`
-  itself. Do not add a translated copy of any demo file.
+- All **source** under `/demo` is **English-only** — comments, variable
+  names, and commit messages touching source files. Do not add translated
+  copies of `.c` / `.h` files or other demo source.
+- **Operational READMEs** — `demo/README.md` (English) and
+  `demo/README.zh-CN.md` (Chinese) — are maintained as a bilingual pair,
+  like `docs/en/` and `docs/zh-CN/`. When menus, CLI, or hardware map
+  change, update both in the same PR when possible.
 - Documentation in either language should link to `/demo` rather than
   embedding full code listings. Short inline snippets for illustration
   are fine; full runnable programs belong in `/demo` only.

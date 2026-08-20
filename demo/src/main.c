@@ -17,18 +17,24 @@ static void show_main_menu(void)
     printf(" 3) GPIO    (DI / DO / DIP / LED / Reset button)\n");
     printf(" 4) MQTT    (northbound publish)\n");
     printf(" 5) Cellular (SIM7600G-H-PCIE 4G)\n");
+    printf(" 6) HTTP    (GET / POST test)\n");
+    printf(" 7) Modbus  (RTU / TCP, master / slave)\n");
+    printf(" 8) Watchdog (hardware /dev/watchdog)\n");
     printf(" 0) Exit\n");
 }
 
-int main(void)
+int main(int argc, char **argv)
 {
     menu_init();
 
-    printf("IE Pro demo console — select a module from the menu.\n");
-    printf("Press 0 or Ctrl+C at a menu to go back; Ctrl+C during a loop stops it.\n");
-
     if (gpio_init_board_io() < 0)
         printf("Note: GPIO init failed at startup (may need root).\n");
+
+    if (argc > 1)
+        return cli_dispatch(argc, argv);
+
+    printf("IE Pro demo console — select a module from the menu.\n");
+    printf("Press 0 or Ctrl+C at a menu to go back; Ctrl+C during a loop stops it.\n");
 
     for (;;) {
         int choice;
@@ -55,6 +61,15 @@ int main(void)
             break;
         case 5:
             cellular_module_menu();
+            break;
+        case 6:
+            http_module_menu();
+            break;
+        case 7:
+            modbus_module_menu();
+            break;
+        case 8:
+            watchdog_module_menu();
             break;
         default:
             printf("Invalid choice.\n");

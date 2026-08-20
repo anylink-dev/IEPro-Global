@@ -38,7 +38,7 @@ make -C demo
 为保护核心底层实现，本工具包**仅开放**：
 
 - 交叉编译工具链（GCC 工具链 / SDK）
-- Demo 示例源码（串口/CAN/GPIO/MQTT，见[《Demo 开发示例》](05-demo-guide.md)）
+- Demo 示例源码（串口/CAN/GPIO/蜂窝/MQTT/HTTP/Modbus/看门狗 + CLI，见[《Demo 开发示例》](05-demo-guide.md)与 [`demo/README.zh-CN.md`](../../demo/README.zh-CN.md)）
 - 必要的头文件与链接库（用户态接口，不含内核驱动源码）
 - 编译/打包/部署脚本
 
@@ -126,15 +126,14 @@ arm-linux-gnueabihf-gcc --version
 先执行 `. scripts/env.toolchain.sh` 激活环境，然后：
 
 ```bash
-make -C demo
-make -C demo WITH_MQTT=1    # 可选，需 demo/deps/mosquitto/ 中的库
+make -C demo    # 首次构建自动解压 prebuilt 依赖（见 demo/deps/README.md）
 ```
 
 编译产物：
 
 | 输出文件 | 说明 | 依赖 |
 |---|---|---|
-| `demo/build/iepro_demo` | 统一 Demo 控制台（含串口/CAN/GPIO/蜂窝/MQTT 子模块） | 默认无；MQTT 需 `WITH_MQTT=1` + libmosquitto |
+| `demo/build/iepro_demo` | 统一 Demo 控制台（含串口/CAN/GPIO/蜂窝/MQTT/HTTP/Modbus/看门狗子模块） | 静态链接 `demo/deps/arm-linux-gnueabihf/`（默认已启用） |
 
 > **注意**：设备预装 Python 2.7.14，但本仓库 Demo 均为 C 语言，编译为单一可执行文件 `iepro_demo`。
 

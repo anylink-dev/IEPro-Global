@@ -1,8 +1,11 @@
 #include "demo.h"
 #include "gpio_util.h"
 #include "menu_util.h"
+#include "cli_util.h"
 
+#include <getopt.h>
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 
 typedef struct {
@@ -196,4 +199,139 @@ int gpio_module_menu(void)
         }
         menu_pause();
     }
+}
+
+void gpio_module_cli_usage(const char *prog)
+{
+    fprintf(stderr,
+            "Usage: %s gpio <action> [options]\n"
+            "  init           Init board GPIO (menu 1)\n"
+            "  monitor        Monitor DI/DIP/Reset until Ctrl+C (menu 2)\n"
+            "  do-high        Set DO high (menu 3)\n"
+            "  do-low         Set DO low (menu 4)\n"
+            "  pulse          DO pulse loop until Ctrl+C (menu 5)\n"
+            "  led on|off|blink  LED test (menu 6)\n"
+            "Options:\n"
+            "  --led N        1=NET, 2=RUN, 3=WARN, 4=All (default 4)\n"
+            "\n"
+            "Examples:\n"
+            "    %s gpio init\n"
+            "    %s gpio monitor\n"
+            "    %s gpio do-high\n"
+            "    %s gpio do-low\n"
+            "    %s gpio led on --led 2\n"
+            "    %s gpio led blink --led 4\n",
+            prog, prog, prog, prog, prog, prog, prog);
+}
+
+int gpio_module_cli(int argc, char **argv)
+{
+    const char *action = argv[1];
+    int led_pick = 4;
+    int opt;
+
+    static const struct option opts[] = {
+        { "led", required_argument, NULL, 'l' },
+        { "help", no_argument, NULL, 'h' },
+        { NULL, 0, NULL, 0 }
+    };
+
+    if (!action || !strcmp(action, "-h") || !strcmp(action, "--help")) {
+        gpio_module_cli_usage(argv[0]);
+        return CLI_EXIT_USAGE;
+    }
+
+    optind = 2;
+    while ((opt = getopt_long(argc, argv, "l:h", opts, NULL)) != -1) {
+        switch (opt) {
+        case 'l':
+            if (cli_parse_int(optarg, &led_pick) < 0 ||
+                led_pick < 1 || led_pick > 4) {
+                fprintf(stderr, "Invalid --led value (1-4).\n");
+                return CLI_EXIT_USAGE;
+            }
+            break;
+        case 'h':
+            gpio_module_cli_usage(argv[0]);
+            return CLI_EXIT_OK;
+        default:
+            gpio_module_cli_usage(argv[0]);
+            return CLI_EXIT_USAGE;
+        }
+    }
+
+    if (!strcmp(action, "init")) {
+        if (gpio_init_board_io() == 0)
+            printf("GPIO initialized (DI/DO/DIP/Reset).\n");
+        else
+            printf("GPIO init completed with errors.\n");
+        return CLI_EXIT_OK;
+    }
+    if (!strcmp(action, "monitor")) {
+        gpio_monitor_inputs();
+        return CLI_EXIT_OK;
+    }
+    if (!strcmp(action, "do-high")) {
+        if (gpio_write_value(GPIO_DO, 1) == 0)
+            printf("DO (GPIO %d) set HIGH\n", GPIO_DO);
+        return CLI_EXIT_OK;
+    }
+    if (!strcmp(action, "do-low")) {
+        if (gpio_write_value(GPIO_DO, 0) == 0)
+            printf("DO (GPIO %d) set LOW\n", GPIO_DO);
+        return CLI_EXIT_OK;
+    }
+    if (!strcmp(action, "pulse")) {
+        menu_reset_stop();
+        printf("DO pulse loop — press Ctrl+C to stop.\n");
+        while (!menu_stop_requested()) {
+            gpio_write_value(GPIO_DO, 1);
+            sleep(1);
+            gpio_write_value(GPIO_DO, 0);
+            sleep(1);
+        }
+        gpio_write_value(GPIO_DO, 0);
+        menu_reset_stop();
+        printf("\nDO pulse stopped.\n");
+        return CLI_EXIT_OK;
+    }
+    if (!strcmp(action, "led")) {
+        const char *led_action = argv[optind];
+
+        if (gpio_init_leds() < 0)
+            printf("Warning: LED GPIO init failed (may need root).\n");
+
+        if (!led_action) {
+            fprintf(stderr, "led requires on|off|blink.\n");
+            return CLI_EXIT_USAGE;
+        }
+        if (!strcmp(led_action, "on")) {
+            gpio_led_set_verbose(led_pick, 1);
+            return CLI_EXIT_OK;
+        }
+        if (!strcmp(led_action, "off")) {
+            gpio_led_set_verbose(led_pick, 0);
+            return CLI_EXIT_OK;
+        }
+        if (!strcmp(led_action, "blink")) {
+            menu_reset_stop();
+            printf("Fast blink — press Ctrl+C to stop.\n");
+            while (!menu_stop_requested()) {
+                gpio_led_set(led_pick, 1);
+                usleep(200000);
+                gpio_led_set(led_pick, 0);
+                usleep(200000);
+            }
+            gpio_led_set(led_pick, 0);
+            menu_reset_stop();
+            printf("\nBlink stopped.\n");
+            return CLI_EXIT_OK;
+        }
+        fprintf(stderr, "Unknown led action: %s\n", led_action);
+        return CLI_EXIT_USAGE;
+    }
+
+    fprintf(stderr, "Unknown gpio action: %s\n", action);
+    gpio_module_cli_usage(argv[0]);
+    return CLI_EXIT_USAGE;
 }

@@ -9,8 +9,7 @@ int metrics_build_json(char *buf, size_t len)
 {
     return snprintf(buf, len,
                     "{\"timestamp\":%ld,"
-                    "\"di1\":%d,\"dip1\":%d,\"dip2\":%d,"
-                    "\"temperature\":0.0}",
+                    "\"di1\":%d,\"dip1\":%d,\"dip2\":%d}",
                     (long)time(NULL),
                     gpio_read_di(),
                     gpio_read_dip1(),

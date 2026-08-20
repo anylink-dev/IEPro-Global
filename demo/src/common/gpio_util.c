@@ -161,3 +161,15 @@ int gpio_read_reset_btn(void)
     int val = gpio_read_value(GPIO_RESET_BTN);
     return val < 0 ? 0 : val;
 }
+
+int gpio_cell_set_power(int on)
+{
+    if (gpio_init_output(GPIO_CELL_PWR) < 0)
+        return -1;
+    return gpio_write_value(GPIO_CELL_PWR, on ? 1 : 0);
+}
+
+int gpio_cell_power_on(void)
+{
+    return gpio_cell_set_power(1);
+}

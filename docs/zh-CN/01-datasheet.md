@@ -110,6 +110,7 @@ IE Pro 400 Global Standard 是紫清科技 IE Pro 系列面向海外及广域物
 | GSM/GPRS/EDGE | 850/900/1800/1900 MHz |
 | SIM 卡槽 | 1 路（标准 SIM 卡槽） |
 | 天线接口 | 外置 4G 天线（发货含天线） |
+| 模组电源控制 | GPIO 69（OUT）；**启动默认关闭**（0=关，1=开）；使用 4G 前须先上电，详见[《4G 联网示例》](03-4g-connectivity.md) §2 |
 | 拨号方式 | NDIS 拨号（`AT$QCRMCALL`） |
 
 ### 3.6 其他接口
@@ -120,14 +121,15 @@ IE Pro 400 Global Standard 是紫清科技 IE Pro 系列面向海外及广域物
 | SD/TF 卡槽 | 支持 TF 卡存储扩展 |
 | 调试口（Console） | 串口调试（参数见[《快速上手指南》](02-quickstart.md)） |
 | 指示灯 | POWER（电源，上电即亮）；NET（GPIO 122，网络状态）、RUN（GPIO 71，运行状态）、WARN（GPIO 123，警告状态）；GPIO 指示灯：点亮=1，熄灭=0 |
-| 按键 | Reset（GPIO 119）：按压=1，松开=0；长按可恢复出厂设置 |
+| 按键 | Reset（GPIO 119）：按压=1，松开=0；出厂固件仅提供 GPIO 状态读取，不含恢复出厂等业务功能，具体逻辑由客户自行开发 |
+| 硬件看门狗 | `/dev/watchdog`（Linux 标准看门狗字符设备；超时未喂狗则系统复位） |
 
 ## 4. 软件与开发能力
 
 | 项目 | 说明 |
 |---|---|
 | 固件版本（本规格书对应） | V1.0.0（详见[《版本说明》](09-release-notes.md)） |
-| 开放接口 | 串口（termios）、CAN（SocketCAN）、DI/DO（sysfs GPIO）、MQTT 北向接口；详见[《Demo 开发示例》](05-demo-guide.md) |
+| 开放接口 | 串口（termios）、CAN（SocketCAN）、DI/DO（sysfs GPIO）、硬件看门狗（`/dev/watchdog`）、MQTT 北向、HTTP、Modbus；菜单与 CLI 见 [`demo/README.zh-CN.md`](../../demo/README.zh-CN.md)；集成说明见[《Demo 开发示例》](05-demo-guide.md) |
 | 交叉编译支持 | ARM `arm-linux-gnueabihf` 工具链，详见[《交叉编译工具说明》](06-cross-compile-toolchain.md) |
 | 是否预装业务平台 | **否**——设备出厂不预装 AnyLink 应用及云平台，由客户自行开发部署 |
 | 支持的开发语言/SDK | C/C++（交叉编译，推荐）；设备预装 **Python 2.7.14**（本仓库 Demo 均为 C，不使用 Python） |

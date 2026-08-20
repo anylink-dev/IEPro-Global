@@ -1,7 +1,9 @@
 #include "demo.h"
 #include "iepro_hw.h"
 #include "menu_util.h"
+#include "cli_util.h"
 
+#include <getopt.h>
 #include <linux/can.h>
 #include <linux/can/raw.h>
 #include <net/if.h>
@@ -168,4 +170,74 @@ int can_module_menu(void)
         }
         menu_pause();
     }
+}
+
+void can_module_cli_usage(const char *prog)
+{
+    fprintf(stderr,
+            "Usage: %s can <up|listen|send> [options]\n"
+            "  up             Bring up %s (menu 1)\n"
+            "  listen         Wait for one frame, 3s timeout (menu 2)\n"
+            "  send           Send test frame ID 0x123 (menu 3)\n"
+            "Options:\n"
+            "  --bitrate N    Bitrate for up (default %d)\n"
+            "\n"
+            "Examples:\n"
+            "    %s can up --bitrate 250000\n"
+            "    %s can listen\n"
+            "    %s can send\n",
+            prog, IEPRO_CAN_IFACE, IEPRO_CAN_DEFAULT_BITRATE,
+            prog, prog, prog);
+}
+
+int can_module_cli(int argc, char **argv)
+{
+    const char *action = argv[1];
+    int bitrate = IEPRO_CAN_DEFAULT_BITRATE;
+    int opt;
+
+    static const struct option opts[] = {
+        { "bitrate", required_argument, NULL, 'b' },
+        { "help", no_argument, NULL, 'h' },
+        { NULL, 0, NULL, 0 }
+    };
+
+    if (!action || !strcmp(action, "-h") || !strcmp(action, "--help")) {
+        can_module_cli_usage(argv[0]);
+        return CLI_EXIT_USAGE;
+    }
+
+    optind = 2;
+    while ((opt = getopt_long(argc, argv, "b:h", opts, NULL)) != -1) {
+        switch (opt) {
+        case 'b':
+            if (cli_parse_int(optarg, &bitrate) < 0 || bitrate <= 0) {
+                fprintf(stderr, "Invalid --bitrate value.\n");
+                return CLI_EXIT_USAGE;
+            }
+            break;
+        case 'h':
+            can_module_cli_usage(argv[0]);
+            return CLI_EXIT_OK;
+        default:
+            can_module_cli_usage(argv[0]);
+            return CLI_EXIT_USAGE;
+        }
+    }
+
+    if (!strcmp(action, "up")) {
+        return can_bring_up(bitrate) == 0 ? CLI_EXIT_OK : CLI_EXIT_FAIL;
+    }
+    if (!strcmp(action, "listen")) {
+        can_listen_once();
+        return CLI_EXIT_OK;
+    }
+    if (!strcmp(action, "send")) {
+        can_send_test_frame();
+        return CLI_EXIT_OK;
+    }
+
+    fprintf(stderr, "Unknown can action: %s\n", action);
+    can_module_cli_usage(argv[0]);
+    return CLI_EXIT_USAGE;
 }

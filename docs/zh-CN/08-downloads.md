@@ -2,7 +2,7 @@
 
 [English](../en/08-downloads.md) | 中文
 
-**文档版本**：V1.0　**日期**：2026-07-22
+**文档版本**：V1.1　**日期**：2026-08-19
 
 ## 1. 统一资源页
 
@@ -29,13 +29,17 @@ repo-root/
 ├── README.zh-CN.md        # 中文入口
 ├── docs/
 │   ├── en/                 # 英文文档
-│   └── zh-CN/              # 中文文档
+│   ├── zh-CN/              # 中文文档
+│   └── assets/
 └── demo/                   # Demo 源码（编译为 iepro_demo）
     ├── Makefile
+    ├── README.md           # 操作说明（英文）
+    ├── README.zh-CN.md     # 操作说明（中文）
+    ├── deps/               # 第三方库（prebuilt + buildDepends.sh）
     ├── src/
     │   ├── main.c
-    │   ├── common/
-    │   └── modules/
+    │   ├── common/         # cli_util、gpio_util、metrics 等
+    │   └── modules/        # serial、can、gpio、cellular、mqtt、http、modbus、watchdog
     └── scripts/
         └── can_setup.sh
 ```
@@ -48,11 +52,11 @@ repo-root/
 | 02 | [快速上手指南](02-quickstart.md) | Markdown | V1.0 已发布 |
 | 03 | [4G 联网示例](03-4g-connectivity.md) | Markdown | V1.0 已发布 |
 | 04 | [有线联网示例](04-wired-connectivity.md) | Markdown | V1.0 已发布 |
-| 05 | [Demo 开发示例](05-demo-guide.md) | Markdown + 源码 | V1.0 已发布 |
+| 05 | [Demo 开发示例](05-demo-guide.md) | Markdown + 源码 | V1.1 已发布 |
 | 06 | [交叉编译工具说明](06-cross-compile-toolchain.md) | Markdown | V1.0 已发布 |
 | 07 | [常见问题 FAQ](07-faq.md) | Markdown | V1.0 已发布 |
 | 08 | 资料下载入口（本文件） | Markdown | — |
-| 09 | [版本说明](09-release-notes.md) | Markdown | V1.0 已发布 |
+| 09 | [版本说明](09-release-notes.md) | Markdown | V1.1 已发布 |
 | — | 交叉编译工具链 | Linaro GCC 5.5.0 tar 包 | [镜像下载](https://mirrors.dotsrc.org/armbian-dl/_toolchain/gcc-linaro-5.5.0-2017.10-x86_64_arm-linux-gnueabihf.tar.xz) |
 | — | Demo 源码 | Git（见 `/demo`） | 已随本仓库提供 |
 | — | 产品认证证书（CE/EMC/RoHS/RED） | PDF | [证书索引](../certificates/README.md) |
@@ -87,7 +91,7 @@ repo-root/
 | Git Tag | `v<major>.<minor>.<patch>` | `v1.0.0` | 使用 **Annotated Tag** 标记正式发布；在 GitHub **Releases** 附变更说明 |
 | 固件版本 | `V<major>.<minor>.<patch>` | `V1.0.0` | 与 Git Tag 一一对应（`V1.0.0` ↔ `v1.0.0`） |
 | 文档版本 | `V<major>.<minor>` | `V1.0` | 随对应固件/Tag 发布包一并发布 |
-| Demo 版本 | `DEMO_VERSION`（`demo/src/main.c`） | `1.0.0` | 与文档 V1.0 同步发布（`1.0.0` ↔ Demo V1.0） |
+| Demo 版本 | `DEMO_VERSION`（`demo/src/main.c`） | `1.0.0` | 可执行文件版本字符串；仓库功能线 V1.1（2026-08-19）已增 HTTP/Modbus/CLI，`DEMO_VERSION` 待下次与固件对齐时再递增 |
 
 检出指定正式版本：
 

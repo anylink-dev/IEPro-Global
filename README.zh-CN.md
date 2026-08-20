@@ -2,7 +2,7 @@
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-> **状态**：V1.0 已基于产品内部资料正式发布。如有更新请参见[《版本说明》](docs/zh-CN/09-release-notes.md)。
+> **状态**：V1.0 基础版已发布（2026-07-22）。仓库 **V1.1** 更新（2026-08-19）：HTTP/Modbus/CLI、`demo/deps` prebuilt v0.2、Demo 操作说明中英双语。详见[《版本说明》](docs/zh-CN/09-release-notes.md)。
 
 面向 IE Pro 400 Global Standard 工业网关的开发者文档与参考代码。这是面向全球市场的通用版网关：设备出厂不预装任何厂商应用或平台，由客户自行在设备上开发部署应用程序。
 
@@ -22,7 +22,7 @@
 
 ## Demo 源码
 
-[`/demo`](demo) 目录下的源码统一为**纯英文**（注释、变量名，以及目录自带的 README），与你阅读的文档语言无关。详见 [`/demo/README.md`](demo/README.md)。
+[`/demo`](demo) 目录下**源码**为纯英文（注释、变量名）。操作说明见 [`demo/README.zh-CN.md`](demo/README.zh-CN.md)（[English](demo/README.md)）。
 
 ```
 repo-root/
@@ -42,6 +42,9 @@ repo-root/
 │   └── assets/              # shared/en/zh-CN 截图与示意图
 └── demo/                   # Demo 源码（纯 C，编译为 iepro_demo）
     ├── Makefile
+    ├── README.md           # 操作说明（英文）
+    ├── README.zh-CN.md     # 操作说明（中文）
+    ├── deps/               # 第三方库（prebuilt + buildDepends.sh）
     ├── src/
     │   ├── main.c
     │   ├── common/
@@ -53,7 +56,7 @@ repo-root/
 ## 语言策略
 
 - **文档**（`docs/`）：中英文双语维护，`en/` 与 `zh-CN/` 目录下文件名保持完全一致，便于两个语言树一一对应。
-- **代码**（`demo/`）：仅维护 **C 语言** Demo 源码；设备预装 Python 2.7.14 可供客户自研脚本使用，但本仓库 Demo 不使用 Python。
+- **代码**（`demo/`）：本仓库 Demo 均为 **C 语言**；源码注释与标识符为英文。操作说明见 `demo/README.md` 与 `demo/README.zh-CN.md`（双语维护）。设备预装 Python 2.7.14 可供客户自研脚本使用，但本仓库 Demo 不使用 Python。
 
 ## 维护说明
 

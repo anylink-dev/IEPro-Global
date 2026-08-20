@@ -145,8 +145,9 @@ For first-time SSH login via the LAN port, set your PC to the same subnet, e.g. 
 ### 6.2 4G
 
 1. Confirm the SIM card is inserted and the device is powered on.
-2. Check registration status via the AT debug port (see [4G Connectivity Example](03-4g-connectivity.md)).
-3. After dial-up succeeds, run `ping -c 4 8.8.8.8` to verify Internet access.
+2. Enable 4G module power per [4G Connectivity Example](03-4g-connectivity.md) §2 (set GPIO 69 to 1).
+3. Check registration status via the AT debug port (see §3, §4 in the same doc).
+4. After dial-up succeeds, run `ping -c 4 8.8.8.8` to verify Internet access.
 
 ## 7. Next Steps
 

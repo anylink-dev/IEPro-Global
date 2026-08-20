@@ -6,8 +6,8 @@
 #   build/                  output directory
 #
 # Prerequisites:
-#   cd demo/deps && ./buildDepends.sh --extract-prebuilt
-#   (or build from source — see deps/README.md)
+#   Prebuilt libs under deps/prebuilt/ are extracted automatically on first build
+#   when deps/$(CROSS_HOST)/ is missing (tar from deps/prebuilt/$(CROSS_HOST).tar.gz)
 #
 # Usage:
 #   make CROSS_COMPILE=arm-linux-gnueabihf-
@@ -24,6 +24,7 @@ DEPS_DIR   = deps
 DEPS_PREFIX ?= $(DEPS_DIR)/$(CROSS_HOST)
 DEPS_LIBDIR = $(DEPS_PREFIX)/lib
 DEPS_INCDIR = $(DEPS_PREFIX)/include
+PREBUILT_ARCHIVE = $(DEPS_DIR)/prebuilt/$(CROSS_HOST).tar.gz
 
 CFLAGS  = -Wall -Wextra -O2 -I$(SRC_DIR) -I$(COMMON_DIR) -I$(MOD_DIR)
 LDFLAGS =
@@ -36,7 +37,8 @@ TARGET = $(BUILD_DIR)/iepro_demo
 
 # Third-party libraries (static link from DEPS_PREFIX; all enabled by default)
 CFLAGS += -DWITH_MQTT -DWITH_MODBUS -DWITH_CURL -DWITH_SSL
-DEPS_LIBS = -lmosquitto -lmodbus -lcurl -lssl -lcrypto
+# Static link: libraries that need OpenSSL must appear before -lssl -lcrypto.
+DEPS_LIBS = -Wl,--start-group -lmosquitto -lcurl -lmodbus -lssl -lcrypto -Wl,--end-group
 SYS_LIBS  = -lpthread -ldl
 
 CFLAGS  += -I$(DEPS_INCDIR)
@@ -44,13 +46,28 @@ LDFLAGS += -L$(DEPS_LIBDIR) -Wl,-Bstatic $(DEPS_LIBS) -Wl,-Bdynamic $(SYS_LIBS)
 
 all: $(TARGET)
 
+.PHONY: deps-prebuilt
+deps-prebuilt:
+	@if [ ! -d "$(DEPS_LIBDIR)" ]; then \
+		echo ">> $(DEPS_PREFIX) not found, extracting prebuilt..."; \
+		if [ ! -f "$(PREBUILT_ARCHIVE)" ]; then \
+			echo "ERROR: missing $(PREBUILT_ARCHIVE)"; \
+			exit 1; \
+		fi; \
+		tar -xzf "$(PREBUILT_ARCHIVE)" -C "$(DEPS_DIR)"; \
+		if [ ! -d "$(DEPS_LIBDIR)" ]; then \
+			echo "ERROR: extract failed, $(DEPS_LIBDIR) not found"; \
+			exit 1; \
+		fi; \
+	fi
+
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-$(TARGET): $(SRCS) | $(BUILD_DIR)
+$(TARGET): $(SRCS) | $(BUILD_DIR) deps-prebuilt
 	$(CC) $(CFLAGS) -o $@ $(SRCS) $(LDFLAGS)
 
 clean:
 	rm -rf $(BUILD_DIR)
 
-.PHONY: all clean
+.PHONY: all clean deps-prebuilt

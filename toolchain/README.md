@@ -85,8 +85,7 @@ arm-linux-gnueabihf-gcc --version
 
 ```bash
 . scripts/env.toolchain.sh
-make -C demo
-make -C demo WITH_MQTT=1    # requires libs under demo/deps/mosquitto/
+make -C demo    # prebuilt deps auto-extract on first build (see demo/deps/README.md)
 ```
 
 Output: `demo/build/iepro_demo`
