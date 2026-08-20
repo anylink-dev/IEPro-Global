@@ -78,6 +78,13 @@ The sections below apply to anyone opening a PR or maintaining the repo.
 - Name images `<doc-number>-<slug>.png` so it's clear which document
   they belong to.
 
+## Certificate PDFs
+
+Language-neutral PDFs live in `docs/certificates/` (see that folder's
+README). User-facing indexes are `docs/en/certificates.md` and
+`docs/zh-CN/certificates.md` — same filename in both trees, like any
+other document.
+
 ## Placeholders
 
 - Real hardware/firmware values are marked `[TBD]` (English docs) or

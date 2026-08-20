@@ -123,7 +123,7 @@
 
 - [x] 随箱清单与最终发货产品一致 → 见 `02-quickstart.md` §1（已加量产确认说明）
 - [x] 出厂固件版本 V1.0.0 与最终发货产品一致 → 见 `09-release-notes.md` §8
-- [x] 公开证书（CE/EMC/RoHS/RED）适用于最终发货产品 → 见 `docs/certificates/README.md`
+- [x] 公开证书（CE/EMC/RoHS/RED）适用于最终发货产品 → 见 `docs/en/certificates.md` / `docs/zh-CN/certificates.md`
 
 ---
 

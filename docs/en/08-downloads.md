@@ -59,7 +59,7 @@ repo-root/
 | 09 | [Release Notes](09-release-notes.md) | Markdown | V1.1 released |
 | — | Cross-compilation toolchain | Linaro GCC 5.5.0 tar | [Mirror download](https://mirrors.dotsrc.org/armbian-dl/_toolchain/gcc-linaro-5.5.0-2017.10-x86_64_arm-linux-gnueabihf.tar.xz) |
 | — | Demo source code | Git (see `/demo`) | Included in this repo |
-| — | Product certificates (CE/EMC/RoHS/RED) | PDF | [Certificate index](../certificates/README.md) |
+| — | Product certificates (CE/EMC/RoHS/RED) | Markdown + PDF | [Certificate index](certificates.md) |
 
 ## 4. Cross-Compilation Toolchain Download
 

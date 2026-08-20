@@ -147,7 +147,7 @@ IE Pro 400 Global Standard 是紫清科技 IE Pro 系列面向海外及广域物
 | 其他区域认证 | FCC 等按目标销售区域另行确认；4G 模组为 SIM7600G-H-PCIE |
 | 出口合规 | 客户自行确认目标市场的进口与无线电合规要求 |
 
-证书索引见 [`docs/certificates/README.md`](../certificates/README.md)。
+证书索引见[《产品认证证书》](certificates.md)。
 
 ## 6. 订购信息
 

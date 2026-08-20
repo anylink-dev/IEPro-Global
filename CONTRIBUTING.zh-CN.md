@@ -54,6 +54,10 @@
 - 遵循 `docs/assets/README.md` 中的约定：语言无关的图片（硬件照片、接线图）放入 `docs/assets/shared/`；含界面文字的截图按语言放入 `docs/assets/en/` 或 `docs/assets/zh-CN/`。
 - 图片命名为 `<文档编号>-<简短描述>.png`，便于识别归属文档。
 
+## 认证证书 PDF
+
+语言无关的合格证 PDF 放在 `docs/certificates/`（见该目录 README）。面向读者的索引为 `docs/en/certificates.md` 与 `docs/zh-CN/certificates.md`——与其它文档一样，两个目录使用相同文件名。
+
 ## 占位符
 
 - 真实的硬件/固件数据用 `[TBD]`（英文文档）或 `[待补充]`（中文文档）标注。不要在没有经过验证的真实数据时删除占位符，更不要凭猜测填入近似值。

@@ -147,7 +147,7 @@ IE Pro 400 Global Standard is a general-purpose industrial gateway from the IE P
 | Other regions | FCC etc. per target market; cellular module: SIM7600G-H-PCIE |
 | Export compliance | Customers must confirm import and radio compliance for their target markets |
 
-Index: [`docs/certificates/README.md`](../certificates/README.md).
+Index: [Product Certificates](certificates.md).
 
 ## 6. Ordering Information
 

@@ -59,7 +59,7 @@ repo-root/
 | 09 | [版本说明](09-release-notes.md) | Markdown | V1.1 已发布 |
 | — | 交叉编译工具链 | Linaro GCC 5.5.0 tar 包 | [镜像下载](https://mirrors.dotsrc.org/armbian-dl/_toolchain/gcc-linaro-5.5.0-2017.10-x86_64_arm-linux-gnueabihf.tar.xz) |
 | — | Demo 源码 | Git（见 `/demo`） | 已随本仓库提供 |
-| — | 产品认证证书（CE/EMC/RoHS/RED） | PDF | [证书索引](../certificates/README.md) |
+| — | 产品认证证书（CE/EMC/RoHS/RED） | Markdown + PDF | [证书索引](certificates.md) |
 
 ## 4. 交叉编译工具链下载
 

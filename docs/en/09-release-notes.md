@@ -60,4 +60,4 @@ The following matches final mass-production shipments of **IE Pro 400 Global Sta
 |---|---|
 | Package contents | [Quickstart Guide](02-quickstart.md) §1 |
 | Factory firmware | **V1.0.0** (2026-07-22) |
-| Published certificates | CE / EMC / RoHS / RED for IE Pro 400 Global Standard; see [`docs/certificates/`](../certificates/README.md) |
+| Published certificates | CE / EMC / RoHS / RED for IE Pro 400 Global Standard; see [Product Certificates](certificates.md) |

@@ -60,4 +60,4 @@
 |---|---|
 | 随箱清单 | 见[《快速上手指南》](02-quickstart.md) §1 |
 | 出厂固件 | **V1.0.0**（2026-07-22） |
-| 公开证书 | CE / EMC / RoHS / RED，适用型号 IE Pro 400 Global Standard；见 [`docs/certificates/`](../certificates/README.md) |
+| 公开证书 | CE / EMC / RoHS / RED，适用型号 IE Pro 400 Global Standard；见[《产品认证证书》](certificates.md) |

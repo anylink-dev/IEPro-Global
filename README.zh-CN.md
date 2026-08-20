@@ -39,7 +39,8 @@ repo-root/
 ├── docs/
 │   ├── en/                 # 英文文档
 │   ├── zh-CN/              # 中文文档
-│   └── assets/              # shared/en/zh-CN 截图与示意图
+│   ├── assets/              # shared/en/zh-CN 截图与示意图
+│   └── certificates/        # 已公开的合格证 PDF
 └── demo/                   # Demo 源码（纯 C，编译为 iepro_demo）
     ├── Makefile
     ├── README.md           # 操作说明（英文）

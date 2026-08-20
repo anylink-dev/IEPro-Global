@@ -45,7 +45,8 @@ repo-root/
 ├── docs/
 │   ├── en/                 # English documentation
 │   ├── zh-CN/              # Chinese documentation
-│   └── assets/              # shared/en/zh-CN screenshots & diagrams
+│   ├── assets/              # shared/en/zh-CN screenshots & diagrams
+│   └── certificates/        # published certificate PDFs
 └── demo/                   # Demo source (C-only, builds iepro_demo)
     ├── Makefile
     ├── README.md           # operational guide (EN)
