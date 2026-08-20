@@ -84,7 +84,7 @@ If anything is missing, contact AnyLink technical support at [anylink.io](https:
 
 The two RJ45 ports are on the **front panel**. Use a standard Ethernet cable.
 
-![Ethernet WAN and LAN wiring](../assets/shared/02-ethernet-wiring.svg)
+![Ethernet WAN and LAN wiring](../assets/shared/02-ethernet-wiring-en.svg)
 
 For first-time SSH, connect the PC to **LAN**. Typical use and factory default IPs: see §5.1. IP changes and ping checks: [Wired Connectivity Example](04-wired-connectivity.md).
 
@@ -100,11 +100,11 @@ The three field serial ports are on the **top terminal block** (see §3.1 pinout
 
 **RS232** — connect RX1 to the peer **TX** and TX1 to the peer **RX** (crossover); connect GND to GND.
 
-![RS232 wiring](../assets/shared/02-rs232-wiring.svg)
+![RS232 wiring](../assets/shared/02-rs232-wiring-en.svg)
 
 **RS485** — the figure shows **RS485-1**. Connect **1A** to the peer **A** and **1B** to the peer **B**. RS485-2 uses the same topology with **2A** / **2B**. Confirm A/B polarity against the peer device.
 
-![RS485 wiring](../assets/shared/02-rs485-wiring.svg)
+![RS485 wiring](../assets/shared/02-rs485-wiring-en.svg)
 
 ### 3.4 Other Wiring Notes
 
