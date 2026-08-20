@@ -32,6 +32,7 @@ Examples:
 
 - `shared/02-front-panel-photo.png` / `02-front-panel-diagram.png` — front panel (referenced from `02-quickstart.md`)
 - `shared/02-terminal-block-photo.png` / `02-terminal-block-diagram.png` — terminal block (referenced from `02-quickstart.md`)
+- `shared/02-ethernet-wiring.svg` / `02-rs232-wiring.svg` / `02-rs485-wiring.svg` — WAN/LAN and serial wiring (referenced from `02-quickstart.md` §3.2–§3.3)
 - `en/02-web-login.png` / `zh-CN/02-web-login.png` — the same login
   screen, captured once per UI language
 

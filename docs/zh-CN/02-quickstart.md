@@ -55,21 +55,62 @@
 | 拨码开关 | 2 | GPIO 121、GPIO 124 |
 | Reset 按键 | 1 | GPIO 119 |
 
-![前面板实拍](../assets/shared/02-front-panel-photo.png)
+<table>
+  <tr>
+    <td colspan="2"><strong>前面板</strong></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" width="322">
+      <img src="../assets/shared/02-front-panel-photo.png" alt="前面板实拍" height="520">
+    </td>
+    <td align="center" valign="middle">
+      <img src="../assets/shared/02-front-panel-diagram.png" alt="前面板接口示意图" height="520">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>顶面端子排</strong></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" width="322">
+      <img src="../assets/shared/02-terminal-block-photo.png" alt="顶面端子排实拍" height="650">
+    </td>
+    <td align="center" valign="middle">
+      <img src="../assets/shared/02-terminal-block-diagram.png" alt="顶面端子排接线示意图" height="650">
+    </td>
+  </tr>
+</table>
 
-![前面板接口示意图](../assets/shared/02-front-panel-diagram.png)
+### 3.2 以太网（WAN / LAN）
 
-![顶面端子排实拍](../assets/shared/02-terminal-block-photo.png)
+两路 RJ45 在**前面板**。使用标准网线接入即可。
 
-![顶面端子排接线示意图](../assets/shared/02-terminal-block-diagram.png)
+![以太网 WAN / LAN 接线示意](../assets/shared/02-ethernet-wiring.svg)
 
-### 3.2 常用接口接线要点
+首次 SSH 请将 PC 接到 **LAN**。典型用途与出厂默认 IP 见 §5.1。改 IP、ping 等见[《有线联网示例》](04-wired-connectivity.md)。
+
+### 3.3 串口（RS232 / RS485）
+
+现场三路串口在**顶面端子排**（端子分组见 §3.1），与 §5.3 的 Console 口不是同一接口。
+
+| 端口 | 端子 | 设备节点 |
+|---|---|---|
+| RS232 | RX1、TX1、GND | `/dev/ttymxc5` |
+| RS485-1 | 1A、1B | `/dev/ttymxc1` |
+| RS485-2 | 2A、2B | `/dev/ttymxc2` |
+
+**RS232**：RX1 接对端 **TX**，TX1 接对端 **RX**（交叉）；GND 接 GND。
+
+![RS232 接线示意](../assets/shared/02-rs232-wiring.svg)
+
+**RS485**：下图以 **RS485-1** 为例。**1A** 接对端 **A**，**1B** 接对端 **B**。RS485-2 接法相同，端子为 **2A** / **2B**。请与对端设备核对 A/B 极性。
+
+![RS485 接线示意](../assets/shared/02-rs485-wiring.svg)
+
+### 3.4 其他接线要点
 
 | 接口 | 接线要点 |
 |---|---|
 | 电源 | 9～36 V DC，注意正负极；参见规格书 §2.3 |
-| 以太网 WAN/LAN | 使用标准网线连接至路由器/交换机或 PC |
-| RS232/RS485 | 核对 A/B 线极性；RS485 长距离总线需接终端电阻 |
 | CAN | 总线两端建议各接 120 Ω 终端电阻；默认波特率 250000 bps |
 | USB 2.0 | 标准 USB 2.0 主机接口，可连接外设及存储设备 |
 | DI/DO | X1 无源输入（干接点，与 GND 短接触发）；Y1 无源输出（干接点） |

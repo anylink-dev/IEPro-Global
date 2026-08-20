@@ -55,21 +55,62 @@ If anything is missing, contact AnyLink technical support at [anylink.io](https:
 | DIP switches | 2 | GPIO 121, GPIO 124 |
 | Reset button | 1 | GPIO 119 |
 
-![Front panel — photo](../assets/shared/02-front-panel-photo.png)
+<table>
+  <tr>
+    <td colspan="2"><strong>Front panel</strong></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" width="322">
+      <img src="../assets/shared/02-front-panel-photo.png" alt="Front panel — photo" height="520">
+    </td>
+    <td align="center" valign="middle">
+      <img src="../assets/shared/02-front-panel-diagram-en.png" alt="Front panel — interface diagram" height="520">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2"><strong>Terminal block</strong></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" width="322">
+      <img src="../assets/shared/02-terminal-block-photo.png" alt="Terminal block — photo" height="650">
+    </td>
+    <td align="center" valign="middle">
+      <img src="../assets/shared/02-terminal-block-diagram-en.png" alt="Terminal block — pinout diagram" height="650">
+    </td>
+  </tr>
+</table>
 
-![Front panel — interface diagram](../assets/shared/02-front-panel-diagram-en.png)
+### 3.2 Ethernet (WAN / LAN)
 
-![Terminal block — photo](../assets/shared/02-terminal-block-photo.png)
+The two RJ45 ports are on the **front panel**. Use a standard Ethernet cable.
 
-![Terminal block — pinout diagram](../assets/shared/02-terminal-block-diagram-en.png)
+![Ethernet WAN and LAN wiring](../assets/shared/02-ethernet-wiring.svg)
 
-### 3.2 Wiring Notes
+For first-time SSH, connect the PC to **LAN**. Typical use and factory default IPs: see §5.1. IP changes and ping checks: [Wired Connectivity Example](04-wired-connectivity.md).
+
+### 3.3 Serial Ports (RS232 / RS485)
+
+The three field serial ports are on the **top terminal block** (see §3.1 pinout). This is not the Console port in §5.3.
+
+| Port | Terminals | Device node |
+|---|---|---|
+| RS232 | RX1, TX1, GND | `/dev/ttymxc5` |
+| RS485-1 | 1A, 1B | `/dev/ttymxc1` |
+| RS485-2 | 2A, 2B | `/dev/ttymxc2` |
+
+**RS232** — connect RX1 to the peer **TX** and TX1 to the peer **RX** (crossover); connect GND to GND.
+
+![RS232 wiring](../assets/shared/02-rs232-wiring.svg)
+
+**RS485** — the figure shows **RS485-1**. Connect **1A** to the peer **A** and **1B** to the peer **B**. RS485-2 uses the same topology with **2A** / **2B**. Confirm A/B polarity against the peer device.
+
+![RS485 wiring](../assets/shared/02-rs485-wiring.svg)
+
+### 3.4 Other Wiring Notes
 
 | Interface | Notes |
 |---|---|
 | Power | 9–36 V DC; observe polarity; see datasheet §2.3 |
-| Ethernet WAN/LAN | Standard Ethernet cable to router/switch or PC |
-| RS232/RS485 | Check A/B polarity; add termination resistors on long RS485 buses |
 | CAN | 120 Ω termination at each bus end recommended; default bitrate 250000 bps |
 | USB 2.0 | Standard USB 2.0 host ports for peripherals and storage devices |
 | DI/DO | X1 passive input (dry contact, short to GND to trigger); Y1 passive output (dry contact) |
