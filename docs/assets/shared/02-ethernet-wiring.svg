@@ -12,8 +12,8 @@
     <filter id="eth-shadow" x="-10%" y="-10%" width="130%" height="140%">
       <feDropShadow dx="0" dy="2" stdDeviation="2.4" flood-color="#000" flood-opacity="0.2"/>
     </filter>
-    <clipPath id="eth-router-clip"><rect width="244" height="88" rx="10"/></clipPath>
-    <clipPath id="eth-pc-clip"><rect width="244" height="88" rx="10"/></clipPath>
+    <clipPath id="eth-router-clip"><rect width="200" height="88" rx="10"/></clipPath>
+    <clipPath id="eth-pc-clip"><rect width="200" height="88" rx="10"/></clipPath>
     <linearGradient id="eth-jacket" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#9BB4D4"/>
       <stop offset="40%" stop-color="#5E7EAE"/>
@@ -79,48 +79,48 @@
   </g>
 
   <g filter="url(#eth-shadow)" transform="translate(508,78)">
-    <rect width="244" height="88" rx="10" fill="#E8EAED" stroke="#6B7280" stroke-width="1.2"/>
+    <rect width="200" height="88" rx="10" fill="#E8EAED" stroke="#6B7280" stroke-width="1.2"/>
     <g clip-path="url(#eth-router-clip)">
-      <rect width="244" height="32" fill="#4B5563"/>
+      <rect width="200" height="30" fill="#4B5563"/>
     </g>
-    <text x="122" y="22" text-anchor="middle" font-family="Microsoft YaHei, PingFang SC, Noto Sans SC, Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#fff">路由器</text>
-    <line x1="52" y1="8" x2="40" y2="-22" stroke="#6B7280" stroke-width="3" stroke-linecap="round"/>
-    <line x1="192" y1="8" x2="204" y2="-22" stroke="#6B7280" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="40" cy="-22" r="4.5" fill="#9CA3AF"/>
-    <circle cx="204" cy="-22" r="4.5" fill="#9CA3AF"/>
-    <rect x="8" y="38" width="56" height="36" rx="3" fill="#1A1A1A"/>
-    <rect x="16" y="46" width="40" height="16" fill="#2B2B2B"/>
-    <rect x="72" y="48" width="12" height="12" rx="1" fill="#2ECC71"/>
-    <rect x="88" y="48" width="12" height="12" rx="1" fill="#2ECC71"/>
-    <rect x="104" y="48" width="12" height="12" rx="1" fill="#F1C40F"/>
+    <text x="100" y="20" text-anchor="middle" font-family="Microsoft YaHei, PingFang SC, Noto Sans SC, Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#fff">路由器</text>
+    <line x1="48" y1="6" x2="40" y2="-12" stroke="#6B7280" stroke-width="3" stroke-linecap="round"/>
+    <line x1="152" y1="6" x2="160" y2="-12" stroke="#6B7280" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="40" cy="-12" r="4" fill="#9CA3AF"/>
+    <circle cx="160" cy="-12" r="4" fill="#9CA3AF"/>
+    <rect x="50" y="43" width="50" height="32" rx="3" fill="#1A1A1A"/>
+    <rect x="56" y="50" width="38" height="14" fill="#2B2B2B"/>
+    <rect x="108" y="51" width="11" height="11" rx="1" fill="#2ECC71"/>
+    <rect x="123" y="51" width="11" height="11" rx="1" fill="#2ECC71"/>
+    <rect x="138" y="51" width="11" height="11" rx="1" fill="#F1C40F"/>
   </g>
   <g filter="url(#eth-shadow)" transform="translate(508,198)">
-    <rect width="244" height="88" rx="10" fill="#E8EAED" stroke="#6B7280" stroke-width="1.2"/>
+    <rect width="200" height="88" rx="10" fill="#E8EAED" stroke="#6B7280" stroke-width="1.2"/>
     <g clip-path="url(#eth-pc-clip)">
-      <rect width="244" height="32" fill="#4B5563"/>
+      <rect width="200" height="30" fill="#4B5563"/>
     </g>
-    <text x="122" y="22" text-anchor="middle" font-family="Microsoft YaHei, PingFang SC, Noto Sans SC, Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#fff">电脑</text>
-    <rect x="8" y="38" width="56" height="36" rx="3" fill="#1A1A1A"/>
-    <rect x="16" y="46" width="40" height="16" fill="#2B2B2B"/>
-    <rect x="80" y="42" width="52" height="32" rx="3" fill="#2F3540" stroke="#1F2430"/>
-    <rect x="85" y="46" width="42" height="20" fill="#9AA3B0"/>
-    <rect x="102" y="66" width="8" height="4" fill="#6B7280"/>
-    <rect x="90" y="70" width="32" height="3" rx="1" fill="#6B7280"/>
+    <text x="100" y="20" text-anchor="middle" font-family="Microsoft YaHei, PingFang SC, Noto Sans SC, Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#fff">电脑</text>
+    <rect x="50" y="43" width="50" height="32" rx="3" fill="#1A1A1A"/>
+    <rect x="56" y="50" width="38" height="14" fill="#2B2B2B"/>
+    <rect x="110" y="45" width="40" height="28" rx="3" fill="#2F3540" stroke="#1F2430"/>
+    <rect x="114" y="48" width="32" height="16" fill="#9AA3B0"/>
+    <rect x="126" y="66" width="8" height="3" fill="#6B7280"/>
+    <rect x="116" y="70" width="28" height="2.5" rx="1" fill="#6B7280"/>
   </g>
 
-  <path d="M226 153 C 310 146, 400 134, 478 134" fill="none" stroke="#3A4E6E" stroke-width="11" stroke-linecap="round"/>
-  <path d="M226 153 C 310 146, 400 134, 478 134" fill="none" stroke="url(#eth-jacket)" stroke-width="8" stroke-linecap="round"/>
-  <path d="M226 150.8 C 310 143.8, 400 131.8, 478 131.8" fill="none" stroke="#D8E6F4" stroke-width="1.8" stroke-linecap="round" opacity="0.4"/>
+  <path d="M226 153 C 320 146, 430 135, 548 135" fill="none" stroke="#3A4E6E" stroke-width="11" stroke-linecap="round"/>
+  <path d="M226 153 C 320 146, 430 135, 548 135" fill="none" stroke="url(#eth-jacket)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M226 150.8 C 320 143.8, 430 132.8, 548 132.8" fill="none" stroke="#D8E6F4" stroke-width="1.8" stroke-linecap="round" opacity="0.4"/>
   <use href="#rj45-plug" xlink:href="#rj45-plug" transform="translate(186,136)"/>
-  <g transform="translate(516,134)">
+  <g transform="translate(558,135)">
     <use href="#rj45-plug" xlink:href="#rj45-plug" transform="scale(-1,1) translate(0,-17)"/>
   </g>
 
-  <path d="M226 215 C 310 222, 400 254, 478 254" fill="none" stroke="#3A4E6E" stroke-width="11" stroke-linecap="round"/>
-  <path d="M226 215 C 310 222, 400 254, 478 254" fill="none" stroke="url(#eth-jacket)" stroke-width="8" stroke-linecap="round"/>
-  <path d="M226 212.8 C 310 219.8, 400 251.8, 478 251.8" fill="none" stroke="#D8E6F4" stroke-width="1.8" stroke-linecap="round" opacity="0.4"/>
+  <path d="M226 215 C 320 222, 430 255, 548 255" fill="none" stroke="#3A4E6E" stroke-width="11" stroke-linecap="round"/>
+  <path d="M226 215 C 320 222, 430 255, 548 255" fill="none" stroke="url(#eth-jacket)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M226 212.8 C 320 219.8, 430 252.8, 548 252.8" fill="none" stroke="#D8E6F4" stroke-width="1.8" stroke-linecap="round" opacity="0.4"/>
   <use href="#rj45-plug" xlink:href="#rj45-plug" transform="translate(186,198)"/>
-  <g transform="translate(516,254)">
+  <g transform="translate(558,255)">
     <use href="#rj45-plug" xlink:href="#rj45-plug" transform="scale(-1,1) translate(0,-17)"/>
   </g>
 </svg>
