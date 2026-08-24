@@ -146,7 +146,7 @@ Expected result (no packet loss):
 4 packets transmitted, 4 received, 0% packet loss
 ```
 
-If packets are lost or DNS fails, see the connectivity section in the [FAQ](07-faq.md).
+If packets are lost or DNS fails, see the connectivity section in the [FAQ](08-faq.md).
 
 ## 6. Reference Documents
 

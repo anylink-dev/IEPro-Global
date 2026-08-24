@@ -1,8 +1,8 @@
 # IE Pro 400 Global Standard — Release Notes
 
-English | [中文](../zh-CN/09-release-notes.md)
+English | [中文](../zh-CN/10-release-notes.md)
 
-**Doc version**: V1.1　**Date**: 2026-08-19
+**Doc version**: V1.2　**Date**: 2026-08-24
 
 ## 1. Applicable Models
 
@@ -37,7 +37,9 @@ The in-source version is `DEMO_VERSION` in `demo/src/main.c` (maps to V1.0 above
 |---|---|---|---|
 | All documents (EN/ZH) | V1.0 | 2026-07-22 | Populated from internal product specs, user manual, system interface guide, cross-compile guide, and SIMCOM dial-up documentation |
 | 05 Demo Guide (EN/ZH), `demo/README.md`, `demo/README.zh-CN.md` | V1.1 | 2026-08-19 | HTTP/Modbus/CLI; MQTT default metrics publish; hardware watchdog `wdt_mod.c`; split operational vs integration docs; deps prebuilt v0.2 |
-| `08-downloads` (EN/ZH) | V1.1 | 2026-08-19 | Header and repository layout aligned with V1.1 |
+| `09-downloads` (EN/ZH) | V1.1 | 2026-08-19 | Header and repository layout aligned with V1.1 |
+| 07 Third-Party MQTT Protocol (EN/ZH) | V1.0 | 2026-08-24 | Protocol Word specs, `IEPro-deploy.zip` (agent, web UI, Boa), and deploy steps |
+| Documentation set (EN/ZH) | V1.2 | 2026-08-24 | Inserted 07 third-party protocol; FAQ / downloads / release notes renumbered to 08 / 09 / 10 |
 
 ## 6. Version Compatibility
 

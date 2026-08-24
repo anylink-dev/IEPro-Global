@@ -1,6 +1,6 @@
 # IE Pro 400 Global Standard — FAQ
 
-English | [中文](../zh-CN/07-faq.md)
+English | [中文](../zh-CN/08-faq.md)
 
 **Doc version**: V1.0　**Date**: 2026-07-22
 
@@ -146,7 +146,7 @@ Notes:
 
 ## 11. Contact Support
 
-If the above steps don't resolve the issue, provide: device model, firmware version ([Release Notes](09-release-notes.md)), symptom description, and relevant logs/screenshots.
+If the above steps don't resolve the issue, provide: device model, firmware version ([Release Notes](10-release-notes.md)), symptom description, and relevant logs/screenshots.
 
 | Channel | Info |
 |---|---|

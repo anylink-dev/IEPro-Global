@@ -15,7 +15,7 @@ IE Pro 400 Global Standard 的**主机端**交叉编译器不纳入 Git 版本�
 | 工具链包 | `gcc-linaro-5.5.0-2017.10-x86_64_arm-linux-gnueabihf` |
 | 目标平台 | ARM Cortex-A7，`arm-linux-gnueabihf`，glibc |
 | 编译前缀 | `arm-linux-gnueabihf-` |
-| 对应固件 | V1.0.0（见[版本说明](../docs/zh-CN/09-release-notes.md)） |
+| 对应固件 | V1.0.0（见[版本说明](../docs/zh-CN/10-release-notes.md)） |
 
 完整文档：[交叉编译工具说明](../docs/zh-CN/06-cross-compile-toolchain.md) |
 [English](../docs/en/06-cross-compile-toolchain.md)

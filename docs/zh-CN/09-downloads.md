@@ -1,6 +1,6 @@
 # IE Pro 400 Global Standard — 资料下载入口
 
-[English](../en/08-downloads.md) | 中文
+[English](../en/09-downloads.md) | 中文
 
 **文档版本**：V1.1　**日期**：2026-08-19
 
@@ -30,7 +30,9 @@ repo-root/
 ├── docs/
 │   ├── en/                 # 英文文档
 │   ├── zh-CN/              # 中文文档
-│   └── assets/
+│   ├── assets/
+│   ├── certificates/
+│   └── third-party-protocol/  # MQTT 协议 Word + 部署 zip
 └── demo/                   # Demo 源码（编译为 iepro_demo）
     ├── Makefile
     ├── README.md           # 操作说明（英文）
@@ -54,12 +56,14 @@ repo-root/
 | 04 | [有线联网示例](04-wired-connectivity.md) | Markdown | V1.0 已发布 |
 | 05 | [Demo 开发示例](05-demo-guide.md) | Markdown + 源码 | V1.1 已发布 |
 | 06 | [交叉编译工具说明](06-cross-compile-toolchain.md) | Markdown | V1.0 已发布 |
-| 07 | [常见问题 FAQ](07-faq.md) | Markdown | V1.0 已发布 |
-| 08 | 资料下载入口（本文件） | Markdown | — |
-| 09 | [版本说明](09-release-notes.md) | Markdown | V1.1 已发布 |
+| 07 | [第三方 MQTT 协议](07-third-party-protocol.md) | Markdown + Word + zip | V1.0 已发布 |
+| 08 | [常见问题 FAQ](08-faq.md) | Markdown | V1.0 已发布 |
+| 09 | 资料下载入口（本文件） | Markdown | — |
+| 10 | [版本说明](10-release-notes.md) | Markdown | V1.2 已发布 |
 | — | 交叉编译工具链 | Linaro GCC 5.5.0 tar 包 | [镜像下载](https://mirrors.dotsrc.org/armbian-dl/_toolchain/gcc-linaro-5.5.0-2017.10-x86_64_arm-linux-gnueabihf.tar.xz) |
 | — | Demo 源码 | Git（见 `/demo`） | 已随本仓库提供 |
 | — | 产品认证证书（CE/EMC/RoHS/RED） | Markdown + PDF | [证书索引](certificates.md) |
+| — | 第三方协议 agent + Web 界面部署包 | zip | [IEPro-deploy.zip](../third-party-protocol/deploy/IEPro-deploy.zip) |
 
 ## 4. 交叉编译工具链下载
 
@@ -101,7 +105,7 @@ cd IEPro-Global
 git checkout v1.0.0
 ```
 
-> 版本历史与兼容性见[《版本说明》](09-release-notes.md)。
+> 版本历史与兼容性见[《版本说明》](10-release-notes.md)。
 
 ## 6. 访问权限与贡献流程
 
@@ -123,7 +127,7 @@ git checkout v1.0.0
 |---|---|---|
 | **GitHub Watch → Releases** | 打开 [仓库](https://github.com/anylink-dev/IEPro-Global) → Watch → Custom → 勾选 **Releases** | 正式版本发布通知（**推荐**） |
 | **GitHub Releases RSS** | 订阅 `https://github.com/anylink-dev/IEPro-Global/releases.atom` | 集成到 RSS 阅读器或内部监控系统 |
-| **版本说明文档** | 查阅 [09-release-notes.md](09-release-notes.md) | 查看完整变更历史与兼容性说明 |
+| **版本说明文档** | 查阅 [10-release-notes.md](10-release-notes.md) | 查看完整变更历史与兼容性说明 |
 | **邮件订阅（可选）** | 发信至 [developer@anylink.io](mailto:developer@anylink.io)，主题注明「订阅 IEPro 版本更新」 | 重大版本发布邮件提醒（无独立邮件列表时由技术支持人工通知） |
 
 | 其他 |

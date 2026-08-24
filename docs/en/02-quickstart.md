@@ -209,4 +209,5 @@ See the **Quick Start** section in the [Cross-Compilation Toolchain Guide](06-cr
 ### 7.2 Continue development
 
 - Start with the [Demo Development Guide](05-demo-guide.md) for data acquisition and northbound integration.
-- For troubleshooting, see the [FAQ](07-faq.md).
+- For a packaged MQTT agent and web UI (not the C demo), see [Third-Party MQTT Protocol](07-third-party-protocol.md).
+- For troubleshooting, see the [FAQ](08-faq.md).

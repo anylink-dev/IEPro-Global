@@ -128,7 +128,7 @@ IE Pro 400 Global Standard is a general-purpose industrial gateway from the IE P
 
 | Item | Notes |
 |---|---|
-| Firmware version (matching this datasheet) | V1.0.0 (see [Release Notes](09-release-notes.md)) |
+| Firmware version (matching this datasheet) | V1.0.0 (see [Release Notes](10-release-notes.md)) |
 | Open interfaces | Serial (termios), CAN (SocketCAN), DI/DO (sysfs GPIO), hardware watchdog (`/dev/watchdog`), MQTT northbound, HTTP, Modbus; menu + CLI in [`demo/README.md`](../../demo/README.md); see [Demo Development Guide](05-demo-guide.md) for integration notes |
 | Cross-compilation support | ARM `arm-linux-gnueabihf` toolchain; see [Cross-Compilation Toolchain Guide](06-cross-compile-toolchain.md) |
 | Pre-installed business platform | **None** — device ships without AnyLink application or cloud platform; customers develop and deploy their own |

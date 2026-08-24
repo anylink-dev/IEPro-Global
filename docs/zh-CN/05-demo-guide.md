@@ -193,5 +193,6 @@ Demo 模块 `wdt_mod.c`（由原 `hardwareWDT.py` 移植）提供：
 |---|---|
 | [`demo/README.zh-CN.md`](../../demo/README.zh-CN.md) | 编译、菜单、CLI、硬件对照表 |
 | [交叉编译工具说明](06-cross-compile-toolchain.md) | 工具链安装与部署 |
+| [第三方 MQTT 协议](07-third-party-protocol.md) | 配套 agent 与 Web 界面，不是 C Demo 的 MQTT 辅助 |
 | [4G 联网示例](03-4g-connectivity.md) | 蜂窝拨号与 AT 指令 |
 | [`demo/deps/README.md`](../../demo/deps/README.md) | Prebuilt 依赖 |

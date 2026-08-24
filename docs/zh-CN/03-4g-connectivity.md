@@ -146,7 +146,7 @@ ping -c 4 8.8.8.8
 4 packets transmitted, 4 received, 0% packet loss
 ```
 
-若出现丢包或无法解析域名，请参见[《常见问题 FAQ》](07-faq.md)中"无法联网"相关章节。
+若出现丢包或无法解析域名，请参见[《常见问题 FAQ》](08-faq.md)中"无法联网"相关章节。
 
 ## 6. 参考文档
 

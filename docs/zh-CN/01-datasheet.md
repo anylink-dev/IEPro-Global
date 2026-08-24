@@ -128,7 +128,7 @@ IE Pro 400 Global Standard 是紫清科技 IE Pro 系列面向海外及广域物
 
 | 项目 | 说明 |
 |---|---|
-| 固件版本（本规格书对应） | V1.0.0（详见[《版本说明》](09-release-notes.md)） |
+| 固件版本（本规格书对应） | V1.0.0（详见[《版本说明》](10-release-notes.md)） |
 | 开放接口 | 串口（termios）、CAN（SocketCAN）、DI/DO（sysfs GPIO）、硬件看门狗（`/dev/watchdog`）、MQTT 北向、HTTP、Modbus；菜单与 CLI 见 [`demo/README.zh-CN.md`](../../demo/README.zh-CN.md)；集成说明见[《Demo 开发示例》](05-demo-guide.md) |
 | 交叉编译支持 | ARM `arm-linux-gnueabihf` 工具链，详见[《交叉编译工具说明》](06-cross-compile-toolchain.md) |
 | 是否预装业务平台 | **否**——设备出厂不预装 AnyLink 应用及云平台，由客户自行开发部署 |

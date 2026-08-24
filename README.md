@@ -2,7 +2,7 @@
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-> **Status**: V1.0 base release (2026-07-22). Repository update **V1.1** (2026-08-19): HTTP/Modbus/CLI, unified `demo/deps` prebuilt v0.2, bilingual demo operational guides. See [Release Notes](docs/en/09-release-notes.md).
+> **Status**: V1.0 base release (2026-07-22). Repository **V1.1** (2026-08-19): HTTP/Modbus/CLI, unified `demo/deps` prebuilt v0.2, bilingual demo operational guides. **V1.2** (2026-08-24): third-party MQTT protocol and deploy package. See [Release Notes](docs/en/10-release-notes.md).
 
 Developer documentation and reference code for the IE Pro 400 Global Standard
 industrial gateway. This is the general-purpose global
@@ -19,9 +19,10 @@ customers build and deploy their own software on top of it.
 | 04 | Wired Connectivity Example | [en](docs/en/04-wired-connectivity.md) | [zh-CN](docs/zh-CN/04-wired-connectivity.md) |
 | 05 | Demo Development Guide | [en](docs/en/05-demo-guide.md) | [zh-CN](docs/zh-CN/05-demo-guide.md) |
 | 06 | Cross-Compilation Toolchain Guide | [en](docs/en/06-cross-compile-toolchain.md) | [zh-CN](docs/zh-CN/06-cross-compile-toolchain.md) |
-| 07 | FAQ | [en](docs/en/07-faq.md) | [zh-CN](docs/zh-CN/07-faq.md) |
-| 08 | Downloads | [en](docs/en/08-downloads.md) | [zh-CN](docs/zh-CN/08-downloads.md) |
-| 09 | Release Notes | [en](docs/en/09-release-notes.md) | [zh-CN](docs/zh-CN/09-release-notes.md) |
+| 07 | Third-Party MQTT Protocol | [en](docs/en/07-third-party-protocol.md) | [zh-CN](docs/zh-CN/07-third-party-protocol.md) |
+| 08 | FAQ | [en](docs/en/08-faq.md) | [zh-CN](docs/zh-CN/08-faq.md) |
+| 09 | Downloads | [en](docs/en/09-downloads.md) | [zh-CN](docs/zh-CN/09-downloads.md) |
+| 10 | Release Notes | [en](docs/en/10-release-notes.md) | [zh-CN](docs/zh-CN/10-release-notes.md) |
 
 ## Demo Source Code
 
@@ -46,7 +47,8 @@ repo-root/
 │   ├── en/                 # English documentation
 │   ├── zh-CN/              # Chinese documentation
 │   ├── assets/              # shared/en/zh-CN screenshots & diagrams
-│   └── certificates/        # published certificate PDFs
+│   ├── certificates/        # published certificate PDFs
+│   └── third-party-protocol/ # MQTT spec (.docx) + IEPro-deploy.zip
 └── demo/                   # Demo source (C-only, builds iepro_demo)
     ├── Makefile
     ├── README.md           # operational guide (EN)

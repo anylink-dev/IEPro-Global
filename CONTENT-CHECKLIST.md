@@ -82,7 +82,12 @@
 - [x] 设备日志路径（当前文档仅泛述 `dmesg` / `journalctl`，未指定固定路径）→ 无固定应用日志路径，由客户自行定义
 - [x] 底层驱动定制开发的商务/技术支持申请渠道 → anylink.io
 
-## 7. 常见问题 FAQ（`docs/*/07-faq.md`）
+## 7. 第三方 MQTT 协议（`docs/*/07-third-party-protocol.md`）
+
+- [x] 协议 Word 与部署包入口 → 见 `docs/en/07-third-party-protocol.md` / `docs/zh-CN/07-third-party-protocol.md`
+- [x] 语言无关资源 → `docs/third-party-protocol/`（Word + `IEPro-deploy.zip`）
+
+## 8. 常见问题 FAQ（`docs/*/08-faq.md`）
 
 - [x] SIM 卡插入方向（与第2、3项保持一致）
 - [x] 技术支持联系方式 → anylink.io
@@ -90,7 +95,7 @@
 - [x] Reset 按键说明（GPIO 119 状态读取；出厂固件不含长按恢复出厂）→ 见规格书 §3.6、FAQ §6
 - [x] 技术支持邮箱 → developer@anylink.io（无独立工单/论坛系统，官网 anylink.io）
 
-## 8. 资料下载入口（`docs/*/08-downloads.md`）
+## 9. 资料下载入口（`docs/*/09-downloads.md`）
 
 - [x] 开发者门户/官网统一入口 URL → 仓库 `README.zh-CN.md` / anylink.io
 - [x] GitHub 仓库地址、访问方式（公开 / 需申请账号）→ https://github.com/anylink-dev/IEPro-Global.git（公开仓库）
@@ -99,7 +104,7 @@
 - [x] 访问权限申请流程：申请渠道、审批周期、权限级别说明 → §6 只读公开 / PR 贡献 / Write 邮件申请（3～5 工作日）
 - [x] 更新订阅渠道：GitHub Watch/Release 通知、邮件列表 → §7 Watch Releases、RSS、邮件 opt-in
 
-## 9. 版本说明（`docs/*/09-release-notes.md`）
+## 10. 版本说明（`docs/*/10-release-notes.md`）
 
 - [x] 是否存在子型号/区域版本差异 → IE Pro 400 Global Standard
 - [x] 首个固件版本号、发布日期、主要变更说明 → V1.0.0 / 2026-07-22
@@ -108,21 +113,21 @@
 - [x] 版本兼容性说明（如 Demo vX.Y 与固件 vA.B 的对应关系）
 - [x] 已知问题列表 → V1.0.0 暂无已知问题
 
-## 10. 截图与示意图（`docs/assets/`）
+## 11. 截图与示意图（`docs/assets/`）
 
 - [x] 设备接口面板照片 → `docs/assets/shared/02-front-panel-*.png`、`02-terminal-block-*.png`
 - [x] Web 登录/管理界面截图 → 不适用，设备无 Web 管理界面
 - [x] 文档配图 → `01-product-overview.png`（规格书 §1）、`02-quickstart` §3.1 接口图已引用
 
-## 11. 法务与合规
+## 12. 法务与合规
 
 - [x] `LICENSE` 具体条款（待法务确定适用协议）→ Apache License 2.0（Copyright 2026 AnyLink）
 - [x] 各文档"密级/Classification"字段是否准确、是否需要额外的保密分级 → 全部为「面向客户/开发者公开 / Public」，与 Apache 2.0 公开仓库一致
 
-## 12. 量产发货一致性（修改意见第 10 条）
+## 13. 量产发货一致性（修改意见第 10 条）
 
 - [x] 随箱清单与最终发货产品一致 → 见 `02-quickstart.md` §1（已加量产确认说明）
-- [x] 出厂固件版本 V1.0.0 与最终发货产品一致 → 见 `09-release-notes.md` §8
+- [x] 出厂固件版本 V1.0.0 与最终发货产品一致 → 见 `10-release-notes.md` §8
 - [x] 公开证书（CE/EMC/RoHS/RED）适用于最终发货产品 → 见 `docs/en/certificates.md` / `docs/zh-CN/certificates.md`
 
 ---

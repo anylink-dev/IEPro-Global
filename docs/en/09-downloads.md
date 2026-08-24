@@ -1,6 +1,6 @@
 # IE Pro 400 Global Standard — Downloads
 
-English | [中文](../zh-CN/08-downloads.md)
+English | [中文](../zh-CN/09-downloads.md)
 
 **Doc version**: V1.1　**Date**: 2026-08-19
 
@@ -30,7 +30,9 @@ repo-root/
 ├── docs/
 │   ├── en/                 # English documentation
 │   ├── zh-CN/              # Chinese documentation
-│   └── assets/
+│   ├── assets/
+│   ├── certificates/
+│   └── third-party-protocol/  # MQTT protocol .docx + deploy zip
 └── demo/                   # Demo source (builds iepro_demo)
     ├── Makefile
     ├── README.md           # operational guide (EN)
@@ -54,12 +56,14 @@ repo-root/
 | 04 | [Wired Connectivity Example](04-wired-connectivity.md) | Markdown | V1.0 released |
 | 05 | [Demo Development Guide](05-demo-guide.md) | Markdown + source | V1.1 released |
 | 06 | [Cross-Compilation Toolchain Guide](06-cross-compile-toolchain.md) | Markdown | V1.0 released |
-| 07 | [FAQ](07-faq.md) | Markdown | V1.0 released |
-| 08 | Downloads (this file) | Markdown | — |
-| 09 | [Release Notes](09-release-notes.md) | Markdown | V1.1 released |
+| 07 | [Third-Party MQTT Protocol](07-third-party-protocol.md) | Markdown + Word + zip | V1.0 released |
+| 08 | [FAQ](08-faq.md) | Markdown | V1.0 released |
+| 09 | Downloads (this file) | Markdown | — |
+| 10 | [Release Notes](10-release-notes.md) | Markdown | V1.2 released |
 | — | Cross-compilation toolchain | Linaro GCC 5.5.0 tar | [Mirror download](https://mirrors.dotsrc.org/armbian-dl/_toolchain/gcc-linaro-5.5.0-2017.10-x86_64_arm-linux-gnueabihf.tar.xz) |
 | — | Demo source code | Git (see `/demo`) | Included in this repo |
 | — | Product certificates (CE/EMC/RoHS/RED) | Markdown + PDF | [Certificate index](certificates.md) |
+| — | Third-party protocol agent + web UI | zip | [IEPro-deploy.zip](../third-party-protocol/deploy/IEPro-deploy.zip) |
 
 ## 4. Cross-Compilation Toolchain Download
 
@@ -101,7 +105,7 @@ cd IEPro-Global
 git checkout v1.0.0
 ```
 
-> Full history and compatibility: [Release Notes](09-release-notes.md).
+> Full history and compatibility: [Release Notes](10-release-notes.md).
 
 ## 6. Access and contribution
 
@@ -123,7 +127,7 @@ Recommended channels for documentation, Demo, and firmware-related updates:
 |---|---|---|
 | **GitHub Watch → Releases** | Open the [repository](https://github.com/anylink-dev/IEPro-Global) → Watch → Custom → enable **Releases** | Official release notifications (**recommended**) |
 | **GitHub Releases RSS** | Subscribe to `https://github.com/anylink-dev/IEPro-Global/releases.atom` | RSS readers or internal monitoring |
-| **Release notes doc** | Read [09-release-notes.md](09-release-notes.md) | Full changelog and compatibility |
+| **Release notes doc** | Read [10-release-notes.md](10-release-notes.md) | Full changelog and compatibility |
 | **Email opt-in (optional)** | Email [developer@anylink.io](mailto:developer@anylink.io) with subject “Subscribe to IEPro release updates” | Major-release email alerts when no mailing list is available |
 
 | Other |

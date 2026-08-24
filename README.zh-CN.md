@@ -2,7 +2,7 @@
 
 [English](README.md) | [中文](README.zh-CN.md)
 
-> **状态**：V1.0 基础版已发布（2026-07-22）。仓库 **V1.1** 更新（2026-08-19）：HTTP/Modbus/CLI、`demo/deps` prebuilt v0.2、Demo 操作说明中英双语。详见[《版本说明》](docs/zh-CN/09-release-notes.md)。
+> **状态**：V1.0 基础版已发布（2026-07-22）。仓库 **V1.1**（2026-08-19）：HTTP/Modbus/CLI、`demo/deps` prebuilt v0.2、Demo 操作说明中英双语。**V1.2**（2026-08-24）：第三方 MQTT 协议与部署包。详见[《版本说明》](docs/zh-CN/10-release-notes.md)。
 
 面向 IE Pro 400 Global Standard 工业网关的开发者文档与参考代码。这是面向全球市场的通用版网关：设备出厂不预装任何厂商应用或平台，由客户自行在设备上开发部署应用程序。
 
@@ -16,9 +16,10 @@
 | 04 | 有线联网示例 | [en](docs/en/04-wired-connectivity.md) | [zh-CN](docs/zh-CN/04-wired-connectivity.md) |
 | 05 | Demo开发示例 | [en](docs/en/05-demo-guide.md) | [zh-CN](docs/zh-CN/05-demo-guide.md) |
 | 06 | 交叉编译工具说明 | [en](docs/en/06-cross-compile-toolchain.md) | [zh-CN](docs/zh-CN/06-cross-compile-toolchain.md) |
-| 07 | 常见问题FAQ | [en](docs/en/07-faq.md) | [zh-CN](docs/zh-CN/07-faq.md) |
-| 08 | 资料下载入口 | [en](docs/en/08-downloads.md) | [zh-CN](docs/zh-CN/08-downloads.md) |
-| 09 | 版本说明 | [en](docs/en/09-release-notes.md) | [zh-CN](docs/zh-CN/09-release-notes.md) |
+| 07 | 第三方 MQTT 协议 | [en](docs/en/07-third-party-protocol.md) | [zh-CN](docs/zh-CN/07-third-party-protocol.md) |
+| 08 | 常见问题FAQ | [en](docs/en/08-faq.md) | [zh-CN](docs/zh-CN/08-faq.md) |
+| 09 | 资料下载入口 | [en](docs/en/09-downloads.md) | [zh-CN](docs/zh-CN/09-downloads.md) |
+| 10 | 版本说明 | [en](docs/en/10-release-notes.md) | [zh-CN](docs/zh-CN/10-release-notes.md) |
 
 ## Demo 源码
 
@@ -40,7 +41,8 @@ repo-root/
 │   ├── en/                 # 英文文档
 │   ├── zh-CN/              # 中文文档
 │   ├── assets/              # shared/en/zh-CN 截图与示意图
-│   └── certificates/        # 已公开的合格证 PDF
+│   ├── certificates/        # 已公开的合格证 PDF
+│   └── third-party-protocol/ # MQTT 协议 Word + IEPro-deploy.zip
 └── demo/                   # Demo 源码（纯 C，编译为 iepro_demo）
     ├── Makefile
     ├── README.md           # 操作说明（英文）

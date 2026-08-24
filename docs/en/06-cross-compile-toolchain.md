@@ -55,7 +55,7 @@ For low-level driver customization, contact AnyLink technical support at [anylin
 | Cross-compile prefix | `arm-linux-gnueabihf-` |
 | Target kernel version | Linux (vendor pre-installed standard distribution) |
 | Reference SDK version | gcc-linaro-5.5.0-2017.10 |
-| Matching firmware version | V1.0.0 (see [Release Notes](09-release-notes.md)) |
+| Matching firmware version | V1.0.0 (see [Release Notes](10-release-notes.md)) |
 
 ## 3. Obtain the Toolchain
 

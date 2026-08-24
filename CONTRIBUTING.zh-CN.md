@@ -9,7 +9,7 @@
 | 对象 | 方式 |
 |---|---|
 | **读者 / 集成开发者** | `git clone` 或下载使用，无需贡献 |
-| **外部贡献者** | Fork → `feature/*` 分支 → 向 `main` 发起 Pull Request（流程概览见[《资料下载入口》§6](docs/zh-CN/08-downloads.md) / [English](docs/en/08-downloads.md)） |
+| **外部贡献者** | Fork → `feature/*` 分支 → 向 `main` 发起 Pull Request（流程概览见[《资料下载入口》§6](docs/zh-CN/09-downloads.md) / [English](docs/en/09-downloads.md)） |
 | **维护者与合作伙伴（Write 权限）** | 按团队流程直接推送分支；遵循下文约定 |
 
 ### Pull Request 范围
@@ -25,7 +25,7 @@
 - 硬件规格、认证信息或固件行为变更
 - 大规模文档重构或新增编号文档（未经事先约定）
 
-**直接 Write 权限**（免 PR 推送）仅受邀开放；见[《资料下载入口》§6](docs/zh-CN/08-downloads.md)。
+**直接 Write 权限**（免 PR 推送）仅受邀开放；见[《资料下载入口》§6](docs/zh-CN/09-downloads.md)。
 
 下文约定适用于所有提交 PR 或日常维护仓库的人员。
 
@@ -34,7 +34,7 @@
 1. 文档分别存放于 `docs/en/` 与 `docs/zh-CN/`，两个目录下**文件名必须完全一致**（例如新增 `10-something-new.md` 时两边都要建）。这种一一对应关系是语言切换和后续工具校验同步性的基础。
 2. 新增编号文档时，同步在以下位置补充索引行：
    - `README.md` 与 `README.zh-CN.md`（文档索引表）
-   - `docs/en/08-downloads.md` 与 `docs/zh-CN/08-downloads.md`（资料清单表）
+   - `docs/en/09-downloads.md` 与 `docs/zh-CN/09-downloads.md`（资料清单表）
 3. 文档间的相互引用统一使用相对路径超链接，如 `[快速上手指南](02-quickstart.md)`，不要用纯文字提及文档名。参考现有文档的写法。
 4. 提交前运行链接校验脚本（见下文）。
 

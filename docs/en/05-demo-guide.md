@@ -195,5 +195,6 @@ The running feeder PID is stored in `/tmp/iepro_wdt.pid` for cross-terminal `sto
 |---|---|
 | [`demo/README.md`](../../demo/README.md) | Build, menus, CLI, hardware map ([中文](../../demo/README.zh-CN.md)) |
 | [Cross-Compilation Toolchain Guide](06-cross-compile-toolchain.md) | Toolchain setup and deployment |
+| [Third-Party MQTT Protocol](07-third-party-protocol.md) | Packaged agent and web UI; not the C demo MQTT helper |
 | [4G Connectivity Example](03-4g-connectivity.md) | Cellular dial-up and AT commands |
 | [`demo/deps/README.md`](../../demo/deps/README.md) | Prebuilt dependencies |

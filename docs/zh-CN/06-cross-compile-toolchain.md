@@ -55,7 +55,7 @@ make -C demo
 | 交叉编译前缀 | `arm-linux-gnueabihf-` |
 | 目标内核版本 | Linux（厂商预装标准发行版） |
 | 参考 SDK 版本 | gcc-linaro-5.5.0-2017.10 |
-| 对应固件版本 | V1.0.0（见[《版本说明》](09-release-notes.md)） |
+| 对应固件版本 | V1.0.0（见[《版本说明》](10-release-notes.md)） |
 
 ## 3. 工具链获取
 

@@ -9,7 +9,7 @@ This repository is **public** under [Apache License 2.0](LICENSE). It publishes 
 | Audience | Workflow |
 |---|---|
 | **Readers / integrators** | `git clone` or download; no contribution required |
-| **External contributors** | Fork → `feature/*` branch → Pull Request to `main` (overview: [Downloads §6](docs/en/08-downloads.md) / [中文](docs/zh-CN/08-downloads.md)) |
+| **External contributors** | Fork → `feature/*` branch → Pull Request to `main` (overview: [Downloads §6](docs/en/09-downloads.md) / [中文](docs/zh-CN/09-downloads.md)) |
 | **Maintainers & partners (Write access)** | Push to branches per team process; follow the conventions below |
 
 ### Pull Request scope
@@ -25,7 +25,7 @@ This repository is **public** under [Apache License 2.0](LICENSE). It publishes 
 - Hardware specs, certifications, or firmware behavior changes
 - Large structural doc rewrites or new numbered documents without prior agreement
 
-**Direct Write access** (push without PR) is by invitation only; see [Downloads §6](docs/en/08-downloads.md).
+**Direct Write access** (push without PR) is by invitation only; see [Downloads §6](docs/en/09-downloads.md).
 
 The sections below apply to anyone opening a PR or maintaining the repo.
 
@@ -38,7 +38,7 @@ The sections below apply to anyone opening a PR or maintaining the repo.
    sync.
 2. When you add a new numbered document, also add a row for it to:
    - `README.md` and `README.zh-CN.md` (the documentation index table)
-   - `docs/en/08-downloads.md` and `docs/zh-CN/08-downloads.md` (the
+   - `docs/en/09-downloads.md` and `docs/zh-CN/09-downloads.md` (the
      resource index table)
 3. Use relative markdown links for any cross-document reference —
    `[Quickstart Guide](02-quickstart.md)`, not a bare mention of the

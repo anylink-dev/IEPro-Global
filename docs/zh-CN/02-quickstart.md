@@ -209,4 +209,5 @@ make -C demo
 ### 7.2 继续开发
 
 - 开发者可参考[《Demo 开发示例》](05-demo-guide.md)开始基础数据采集与北向对接开发。
-- 遇到问题请先查阅[《常见问题 FAQ》](07-faq.md)。
+- 若使用配套 MQTT agent 与 Web 界面（不是 C Demo），见[《第三方 MQTT 协议》](07-third-party-protocol.md)。
+- 遇到问题请先查阅[《常见问题 FAQ》](08-faq.md)。

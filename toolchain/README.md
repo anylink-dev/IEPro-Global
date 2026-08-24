@@ -14,7 +14,7 @@ Target libraries used at link time (mosquitto, modbus, curl, openssl) belong und
 | Package | `gcc-linaro-5.5.0-2017.10-x86_64_arm-linux-gnueabihf` |
 | Target | ARM Cortex-A7, `arm-linux-gnueabihf`, glibc |
 | Prefix | `arm-linux-gnueabihf-` |
-| Firmware | V1.0.0 (see [release notes](../docs/en/09-release-notes.md)) |
+| Firmware | V1.0.0 (see [release notes](../docs/en/10-release-notes.md)) |
 
 Full guide: [Cross-Compilation Toolchain](../docs/en/06-cross-compile-toolchain.md) |
 [中文](../docs/zh-CN/06-cross-compile-toolchain.md)
