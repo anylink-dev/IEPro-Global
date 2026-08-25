@@ -84,7 +84,7 @@
 
 两路 RJ45 在**前面板**。使用标准网线接入即可。
 
-![以太网 WAN / LAN 接线示意](../assets/shared/02-ethernet-wiring.svg)
+![以太网 WAN / LAN 接线示意](../assets/shared/02-ethernet-wiring.png)
 
 首次 SSH 请将 PC 接到 **LAN**。典型用途与出厂默认 IP 见 §5.1。改 IP、ping 等见[《有线联网示例》](04-wired-connectivity.md)。
 
@@ -100,11 +100,11 @@
 
 **RS232**：RX1 接对端 **TX**，TX1 接对端 **RX**（交叉）；GND 接 GND。
 
-![RS232 接线示意](../assets/shared/02-rs232-wiring.svg)
+![RS232 接线示意](../assets/shared/02-rs232-wiring.png)
 
 **RS485**：下图以 **RS485-1** 为例。**1A** 接对端 **A**，**1B** 接对端 **B**。RS485-2 接法相同，端子为 **2A** / **2B**。请与对端设备核对 A/B 极性。
 
-![RS485 接线示意](../assets/shared/02-rs485-wiring.svg)
+![RS485 接线示意](../assets/shared/02-rs485-wiring.png)
 
 ### 3.4 其他接线要点
 
